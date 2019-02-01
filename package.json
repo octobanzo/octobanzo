@@ -1,0 +1,37 @@
+{
+  "name": "discore",
+  "version": "0.0.0",
+  "description": "Simple Discord bot core. Based on discord.js.",
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadenpf/discore.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "framework",
+    "bot framework",
+    "discord bot"
+  ],
+  "author": "hadenpf",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/hadenpf/discore/issues"
+  },
+  "homepage": "https://github.com/hadenpf/discore#readme",
+  "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/node": "^10.12.19",
+    "@types/node-wit": "^4.2.2"
+  },
+  "dependencies": {
+    "config": "^3.0.1",
+    "discord.js": "^11.4.2",
+    "js-yaml": "^3.12.1",
+    "node-wit": "^5.0.0"
+  }
+}
