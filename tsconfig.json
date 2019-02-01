@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "bin",
+        "watch": true,
+        "lib": [
+            "es2017"
+        ]
+    },
+    "include": [
+        "src/**/*.*"
+    ]
+}
