@@ -1,0 +1,9 @@
+# Ignore all live config files except default
+config/*
+!config/default.*
+
+# Ignore all installed node modules. use npm i to install from package.json
+node_modules
+
+# Ignore all compiled source. use tsc to build from tsconfig.json
+bin
