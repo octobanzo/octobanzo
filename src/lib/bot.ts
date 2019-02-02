@@ -32,7 +32,7 @@ export class BotApp {
             if (msg.author.bot)
                 return;
             if (config.get("nlp.test_channel"))
-                if (msg.channel.id !== "540995685458116640")
+                if (msg.channel.id !== config.get("nlp.test_channel"))
                     return;
             if (this.nlp) {
                 const result = await this.nlp.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""));
