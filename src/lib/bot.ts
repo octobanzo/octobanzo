@@ -31,15 +31,17 @@ export class BotApp {
         this.client.on("message", async (msg: Discord.Message) => {
             if (msg.author.bot)
                 return;
+
+            if (msg.content.startsWith("#"))
+                return;
+
             if (config.get("nlp.test_channel"))
                 if (msg.channel.id !== config.get("nlp.test_channel"))
                     return;
+
             if (this.nlp) {
                 const result = await this.nlp.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""));
                 const data = result.entities;
-
-                if (result["ignored"])
-                    return;
 
                 // send raw response to master logs
                 this.nlp_logs.send(`\`\`\`json\n${JSON.stringify(result, null, 2)}\`\`\``);

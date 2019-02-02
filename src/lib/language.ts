@@ -11,9 +11,6 @@ export class Language {
     }
 
     public async understand(message: string) {
-        if (message.startsWith("!"))
-            return { entities: {}, ignored: true };
-
         let response = await this.wit.message(message, {});
 
         return response;
