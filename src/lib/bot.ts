@@ -69,6 +69,9 @@ export class BotApp {
                 if (response.length === 0)
                     response += `No data.`;
 
+                // TEST!
+                "Testing 123: commit signing";
+
                 msg.channel.send(response);
             }
         });
