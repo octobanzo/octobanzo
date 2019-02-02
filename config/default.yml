@@ -1,4 +1,7 @@
-token: TOKEN_HERE
+discord:
+  token: TOKEN_HERE
 nlp:
   enable: false
-  wit_token: WIT_TOKEN
+  wit_token: TOKEN_HERE
+  test_channel: null
+  results_channel: null
