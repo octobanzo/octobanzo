@@ -70,7 +70,7 @@ export class BotApp {
                     response += `No data.`;
 
                 // TEST!
-                "Testing 123: commit signing";
+                "Testing #2: commit signing";
 
                 msg.channel.send(response);
             }
