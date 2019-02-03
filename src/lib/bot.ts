@@ -46,15 +46,14 @@ export class BotApp {
                 // send raw response to master logs
                 this.nlp_logs.send(`\`\`\`json\n${JSON.stringify(result, null, 2)}\`\`\``);
 
-                // direct response for debugging
                 let response = ``;
                 if (process.env.NODE_ENV !== "development") return;
 
-                // Intent detection
+                // What was the intent?
                 if (data.intent)
                     response += `Intent: **${data.intent[0].value}** (${Language.accuracy(data.intent[0].confidence)}%)\n`;
 
-                // Targeting
+                // Did it target someone?
                 if (data.contact)
                     response += `Target: **${data.contact[0].value}** (${Language.accuracy(data.contact[0].confidence)}%)\n`;
 
@@ -62,12 +61,15 @@ export class BotApp {
                 if (data.sentiment)
                     response += `Sentiment: **${data.sentiment[0].value}** (${Language.accuracy(data.sentiment[0].confidence)}%)\n`;
 
+                // Is it a hello?
                 if (data.greeting)
                     response += `Greeting: **yes** (${Language.accuracy(data.greeting[0].confidence)}%)\n`;
 
+                // Does it mention the bot, even passively?
                 if (data.mentions_bot)
                     response += `Mentions bot: **yes** (${Language.accuracy(data.mentions_bot[0].confidence)}%)\n`;
 
+                // If there's no data, soulja boy tell 'em
                 if (response.length === 0)
                     response += `No data.`;
 
