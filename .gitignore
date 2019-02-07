@@ -1,6 +1,7 @@
-# Ignore all live config files except default
+# Ignore all live config and logging files except default
 config/*
 !config/default.*
+log
 
 # Ignore all installed node modules. use npm i to install from package.json
 node_modules
