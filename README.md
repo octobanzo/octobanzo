@@ -1,13 +1,12 @@
 # Octobanzo
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ff0fbaeb05784de5bafe4f70ec9fe2d9)](https://app.codacy.com/app/hadenpf/octobanzo)
+**A machine-learning-powered [Discord](https://discordapp.com) bot.**
 
-### A machine-learning-powered [Discord](https://discordapp.com) bot.
+[![Code Quality](https://img.shields.io/codacy/grade/4c1262cd0d7648e49ede04da9d478c1d.svg?logo=codacy&style=flat)](https://app.codacy.com/app/hadenpf/octobanzo)
+![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
 
-**Discord:** <https://discord.gg/zGguGHA>
-
-**Website/Docs:** <https://octobanzo.hflet.ch>
-
+[![Discord Chat](https://img.shields.io/discord/516764994965340161.svg?label=chat&logo=discord&logoColor=fff&style=flat)](https://discord.gg/zGguGHA)
+[![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo/hflet.ch)
 
 ## Language Processing
 Octobanzo does language processing via [wit.ai](https://wit.ai), using the `node-wit` library. More info on the [website](https://octobanzo.hflet.ch).
