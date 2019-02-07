@@ -1,5 +1,7 @@
 # Octobanzo
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ff0fbaeb05784de5bafe4f70ec9fe2d9)](https://app.codacy.com/app/hadenpf/octobanzo?utm_source=github.com&utm_medium=referral&utm_content=hadenpf/octobanzo&utm_campaign=Badge_Grade_Settings)
+
 A commandless conversational [Discord](https://discordapp.com) bot.
 
 Official Discord server: https://discord.gg/zGguGHA
