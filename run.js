@@ -7,8 +7,8 @@ if (!process.env["NODE_ENV"] && args.length < 1) {
     return process.exit(1);
 } else if (args.length > 0) {
     process.env["NODE_ENV"] = args[0].toLowerCase();
-    require("./bin/bot").run();
+    require("./bin/base").run();
 } else {
     process.env["NODE_ENV"] = "production";
-    require("./bin/bot").run();
+    require("./bin/base").run();
 }
