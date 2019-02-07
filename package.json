@@ -1,14 +1,14 @@
 {
-  "name": "discore",
+  "name": "octobanzo",
   "version": "0.0.0",
-  "description": "Simple Discord bot core. Based on discord.js.",
+  "description": "Commandless, simple Discord bot",
   "main": "run.js",
   "scripts": {
     "start": "node run.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hadenpf/discore.git"
+    "url": "git+https://github.com/hadenpf/octobanzo.git"
   },
   "keywords": [
     "discord",
@@ -20,9 +20,9 @@
   "author": "hadenpf",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/hadenpf/discore/issues"
+    "url": "https://github.com/hadenpf/octobanzo/issues"
   },
-  "homepage": "https://github.com/hadenpf/discore#readme",
+  "homepage": "https://github.com/hadenpf/octobanzo#readme",
   "devDependencies": {
     "@types/config": "0.0.34",
     "@types/node": "^10.12.19",
