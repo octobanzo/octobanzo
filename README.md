@@ -24,7 +24,7 @@ Octobanzo is released under the Creative Commons Attribution-NonCommercial-Share
 **DO**
 -   Download and host your own version of Octobanzo.
 -   Give clear credit to the original author(s) of Octobanzo when modifying its code.
--   License modified versions of Octobanzo under this same license.
+-   License modified versions of Octobanzo under the same license.
 
 **DON'T**
 -   Make money off of Octobanzo, or any part of it.
