@@ -3,6 +3,7 @@
 (() => {
     const args = process.argv.slice(2);
     const run = require("./bin/base").run;
+    require("source-map-support").install();
 
     if (!process.env.NODE_ENV && args.length === 0) {
         console.error("ERR: Please specify node environment! Set NODE_ENV environment variable or supply as first argument.");

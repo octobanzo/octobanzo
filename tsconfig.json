@@ -2,9 +2,10 @@
     "compilerOptions": {
         "outDir": "bin",
         "lib": [
-            "es2017"
+            "es6"
         ],
-        "removeComments": true
+        "removeComments": true,
+        "inlineSourceMap": true
     },
     "include": [
         "src/**/*.*"
