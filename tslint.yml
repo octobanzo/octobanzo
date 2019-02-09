@@ -25,3 +25,5 @@ rules:
         - true
         - lf
     no-console: false
+    max-classes-per-file: false
+    forin: false

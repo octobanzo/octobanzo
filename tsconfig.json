@@ -3,7 +3,8 @@
         "outDir": "bin",
         "lib": [
             "es2017"
-        ]
+        ],
+        "removeComments": true
     },
     "include": [
         "src/**/*.*"
