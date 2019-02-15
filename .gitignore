@@ -8,3 +8,6 @@ node_modules
 
 # Ignore all compiled source. use tsc to build from tsconfig.json
 bin
+
+# Ignore environment configuration
+.env
