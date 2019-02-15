@@ -3,5 +3,9 @@ discord:
 nlp:
   enable: false
   wit_token: TOKEN_HERE
+  ignore_prefix: \#
+  restrict: false # Restrict NLP to test_channel only?
   test_channel: null
   results_channel: null
+logging:
+  file: true # Disables console logging if set true
