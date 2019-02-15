@@ -1,30 +1,32 @@
-"use strict";
+import * as pino from "pino";
+import Bot from "./lib/bot";
+import Logger from "./lib/logging";
 
-import * as config from "config";
-import { BotApp } from "./lib/bot";
+const debug = Logger.debugLogger("runner:base");
 
-let app: BotApp;
+export function run(): void {
+    const app = new Bot();
 
-export function run() {
-    // Create a new bot
-    app = new BotApp();
-
-    // Graceful shutdown register
-    process.on("SIGINT", shutdown);
-
-    app.client.on("error", () => {
-
+    const final = pino.final(app.log, (err, finalLogger) => {
+        finalLogger.error(err, "Error!");
+        process.exit(1);
     });
 
-    return 0;
+    process.on("uncaughtException", final);
+    process.on("unhandledRejection", final);
+    process.on("SIGINT", () => shutdown(app));
+
+    return;
 }
 
-async function shutdown() {
-    console.info("Shutting down");
-
-    // Set bot offline/invisible and destroy it
-    await app.client.user.setStatus("invisible");
-    await app.client.destroy();
-
-    return process.exit(0);
+function shutdown(app: Bot): never {
+    debug("Shutting down...");
+    try {
+        debug("Destroying client");
+        app.client.destroy();
+        debug("Client destroyed.");
+        return process.exit(0);
+    } catch (err) {
+        return process.exit(1);
+    }
 }
