@@ -35,18 +35,18 @@ export default class Bot {
     }
 
     private async init(): Promise<void> {
-        this.client.on("ready", () => {
+        this.client.on("ready", async () => {
             debugInitDiscord("Discord client ready.");
             this.user = this.client.user;
-            this.log.info(`Discord connected.`, this.user.tag, this.user.id);
+            this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
             if (config.get("nlp.results_channel")) {
                 this.nlpLogChannel = this.client.channels.get(config.get("nlp.results_channel")) as Discord.TextChannel || undefined;
             }
         });
 
-        this.client.on("error", (err: Error) => {
-            debugClient("Client error", err);
-            this.log.error(`Client error!`, err);
+        this.client.on("error", async (err: Error) => {
+            debugClient("Client error\n${err]");
+            this.log.error(err, `Client error!`);
         });
 
         try {
@@ -57,7 +57,7 @@ export default class Bot {
             debugInitDiscord("Connecting to Discord...");
             await this.client.login(config.get("discord.token"));
         } catch (err) {
-            this.log.error("Could not log into Discord!", err);
+            this.log.error(err, "Could not log into Discord!");
         }
     }
 }
