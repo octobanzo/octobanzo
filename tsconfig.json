@@ -5,7 +5,8 @@
             "es6"
         ],
         "removeComments": true,
-        "inlineSourceMap": true
+        "inlineSourceMap": false,
+        "sourceMap": true
     },
     "include": [
         "src/**/*.*"
