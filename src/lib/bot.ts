@@ -45,7 +45,7 @@ export default class Bot {
         });
 
         this.client.on("error", async (err: Error) => {
-            debugClient("Client error\n${err]");
+            debugClient(`Client error\n${err}`);
             this.log.error(err, `Client error!`);
         });
 
@@ -54,10 +54,17 @@ export default class Bot {
             this.modules.add(new Language(this));
             this.modules.init(this.client);
             debugInit("Modules registered.");
+        } catch (err) {
+            this.log.error(err, "Error setting up modules.");
+            process.exit(1);
+        }
+
+        try {
             debugInitDiscord("Connecting to Discord...");
             await this.client.login(config.get("discord.token"));
         } catch (err) {
             this.log.error(err, "Could not log into Discord!");
+            process.exit(1);
         }
     }
 }
