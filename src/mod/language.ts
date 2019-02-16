@@ -71,6 +71,7 @@ export default class Language extends Module {
     }
 
     private async understand(message: string, context?: WitContext): Promise<MessageResponse> {
+        debug("Sending message to wit...");
         return this.wit.message(message, context || {});
     }
 
@@ -87,16 +88,20 @@ export default class Language extends Module {
             return;
         }
 
+        debug("Analyzing message...");
         // now let's analyze the message
         const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {});
+        debug("Got response from wit!");
 
         // send raw response to master logs, if any
         if (this.app.nlpLogChannel) {
+            debug("Sending understanding to master logs");
             this.app.nlpLogChannel.send(`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``);
         }
 
         // if it's in test channel, show response
         if (msg.channel.id === (config.get("nlp.test_channel") || null)) {
+            debug("Replying in test channel");
             msg.channel.send(Language.analysis(understanding));
         }
     }
