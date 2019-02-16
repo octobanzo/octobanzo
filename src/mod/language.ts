@@ -25,7 +25,7 @@ export default class Language extends Module {
         debug("Wit created. Adding event handlers...");
 
         // register event handlers
-        this.handle("message", this.handleMessage.bind(this));
+        this.handle("message", this.handleMessage);
         debug("Initialization complete.");
     }
 

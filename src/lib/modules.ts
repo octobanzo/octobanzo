@@ -14,7 +14,7 @@ export class ModuleManager {
                     // if an array for this event doesn't exist, create one before trying to push
                     if (!this.handlers[eventName]) { this.handlers[eventName] = []; }
                     for (const handler of module.Handlers[eventName]) {
-                        this.handlers[eventName].push(handler);
+                        this.handlers[eventName].push(handler.bind(module));
                     }
                 }
             }
