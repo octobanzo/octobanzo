@@ -3,10 +3,15 @@ import { Client } from "discord.js";
 import { isArray } from "util";
 
 export class ModuleManager {
+    /** All loaded modules. */
     public modules: Module[] = [];
-
+    /** All handlers presented by modules to be registered. */
     private handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
+    /**
+     * Initialize the module manager, primarily adding event handlers.
+     * @param client The Discord.js client to handle with.
+     */
     public init(client: Client) {
         for (const module of this.modules) {
             if (module.Handlers) {
@@ -20,18 +25,6 @@ export class ModuleManager {
             }
         }
 
-        this.addHandlers(client);
-    }
-
-    public add(...module: Module[]) {
-        for (const mod of module) {
-            this.addModule(mod);
-        }
-
-        return this;
-    }
-
-    private addHandlers(client: Client) {
         for (const event in this.handlers) {
             for (const func of this.handlers[event] || []) {
                 client.on(event, func);
@@ -39,27 +32,52 @@ export class ModuleManager {
         }
     }
 
-    private addModule(module: Module) {
-        if (module.Enabled) {
-            this.modules.push(module);
-        } else {
-            return;
+    /**
+     * Add a new module.
+     * @param module The module to be added
+     */
+    public add(...module: Module[]) {
+        for (const mod of module) {
+            if (mod.Enabled) {
+                this.modules.push(mod);
+            } else {
+                return;
+            }
         }
+
+        return this;
     }
 }
 
 export interface IModuleOptions {
+    /**
+     * Module name.
+     */
     name: string;
+    /**
+     * Module version. Preferred format is major-minor-tiny (e.g. 1.2.3).
+     */
     version: string;
+    /**
+     * A brief description of the module.
+     */
     description?: string;
+    /**
+     * Settings required to enable module. Only `boolean` values.
+     */
     requiredSettings?: string | string[];
 }
 
 export class Module {
+    /** Module name. */
     public Name: string;
+    /** Module version. Preferably in major.minor.tiny format. */
     public Version: string;
+    /** Module description. */
     public Description?: string;
+    /** Whether or not the module is enabled. */
     public Enabled?: boolean = false;
+    /** Event handlers to be passed to `ModuleManager`. */
     public Handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
     constructor(options: IModuleOptions) {
@@ -83,17 +101,22 @@ export class Module {
 
         // check for required options to enable
         if (typeof options.requiredSettings === "string") {
-            this.Enabled = config.get(options.requiredSettings)
+            this.Enabled = config.get(options.requiredSettings) === true
                 ? true
                 : false;
         } else if (isArray(options.requiredSettings)) {
+            let enable = true;
             for (const option of options.requiredSettings) {
-                this.Enabled = config.get(option)
+                if (!enable) { break; }
+                enable = (config.get(option) === true)
                     ? true
                     : false;
             }
-        } else {
+            this.Enabled = enable;
+        } else if (!options.requiredSettings) {
             this.Enabled = true;
+        } else {
+            throw new TypeError("requiredSettings must be string or string[]");
         }
     }
 }
