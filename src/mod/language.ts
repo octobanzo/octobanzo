@@ -1,14 +1,18 @@
 import * as config from "config";
 import { Message } from "discord.js";
-import { MessageResponse, Wit } from "node-wit";
+import { MessageResponse, Wit, WitContext } from "node-wit";
 import Bot from "../lib/bot";
+import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
+
+const debug = Logger.debugLogger("module:language");
 
 export default class Language extends Module {
     private app: Bot;
     private wit: Wit;
 
     constructor(app: Bot) {
+        debug("Calling super");
         super({
             name: "LanguageProcessor",
             requiredSettings: "nlp.enable",
@@ -16,10 +20,13 @@ export default class Language extends Module {
         });
 
         this.app = app;
+        debug("Super'd. Creating wit instance...");
         this.wit = new Wit({ accessToken: config.get("nlp.wit_token") });
+        debug("Wit created. Adding event handlers...");
 
         // register event handlers
-        this.handle("message", this.handleMessage);
+        this.handle("message", this.handleMessage.bind(this));
+        debug("Initialization complete.");
     }
 
     public static accuracy(input: number): number {
@@ -63,12 +70,11 @@ export default class Language extends Module {
         return reply;
     }
 
-    public async understand(input: string): Promise<MessageResponse> {
-        return this.wit.message(input, {});
+    private async understand(message: string, context?: WitContext): Promise<MessageResponse> {
+        return this.wit.message(message, context || {});
     }
 
     private async handleMessage(msg: Message): Promise<void> {
-        console.log(msg.content);
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
             || msg.content.startsWith(config.get("nlp.ignore_prefix") || null)) {
@@ -82,7 +88,7 @@ export default class Language extends Module {
         }
 
         // now let's analyze the message
-        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""));
+        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {});
 
         // send raw response to master logs, if any
         if (this.app.nlpLogChannel) {
