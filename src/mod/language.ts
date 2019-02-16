@@ -1,5 +1,5 @@
 import * as config from "config";
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { MessageResponse, Wit, WitContext } from "node-wit";
 import Bot from "../lib/bot";
 import Logger from "../lib/logging";
@@ -10,6 +10,7 @@ const debug = Logger.debugLogger("module:language");
 export default class Language extends Module {
     private app: Bot;
     private wit: Wit;
+    private nlpLogChannel: TextChannel;
 
     constructor(app: Bot) {
         debug("Calling super");
@@ -23,6 +24,10 @@ export default class Language extends Module {
         debug("Super'd. Creating wit instance...");
         this.wit = new Wit({ accessToken: config.get("nlp.wit_token") });
         debug("Wit created. Adding event handlers...");
+
+        if (config.get("nlp.results_channel")) {
+            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel || undefined;
+        }
 
         // register event handlers
         this.handle("message", this.handleMessage);
@@ -94,9 +99,9 @@ export default class Language extends Module {
         debug("Got response from wit!");
 
         // send raw response to master logs, if any
-        if (this.app.nlpLogChannel) {
+        if (this.nlpLogChannel) {
             debug("Sending understanding to master logs");
-            this.app.nlpLogChannel.send(`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``);
+            this.nlpLogChannel.send(`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``);
         }
 
         // if it's in test channel, show response

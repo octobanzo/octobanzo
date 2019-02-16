@@ -17,7 +17,6 @@ export default class Bot {
     public user: Discord.ClientUser;
     public log: pino.Logger;
     public modules: ModuleManager;
-    public nlpLogChannel: Discord.TextChannel;
 
     constructor() {
         this.log = new Logger().lib;
@@ -35,13 +34,12 @@ export default class Bot {
     }
 
     private async init(): Promise<void> {
+        this.log.info("Bot started.");
+
         this.client.on("ready", async () => {
-            debugInitDiscord("Discord client ready.");
+            debugInitDiscord("Discord client ready.", { tag: this.client.user.tag, id: this.client.user.id });
             this.user = this.client.user;
             this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
-            if (config.get("nlp.results_channel")) {
-                this.nlpLogChannel = this.client.channels.get(config.get("nlp.results_channel")) as Discord.TextChannel || undefined;
-            }
         });
 
         this.client.on("error", async (err: Error) => {
