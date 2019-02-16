@@ -1,5 +1,5 @@
 import * as config from "config";
-import * as devLog from "debug";
+import * as debug from "debug";
 import * as pino from "pino";
 
 export default class Logger {
@@ -13,7 +13,7 @@ export default class Logger {
                 ? pino.destination("./log/log.log") : undefined);
     }
 
-    public static debugLogger(namespace: string): devLog.Debugger {
-        return devLog(namespace);
+    public static debugLogger(namespace: string): debug.Debugger {
+        return debug(namespace);
     }
 }
