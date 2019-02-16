@@ -1,4 +1,4 @@
-import * as pino from "pino";
+import { final } from "pino";
 import Bot from "./lib/bot";
 import Logger from "./lib/logging";
 
@@ -7,13 +7,13 @@ const debug = Logger.debugLogger("runner:base");
 export function run(): void {
     const app = new Bot();
 
-    const final = pino.final(app.log, (err, finalLogger) => {
+    const logFinal = final(app.log, (err, finalLogger) => {
         finalLogger.error(err, "Error!");
         process.exit(1);
     });
 
-    process.on("uncaughtException", final);
-    process.on("unhandledRejection", final);
+    process.on("uncaughtException", logFinal);
+    process.on("unhandledRejection", logFinal);
     process.on("SIGINT", () => shutdown(app));
 
     return;
