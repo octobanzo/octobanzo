@@ -53,7 +53,7 @@ export default class Bot {
 
         try {
             debugInit("Registering modules...");
-            this.modules.add();
+            this.modules.add(modLang);
             this.modules.init(this.client);
             debugInit("Modules registered.");
         } catch (err) {

@@ -71,10 +71,11 @@ export default class Language extends Module {
         return reply;
     }
 
-    public postSetup() {
+    public async postSetup(): Promise<void> {
         if (config.get("nlp.results_channel")) {
             this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
         }
+        return;
     }
 
     private async understand(message: string, context?: WitContext): Promise<MessageResponse> {
