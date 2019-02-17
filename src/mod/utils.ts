@@ -15,7 +15,7 @@ export default class Utils extends Module {
 
         app.commands.add({
             name: "eval",
-        }, (cmd, msg, label, args) => {
+        }, async (cmd, msg, label, args) => {
             if ((msg.author.id !== config.get("utils.owner_id") || "") || msg.author.bot) { return; }
             const evalString = args.join(" ");
             let output = `no output`;
