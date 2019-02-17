@@ -13,7 +13,7 @@ export default class Language extends Module {
     private nlpLogChannel: TextChannel;
 
     constructor(app: Bot) {
-        debug("Calling super");
+        debug("Initializing...");
         super({
             name: "LanguageProcessor",
             requiredSettings: "nlp.enable",
@@ -21,7 +21,7 @@ export default class Language extends Module {
         });
 
         this.app = app;
-        debug("Super'd. Creating wit instance...");
+        debug("Creating wit instance...");
         this.wit = new Wit({ accessToken: config.get("nlp.wit_token") });
         debug("Wit created. Adding event handlers...");
 
