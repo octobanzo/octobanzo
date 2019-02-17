@@ -9,5 +9,7 @@ nlp:
   results_channel: null
 commands:
   default_prefix: "-"
+utils:
+  owner_id: "377638029008830466"
 logging:
   file: true # Disables console logging if set true
