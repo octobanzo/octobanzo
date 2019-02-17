@@ -5,7 +5,6 @@ import { isArray } from "util";
 export class ModuleManager {
     /** All loaded modules. */
     public modules: Module[] = [];
-    /** All handlers presented by modules to be registered. */
     private handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
     /**
@@ -50,30 +49,21 @@ export class ModuleManager {
 }
 
 export interface IModuleOptions {
-    /**
-     * Module name.
-     */
     name: string;
-    /**
-     * Module version. Preferred format is major-minor-tiny (e.g. 1.2.3).
-     */
+    /** Module version. Preferably in incremental major.minor.tiny format. */
     version: string;
-    /**
-     * A brief description of the module.
-     */
+    /** A brief description of the module. */
     description?: string;
-    /**
-     * Settings required to enable module. Only `boolean` values.
-     */
+    /** Settings required to enable module. Only `boolean` values. */
     requiredSettings?: string | string[];
 }
 
 export class Module {
     /** Module name. */
     public Name: string;
-    /** Module version. Preferably in major.minor.tiny format. */
+    /** Module version. Preferably in incremental major.minor.tiny format. */
     public Version: string;
-    /** Module description. */
+    /** A brief description of the module. */
     public Description?: string;
     /** Whether or not the module is enabled. */
     public Enabled?: boolean = false;
@@ -88,7 +78,7 @@ export class Module {
         logging the wrong thing and just couldn't figure out what it was.
         Moral of the story: make sure you're logging the right thing when you're
         getting upset about debugging. It ended up being something in ModuleManager
-        that was broken, not in Module. */
+        that was broken, not here. */
     protected handle(event: string, func: (...args: any[]) => any) {
         if (!this.Handlers[event]) { this.Handlers[event] = []; }
         this.Handlers[event].push(func);
