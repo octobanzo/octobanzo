@@ -10,6 +10,6 @@ nlp:
 commands:
   default_prefix: "-"
 utils:
-  owner_id: "377638029008830466"
+  owner_id: null
 logging:
   file: true # Disables console logging if set true
