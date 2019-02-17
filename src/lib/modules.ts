@@ -46,6 +46,14 @@ export class ModuleManager {
 
         return this;
     }
+
+    public postInit() {
+        for (const module of this.modules) {
+            if (module.postInit) {
+                module.postInit();
+            }
+        }
+    }
 }
 
 export interface IModuleOptions {
@@ -73,6 +81,8 @@ export class Module {
     constructor(options: IModuleOptions) {
         this.init(options);
     }
+
+    public postInit?();
 
     /* Storytime: I thought this was failing for like two weeks because I was
         logging the wrong thing and just couldn't figure out what it was.

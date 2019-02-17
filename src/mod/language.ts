@@ -71,7 +71,7 @@ export default class Language extends Module {
         return reply;
     }
 
-    public async postSetup(): Promise<void> {
+    public async postInit(): Promise<void> {
         if (config.get("nlp.results_channel")) {
             this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
         }

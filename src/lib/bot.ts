@@ -3,6 +3,7 @@ import * as config from "config";
 import * as Discord from "discord.js";
 import * as pino from "pino";
 import Commands from "../mod/commands";
+import { default as modulesList } from "../mod/index";
 import Language from "../mod/language";
 import Logger from "./logging";
 import { ModuleManager } from "./modules";
@@ -18,6 +19,7 @@ export default class Bot {
     public user: Discord.ClientUser;
     public log: pino.Logger;
     public modules: ModuleManager;
+    public commands: Commands;
 
     constructor() {
         this.log = new Logger().lib;
@@ -35,8 +37,6 @@ export default class Bot {
     }
 
     private async init(): Promise<void> {
-        const modLang = new Language(this);
-
         this.log.info("Bot started.");
 
         this.client.on("ready", async () => {
@@ -44,7 +44,7 @@ export default class Bot {
             this.user = this.client.user;
             this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
 
-            modLang.postSetup();
+            this.modules.postInit();
         });
 
         this.client.on("error", async (err: Error) => {
@@ -54,8 +54,11 @@ export default class Bot {
 
         try {
             debugInit("Registering modules...");
-            this.modules.add(modLang);
-            this.modules.add(new Commands(this));
+            for (const modType of modulesList) {
+                const mod = new modType(this);
+                this.modules.add(mod);
+                if (modType.name === "Commands") { this.commands = mod as Commands; }
+            }
             this.modules.init(this.client);
             debugInit("Modules registered.");
         } catch (err) {
