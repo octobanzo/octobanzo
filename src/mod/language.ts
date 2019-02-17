@@ -71,14 +71,11 @@ export default class Language extends Module {
         return reply;
     }
 
-    public async postInit(): Promise<void> {
-        if (config.get("nlp.results_channel")) {
-            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
-        }
-        return;
+    public async understand(message: string, context: WitContext = {}): Promise<MessageResponse> {
+        return this.wit.message(message, context);
     }
 
-    private async handleMessage(msg: Message): Promise<void> {
+    private async handleMessage(msg: Message): Promise<MessageResponse> {
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
             || msg.content.startsWith(config.get("nlp.ignore_prefix") || null)) {
@@ -93,7 +90,7 @@ export default class Language extends Module {
 
         debug("Analyzing message...");
         // now let's analyze the message
-        const understanding = await this.wit.message(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {});
+        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""));
         debug("Got response from wit!");
 
         // send raw response to master logs, if any
@@ -107,5 +104,14 @@ export default class Language extends Module {
             debug("Replying in test channel");
             msg.channel.send(Language.analysis(understanding));
         }
+
+        return understanding;
+    }
+
+    public async postInit(): Promise<void> {
+        if (config.get("nlp.results_channel")) {
+            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
+        }
+        return;
     }
 }
