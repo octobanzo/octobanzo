@@ -11,7 +11,7 @@ export default class Logger {
             prettyPrint: config.get("logging.file")
                 ? false : true,
         }, config.get("logging.file")
-                ? pino.destination("./log/log.log") : undefined);
+                ? pino.destination("./log.log") : undefined);
     }
 
     public static debugLogger(namespace: string): debug.Debugger {
