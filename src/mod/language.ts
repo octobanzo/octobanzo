@@ -25,10 +25,6 @@ export default class Language extends Module {
         this.wit = new Wit({ accessToken: config.get("nlp.wit_token") });
         debug("Wit created. Adding event handlers...");
 
-        if (config.get("nlp.results_channel")) {
-            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel || undefined;
-        }
-
         // register event handlers
         this.handle("message", this.handleMessage);
         debug("Initialization complete.");
@@ -75,8 +71,13 @@ export default class Language extends Module {
         return reply;
     }
 
+    public postSetup() {
+        if (config.get("nlp.results_channel")) {
+            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
+        }
+    }
+
     private async understand(message: string, context?: WitContext): Promise<MessageResponse> {
-        debug("Sending message to wit...");
         return this.wit.message(message, context || {});
     }
 

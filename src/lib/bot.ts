@@ -34,12 +34,16 @@ export default class Bot {
     }
 
     private async init(): Promise<void> {
+        const modLang = new Language(this);
+
         this.log.info("Bot started.");
 
         this.client.on("ready", async () => {
             debugInitDiscord("Discord client ready.", { tag: this.client.user.tag, id: this.client.user.id });
             this.user = this.client.user;
             this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
+
+            modLang.postSetup();
         });
 
         this.client.on("error", async (err: Error) => {
@@ -49,7 +53,7 @@ export default class Bot {
 
         try {
             debugInit("Registering modules...");
-            this.modules.add(new Language(this));
+            this.modules.add();
             this.modules.init(this.client);
             debugInit("Modules registered.");
         } catch (err) {
