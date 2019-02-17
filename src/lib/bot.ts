@@ -2,6 +2,7 @@ import { throws } from "assert";
 import * as config from "config";
 import * as Discord from "discord.js";
 import * as pino from "pino";
+import Commands from "../mod/commands";
 import Language from "../mod/language";
 import Logger from "./logging";
 import { ModuleManager } from "./modules";
@@ -54,6 +55,7 @@ export default class Bot {
         try {
             debugInit("Registering modules...");
             this.modules.add(modLang);
+            this.modules.add(new Commands(this));
             this.modules.init(this.client);
             debugInit("Modules registered.");
         } catch (err) {

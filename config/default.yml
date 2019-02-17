@@ -7,5 +7,7 @@ nlp:
   restrict: false # Restrict NLP to test_channel only?
   test_channel: null
   results_channel: null
+commands:
+  default_prefix: "-"
 logging:
   file: true # Disables console logging if set true
