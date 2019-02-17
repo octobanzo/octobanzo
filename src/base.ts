@@ -8,7 +8,9 @@ export function run(): void {
     const app = new Bot();
 
     const logFinal = final(app.log, (err, finalLogger) => {
-        finalLogger.error(err, "Error!");
+        // finalLogger.error(err, "Error!");
+        // * This is temporary for debugging!
+        console.log("Error: " + err.stack);
         process.exit(1);
     });
 
