@@ -1,12 +1,17 @@
-/* This is where you register all modules! The bot picks up everything listed in here. */
+// This is where you register all modules! The bot picks up everything listed in here.
+// If this file conflicts during an update, feel free to copy this one back over.
+// If the update added new modules, you'll have to manually add them. Please make sure
+// to read the update notes to make sure you're not missing any required modules!
 
-// First, import the modules...
+// Core modules
 import { default as Commands } from "./commands";
 import { default as Language } from "./language";
 import { default as Moderation } from "./moderation";
 import { default as Utils } from "./utils";
 
-// Then export them all :)
+// User-imported modules
+
+// Full export:
 export default [
     Commands, // load this first! a lot of other modules will depend on it.
     Language, // load after Commands. depends on it!
