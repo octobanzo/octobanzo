@@ -1,5 +1,6 @@
 import * as config from "config";
 import * as debug from "debug";
+import { join } from "path";
 import * as pino from "pino";
 
 export default class Logger {
@@ -11,7 +12,7 @@ export default class Logger {
             prettyPrint: config.get("logging.file")
                 ? false : true,
         }, config.get("logging.file")
-                ? pino.destination("./log.log") : undefined);
+                ? pino.destination(join(__dirname, "app.log")) : undefined);
     }
 
     public static debugLogger(namespace: string): debug.Debugger {
