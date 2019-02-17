@@ -34,7 +34,7 @@ export default class Bot {
     }
 
     private async init(): Promise<void> {
-        this.log.info("Bot started.");
+        // this.log.info("Bot started.");
 
         this.client.on("ready", async () => {
             debugInitDiscord("Discord client ready.", { tag: this.client.user.tag, id: this.client.user.id });
