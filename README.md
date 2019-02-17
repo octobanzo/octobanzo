@@ -27,8 +27,5 @@ Octobanzo is released under the Creative Commons Attribution-NonCommercial-Share
 
 Read the full license in the [LICENSE](https://github.com/hadenpf/octobanzo/blob/master/LICENSE) file.
 
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhadenpf%2Foctobanzo.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhadenpf%2Foctobanzo?ref=badge_large)
-
 ## Thank you
 I sincerely thank you for your interest in Octobanzo, seeing as it's been an extremely fun project for me to put together.
