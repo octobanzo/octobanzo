@@ -75,6 +75,13 @@ export default class Language extends Module {
         return this.wit.message(message, context);
     }
 
+    public async postInit(): Promise<void> {
+        if (config.get("nlp.results_channel")) {
+            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
+        }
+        return;
+    }
+
     private async handleMessage(msg: Message): Promise<MessageResponse> {
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
@@ -106,12 +113,5 @@ export default class Language extends Module {
         }
 
         return understanding;
-    }
-
-    public async postInit(): Promise<void> {
-        if (config.get("nlp.results_channel")) {
-            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
-        }
-        return;
     }
 }
