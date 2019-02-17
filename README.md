@@ -13,17 +13,7 @@
 Octobanzo does language processing via [wit.ai](https://wit.ai), using the `node-wit` library. More info on the [website](https://octobanzo.hflet.ch).
 
 ## License
-Octobanzo is released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License.
- 
-**DO**
--   Download and host your own version of Octobanzo.
--   Give clear credit to the original author(s) of Octobanzo when modifying its code.
--   License modified versions of Octobanzo under the same license.
-
-**DON'T**
--   Make money off of Octobanzo, or any part of it.
--   Remove any credit or attribution provided to the author(s) of Octobanzo within the repository, whatsoever.
--   Allow others to make money off of Octobanzo, or any part of it.
+Octobanzo is released under the Microsoft Public License (MS-PL).
 
 Read the full license in the [LICENSE](https://github.com/hadenpf/octobanzo/blob/master/LICENSE) file.
 
