@@ -13,7 +13,6 @@ export default class Commands extends Module {
 
     constructor(app: Bot) {
         super({
-            description: "Adds command support.",
             name: "Commands",
             version: "0.0.1",
         });
