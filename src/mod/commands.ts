@@ -19,13 +19,6 @@ export default class Commands extends Module {
         });
 
         this.handle("message", this.handleMessage);
-
-        this.add({
-            aliases: ["gamer"],
-            name: "test",
-        }, (command, msg, label, args) => {
-            msg.reply("yo soy botto bueno");
-        });
     }
 
     public async add(properties: ICommandOptions, func: (command: ICommandOptions, msg: Message, label: string, args: string[]) => any) {
