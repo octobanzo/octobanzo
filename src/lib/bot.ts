@@ -54,7 +54,7 @@ export default class Bot {
             debugInit("Modules registered.");
         } catch (err) {
             this.log.error(err, "Error setting up modules.");
-            process.exit(1);
+            return process.exit(1);
         }
 
         try {
@@ -62,7 +62,9 @@ export default class Bot {
             await this.client.login(config.get("discord.token"));
         } catch (err) {
             this.log.error(err, "Could not log into Discord!");
-            process.exit(1);
+            return process.exit(1);
         }
+
+        return;
     }
 }
