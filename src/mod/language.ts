@@ -78,10 +78,6 @@ export default class Language extends Module {
         return;
     }
 
-    private async understand(message: string, context?: WitContext): Promise<MessageResponse> {
-        return this.wit.message(message, context || {});
-    }
-
     private async handleMessage(msg: Message): Promise<void> {
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
@@ -97,7 +93,7 @@ export default class Language extends Module {
 
         debug("Analyzing message...");
         // now let's analyze the message
-        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {});
+        const understanding = await this.wit.message(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {});
         debug("Got response from wit!");
 
         // send raw response to master logs, if any
