@@ -15,7 +15,6 @@ export default class Language extends Module {
     constructor(app: Bot) {
         debug("Initializing...");
         super({
-            name: "LanguageProcessor",
             requiredSettings: "nlp.enable",
             version: "0.1.0-dev",
         });

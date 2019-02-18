@@ -9,7 +9,6 @@ export default class Utils extends Module {
     constructor(app: Bot) {
         super({
             description: "Miscellaneous utilities for the bot.",
-            name: "Utilities",
             version: "0.0.1",
         });
 

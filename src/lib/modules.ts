@@ -57,7 +57,6 @@ export class ModuleManager {
 }
 
 export interface IModuleOptions {
-    name: string;
     /** Module version. Preferably in incremental major.minor.tiny format. */
     version: string;
     /** A brief description of the module. */
@@ -68,7 +67,7 @@ export interface IModuleOptions {
 
 export class Module {
     /** Module name. */
-    public Name: string;
+    public Name: string = this.constructor.name;
     /** Module version. Preferably in incremental major.minor.tiny format. */
     public Version: string;
     /** A brief description of the module. */
@@ -95,7 +94,6 @@ export class Module {
     }
 
     protected init(options: IModuleOptions) {
-        this.Name = options.name;
         this.Version = options.version;
         this.Description = options.description;
 
