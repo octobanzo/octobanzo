@@ -1,8 +1,8 @@
 import * as config from "config";
 import * as Discord from "discord.js";
 import * as pino from "pino";
+import { default as modulesList } from "../mod/_index";
 import Commands from "../mod/commands";
-import { default as modulesList } from "../mod/index";
 import Logger from "./logging";
 import { ModuleManager } from "./modules";
 
@@ -52,10 +52,10 @@ export default class Bot {
 
         try {
             debugInit("Registering modules...");
-            for (const modType of modulesList) {
-                const mod = new modType(this);
-                this.modules.add(mod);
-                if (modType.name === "Commands") { this.commands = mod as Commands; }
+            for (const mod of modulesList) {
+                const module = new mod(this);
+                this.modules.add(module);
+                if (mod.name === "Commands") { this.commands = module as Commands; }
             }
             this.modules.init(this.client);
             debugInit("Modules registered.");
