@@ -71,8 +71,8 @@ export default class Language extends Module {
         return reply;
     }
 
-    public async understand(message: string, context: WitContext = {}): Promise<MessageResponse> {
-        return this.wit.message(message, context);
+    public async understand(message: string, context?: WitContext): Promise<MessageResponse> {
+        return this.wit.message(message, context || {});
     }
 
     public async postInit(): Promise<void> {
@@ -97,7 +97,9 @@ export default class Language extends Module {
 
         debug("Analyzing message...");
         // now let's analyze the message
-        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""));
+        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {
+            state: [msg.author.id],
+        });
         debug("Got response from wit!");
 
         // send raw response to master logs, if any
