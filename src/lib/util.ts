@@ -19,7 +19,7 @@ export default class Utilities {
      * Convert a time (in ms) to other elements.
      * @param time Time to convert, in milliseconds.
      */
-    public static convertTime(time: number): object {
+    public static convertTime(time: number): { days, hours, minutes, seconds } {
         let seconds = Math.floor(time / 1000);
         let minutes = Math.floor(seconds / 60);
         seconds = seconds % 60;
