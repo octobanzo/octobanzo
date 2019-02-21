@@ -28,3 +28,5 @@ rules:
     max-classes-per-file: false
     no-require-imports: true
     forin: false
+    object-literal-sort-keys: false
+    trailing-comma: false
