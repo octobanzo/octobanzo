@@ -7,13 +7,8 @@ const debug = Logger.debugLogger("runner:base");
 export function run(): void {
     const app = new Bot();
 
-    const logFinal = final(app.log, (err, finalLogger) => {
-        finalLogger.error(err, "Error!");
-        process.exit(1);
-    });
-
-    process.on("uncaughtException", logFinal);
-    process.on("unhandledRejection", logFinal);
+    process.on("uncaughtException", app.log.error);
+    process.on("unhandledRejection", app.log.warn);
     process.on("SIGINT", () => shutdown(app));
 
     return;
