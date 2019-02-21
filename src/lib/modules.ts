@@ -1,6 +1,9 @@
-import * as config from "config";
+import { get as conf } from "config";
 import { Client } from "discord.js";
 import { isArray } from "util";
+import Logger from "./logging";
+
+const debug = Logger.debugLogger("modules:master");
 
 export class ModuleManager {
     /** All loaded modules. */
@@ -98,23 +101,30 @@ export class Module {
         this.Description = options.description;
 
         // check for required options to enable
-        if (typeof options.requiredSettings === "string") {
-            this.Enabled = config.get(options.requiredSettings) === true
-                ? true
-                : false;
-        } else if (isArray(options.requiredSettings)) {
-            let enable = true;
-            for (const option of options.requiredSettings) {
-                if (!enable) { break; }
-                enable = (config.get(option) === true)
+        try {
+            if (typeof options.requiredSettings === "string") {
+                this.Enabled = conf(options.requiredSettings) === true
                     ? true
                     : false;
+            } else if (isArray(options.requiredSettings)) {
+                let enable = true;
+                for (const option of options.requiredSettings) {
+                    if (!enable) { break; }
+                    enable = (conf(option) === true)
+                        ? true
+                        : false;
+                }
+                this.Enabled = enable;
+            } else if (!options.requiredSettings) {
+                this.Enabled = true;
+            } else {
+                throw new TypeError("requiredSettings must be string or string[]");
             }
-            this.Enabled = enable;
-        } else if (!options.requiredSettings) {
-            this.Enabled = true;
-        } else {
-            throw new TypeError("requiredSettings must be string or string[]");
+        } catch (err) {
+            this.Enabled = false;
+            debug(`Couldn't find required setting! Disabling module. (${this.Name})`);
         }
+
+        return;
     }
 }
