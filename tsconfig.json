@@ -6,9 +6,13 @@
         ],
         "removeComments": true,
         "inlineSourceMap": false,
-        "sourceMap": true
+        "sourceMap": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "pretty": false
     },
     "include": [
-        "src/**/*.*"
+        "src"
     ]
 }
