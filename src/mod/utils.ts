@@ -1,4 +1,4 @@
-import * as config from "config";
+import { get as conf } from "config";
 import Bot from "../lib/bot";
 import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
@@ -6,25 +6,37 @@ import { Module } from "../lib/modules";
 const debug = Logger.debugLogger("module:utils");
 
 export default class Utils extends Module {
+    private app: Bot;
+
     constructor(app: Bot) {
         super({
             description: "Miscellaneous utilities for the bot.",
             version: "0.0.1",
         });
 
+        this.app = app;
+
         app.commands.add({
             name: "eval",
-        }, async (cmd, msg, label, args) => {
-            if ((msg.author.id !== config.get("utils.owner_id") || "") || msg.author.bot) { return; }
-            const evalString = args.join(" ");
-            let output = `no output`;
-            try {
-                output = eval(evalString); // tslint:disable-line:no-eval
-            } catch (err) {
-                output = `Error: ${err.message}\nSee log for more info.`;
-                app.log.info(err, `Error while evaluating expression from chat.`);
-            }
-            msg.channel.send(`Eval output\n\`\`\`${output}\`\`\``);
-        });
+            aliases: ["evaluate", "expression"],
+            description: "Evaluate a JavaScript expression."
+        }, this.evalCommand);
+    }
+
+    private async evalCommand(cmd, msg, label, args) {
+        if ((msg.author.id !== this.app)
+            || msg.author.bot) { return; }
+
+        const evalString = args.join(" ");
+        let output = `<NO OUTPUT GIVEN>`;
+
+        try {
+            output = eval(evalString); // tslint:disable-line:no-eval
+        } catch (err) {
+            output = `Error: ${err.message}\nSee log for more info.`;
+            this.app.log.info(err, `Error while evaluating expression from chat.`);
+        }
+
+        msg.channel.send(`Eval output\n\`\`\`${output}\`\`\``);
     }
 }

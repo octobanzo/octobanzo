@@ -11,10 +11,9 @@ commands:
 moderation:
   logs:
     channel: MODERATION_LOG_CHANNEL_ID
+    reason_time: 60 # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
     events:
       ban: true
       kick: true
-utils:
-  owner_id: BOT_OWNER_ID_HERE
 logging:
   file: true # Disables console logging if true. Recommended = true.

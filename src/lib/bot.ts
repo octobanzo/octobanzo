@@ -1,4 +1,4 @@
-import * as config from "config";
+import { get as conf } from "config";
 import * as Discord from "discord.js";
 import * as pino from "pino";
 import { default as modulesList } from "../mod/_index";
@@ -18,6 +18,7 @@ export default class Bot {
     public log: pino.Logger;
     public modules: ModuleManager;
     public commands: Commands;
+    public owner: Discord.User;
 
     constructor() {
         this.log = new Logger().lib;
@@ -42,6 +43,8 @@ export default class Bot {
             this.user = this.client.user;
             this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
 
+            this.owner = (await this.client.fetchApplication()).owner;
+
             this.modules.postInit();
         });
 
@@ -55,6 +58,7 @@ export default class Bot {
             for (const mod of modulesList) {
                 const module = new mod(this);
                 this.modules.add(module);
+
                 if (mod.name === "Commands") { this.commands = module as Commands; }
             }
             this.modules.init(this.client);
@@ -66,7 +70,7 @@ export default class Bot {
 
         try {
             debugInitDiscord("Connecting to Discord...");
-            await this.client.login(config.get("discord.token"));
+            await this.client.login(conf("discord.token"));
         } catch (err) {
             this.log.error(err, "Could not log into Discord!");
             return process.exit(1);

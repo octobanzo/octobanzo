@@ -9,11 +9,10 @@ nlp:
   results_channel: NLP_LOG_CHANNEL_ID
 commands:
   default_prefix: "!"
-utils:
-  owner_id: BOT_OWNER_ID
 moderation:
   logs:
     channel: MOD_LOG_CHANNEL_ID
+    reason_time: 60 # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
     events:
       ban: true
       kick: true
