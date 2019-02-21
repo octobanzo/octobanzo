@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 const args = process.argv.slice(2);
-const run;
 const debug = require("debug")("runner:initial");
+
+let run;
 
 (() => {
     debug("App started.");
