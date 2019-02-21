@@ -6,23 +6,15 @@ description: >-
 
 # Message Processing
 
-_While this page does convey information about legal-related topics, it is not a legal document and should not be treated as such._
-
-Octobanzo's language processing system runs every message through [Wit.ai](https://wit.ai)'s detection service. Messages are not associated to your username or ID, and will not be used or logged for any purpose other than Wit.ai's processing per their [Privacy Policy](https://wit.ai/privacy) and [Terms of Service](https://wit.ai/terms).
+Octobanzo's language processing system runs every message through [Wit.ai](https://wit.ai)'s detection service. Messages are not associated with your Discord username or ID, and will not be used or logged for any purpose other than Wit.ai's processing and understanding per their [Privacy Policy](https://wit.ai/privacy) and [Terms of Service](https://wit.ai/terms).
 
 ### Can I opt-out of message processing?
 
-Currently, there is no opt-out function for Octobanzo's language processing, because:
+No. Unless a server owner disables the bot's language processing function in the server you're chatting in, your message will be processed. The only way to a[void having your messages processed](message-processing.md#how-do-i-avoid-message-processing-if-i-cant-opt-out) by Octo is to avoid chatting in servers where it processes your messages.
 
-* Message processing will be used to assist in moderation.
+#### Why?
 
-  \(e.g. detecting insulting/derogatory messages, etc.\)
-
-* All commands are handled by NLP.
-
-  For instance, a `!ban @spammer` command does not exist; `@Octo ban @spammer` is used instead.
-
-As a precaution until all legal matters can be completely settled, Octobanzo is only currently being added to servers manually verified to provide disclaimers on message processing, posting warnings in clear and conspicuous places for users to see before they chat.
+Allowing users to opt-out of Octobanzo's language processing would defeat the purpose of understanding messages for purposes of moderation. If any user could exempt themselves from Octo's processing, moderation tools would not be effective.
 
 ### How do I avoid message processing if I can't opt-out?
 
