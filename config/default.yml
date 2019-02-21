@@ -3,13 +3,18 @@ discord:
 nlp:
   enable: false
   wit_token: TOKEN_HERE
-  ignore_prefix: \#
-  restrict: false # Restrict NLP to test_channel only?
-  test_channel: null
-  results_channel: null
+  # results_channel: NLP_LOG_CHANNEL_ID # Master NLP logs channel
+  # test_channel: NLP_TEST_CHANNEL_ID # DEBUGGING: Print NLP results in this channel
+  # restrict: true # Only analyze with NLP in test_channel
 commands:
-  default_prefix: "-"
+  default_prefix: "!"
+moderation:
+  logs:
+    channel: MODERATION_LOG_CHANNEL_ID
+    events:
+      ban: true
+      kick: true
 utils:
-  owner_id: null
+  owner_id: BOT_OWNER_ID_HERE
 logging:
-  file: true # Disables console logging if set true
+  file: true # Disables console logging if true. Recommended = true.
