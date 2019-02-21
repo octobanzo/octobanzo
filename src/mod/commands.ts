@@ -1,4 +1,4 @@
-import * as config from "config";
+import { get as conf } from "config";
 import { Message } from "discord.js";
 import Bot from "../lib/bot";
 import Logger from "../lib/logging";
@@ -9,7 +9,7 @@ const debug = Logger.debugLogger("module:commands");
 export default class Commands extends Module {
     private commands: Record<string, (command: ICommandOptions, msg: Message, label: string, args: string[]) => any> = {};
     private labels: Record<string, ICommandOptions> = {};
-    private defaultPrefix: string = config.get("commands.default_prefix") || "!";
+    private defaultPrefix: string = conf("commands.default_prefix") || "!";
 
     constructor(app: Bot) {
         super({

@@ -1,4 +1,4 @@
-import * as config from "config";
+import { get as conf } from "config";
 import * as debug from "debug";
 import { join } from "path";
 import * as pino from "pino";
@@ -9,9 +9,9 @@ export default class Logger {
     constructor() {
         this.lib = pino({
             level: process.env.LEVEL || "info",
-            prettyPrint: config.get("logging.file")
+            prettyPrint: conf("logging.file")
                 ? false : true,
-        }, config.get("logging.file")
+        }, conf("logging.file")
                 ? pino.destination(join(__dirname, "app.log")) : undefined);
     }
 

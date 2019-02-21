@@ -1,4 +1,4 @@
-import * as config from "config";
+import { get as conf } from "config";
 import { Message, TextChannel } from "discord.js";
 import { MessageResponse, Wit, WitContext } from "node-wit";
 import Bot from "../lib/bot";
@@ -21,7 +21,7 @@ export default class Language extends Module {
 
         this.app = app;
         debug("Creating wit instance...");
-        this.wit = new Wit({ accessToken: config.get("nlp.wit_token") });
+        this.wit = new Wit({ accessToken: conf("nlp.wit_token") });
         debug("Wit created. Adding event handlers...");
 
         // register event handlers
@@ -75,8 +75,8 @@ export default class Language extends Module {
     }
 
     public async postInit(): Promise<void> {
-        if (config.get("nlp.results_channel")) {
-            this.nlpLogChannel = this.app.client.channels.get(config.get("nlp.results_channel")) as TextChannel;
+        if (conf("nlp.results_channel")) {
+            this.nlpLogChannel = this.app.client.channels.get(conf("nlp.results_channel")) as TextChannel;
         }
         return;
     }
@@ -84,13 +84,13 @@ export default class Language extends Module {
     private async handleMessage(msg: Message): Promise<MessageResponse> {
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
-            || msg.content.startsWith(config.get("nlp.ignore_prefix") || null)) {
+            || msg.content.startsWith(conf("nlp.ignore_prefix") || null)) {
             return;
         }
 
         // if in NLP-restricted mode, only analyze messages in test channel
-        if (config.get("nlp.restrict")
-            && msg.channel.id !== config.get("nlp.test_channel")) {
+        if (conf("nlp.restrict")
+            && msg.channel.id !== conf("nlp.test_channel")) {
             return;
         }
 
@@ -108,7 +108,7 @@ export default class Language extends Module {
         }
 
         // if it's in test channel, show response
-        if (msg.channel.id === (config.get("nlp.test_channel") || null)) {
+        if (msg.channel.id === (conf("nlp.test_channel") || null)) {
             debug("Replying in test channel");
             msg.channel.send(Language.analysis(understanding));
         }
