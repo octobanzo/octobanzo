@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 
 const args = process.argv.slice(2);
-const run = require("./bin/base").run;
+const run;
 const debug = require("debug")("runner:initial");
 
 (() => {
     debug("App started.");
+
+    try {
+        run = require("./bin/base").run;
+    } catch (err) {
+        console.error("ERROR: There's nothing to run! Please run tsc to compile source before running.");
+    }
 
     if (args.length > 0) { // override NODE_ENV if passed as argument
         process.env.NODE_ENV = args[0].toLowerCase();
@@ -16,7 +22,6 @@ const debug = require("debug")("runner:initial");
 
     if (process.env.NODE_ENV === "development") {
         require("source-map-support").install({
-            emptyCacheBetweenOperations: true,
             environment: "node"
         });
         debug("Enabled source map support for stack traces.");
