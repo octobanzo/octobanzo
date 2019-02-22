@@ -4,9 +4,9 @@
   "description": "Commandless, simple Discord bot",
   "main": "run.js",
   "scripts": {
-    "start": "node -r dotenv/config run.js",
-    "debug": "node -r dotenv/config run.js development",
-    "production": "node -r dotenv/config run.js production"
+    "start": "node -r dotenv/config bin/run.js",
+    "debug": "node -r dotenv/config bin/run.js development",
+    "production": "node -r dotenv/config bin/run.js production"
   },
   "repository": {
     "type": "git",
