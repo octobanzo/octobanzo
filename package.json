@@ -2,7 +2,7 @@
   "name": "octobanzo",
   "version": "0.0.1",
   "description": "Commandless, simple Discord bot",
-  "main": "run.js",
+  "main": "bin/run.js",
   "scripts": {
     "start": "node -r dotenv/config bin/run.js",
     "debug": "node -r dotenv/config bin/run.js development",
