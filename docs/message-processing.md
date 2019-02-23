@@ -19,4 +19,3 @@ Allowing users to opt-out of Octobanzo's language processing would defeat the pu
 ### How do I avoid message processing if I can't opt-out?
 
 The only way to avoid having your messages processed by Octobanzo is to avoid chatting in servers or channels where the bot processes messages.
-
