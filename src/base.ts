@@ -1,7 +1,5 @@
-import { final } from "pino";
 import Bot from "./lib/bot";
 import Logger from "./lib/logging";
-import { debug as debugLib } from "debug";
 
 const args = process.argv.slice(2);
 const debug = Logger.debugLogger("runner:base");
