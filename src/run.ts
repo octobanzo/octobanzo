@@ -30,7 +30,6 @@ function start(): void {
     process.on("SIGINT", () => shutdown(app));
 
     debug("Initialization completed. Running");
-    return;
 }
 
 function shutdown(app: Bot): never {
