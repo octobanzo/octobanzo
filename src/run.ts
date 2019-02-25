@@ -2,16 +2,15 @@ import Bot from "./lib/bot";
 import Logger from "./lib/logging";
 
 const args = process.argv.slice(2);
-const debug = Logger.debugLogger("runner:base");
 
 function start(): void {
-    debug("App started.");
+    console.info("INIT: App started.");
 
     // override NODE_ENV if passed as argument
     if (args.length > 0) {
         process.env.NODE_ENV = args[0].toLowerCase();
     } else if (!process.env.NODE_ENV) {
-        console.error("ERROR: Please specify environment! Set NODE_ENV or supply environment as first argument.");
+        console.error("INIT.ERROR: Please specify environment! Set NODE_ENV or supply environment as first argument.");
         process.exit(1);
     }
 
@@ -20,7 +19,7 @@ function start(): void {
         require("source-map-support").install({
             environment: "node"
         });
-        debug("Enabled source map support for stack traces.");
+        console.info("INIT.DEBUG: Enabled source map support for stack traces.");
     }
 
     const app = new Bot();
@@ -29,15 +28,15 @@ function start(): void {
     process.on("unhandledRejection", app.log.warn);
     process.on("SIGINT", () => shutdown(app));
 
-    debug("Initialization completed. Running");
+    app.log.debug("Initialization completed. Running");
 }
 
 function shutdown(app: Bot): never {
-    debug("Shutting down...");
+    app.log.info("Shutting down...");
     try {
-        debug("Destroying client");
+        app.log.debug("Destroying client");
         app.client.destroy();
-        debug("Client destroyed.");
+        app.log.debug("Client destroyed.");
         return process.exit(0);
     } catch (err) {
         return process.exit(1);

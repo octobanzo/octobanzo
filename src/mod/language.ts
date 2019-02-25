@@ -5,28 +5,26 @@ import Bot from "../lib/bot";
 import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
 
-const debug = Logger.debugLogger("module:language");
-
 export default class Language extends Module {
     private app: Bot;
     private wit: Wit;
     private nlpLogChannel: TextChannel;
 
     constructor(app: Bot) {
-        debug("Initializing...");
         super({
             requiredSettings: "nlp.enable",
             version: "0.1.0-dev",
         });
 
         this.app = app;
-        debug("Creating wit instance...");
+
+        this.app.log.debug("Creating wit instance...");
         this.wit = new Wit({ accessToken: conf("nlp.wit_token") });
-        debug("Wit created. Adding event handlers...");
+        this.app.log.debug("Wit created. Adding event handlers...");
 
         // register event handlers
         this.handle("message", this.handleMessage);
-        debug("Initialization complete.");
+        this.app.log.trace("Initialization complete.");
     }
 
     public static accuracy(input: number): number {
@@ -94,22 +92,22 @@ export default class Language extends Module {
             return;
         }
 
-        debug("Analyzing message...");
+        this.app.log.trace("Analyzing message...");
         // now let's analyze the message
         const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {
             state: [msg.author.id],
         });
-        debug("Got response from wit!");
+        this.app.log.trace("Got response from wit!");
 
         // send raw response to master logs, if any
         if (this.nlpLogChannel) {
-            debug("Sending understanding to master logs");
+            this.app.log.trace(`Sending understanding for message ${msg.id} to master logs`);
             this.nlpLogChannel.send(`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``);
         }
 
         // if it's in test channel, show response
         if (msg.channel.id === (conf("nlp.test_channel") || null)) {
-            debug("Replying in test channel");
+            this.app.log.trace(`Replying to NLP message ${msg.id} in test channel`);
             msg.channel.send(Language.analysis(understanding));
         }
 

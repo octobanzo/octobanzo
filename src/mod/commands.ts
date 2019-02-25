@@ -4,17 +4,18 @@ import Bot from "../lib/bot";
 import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
 
-const debug = Logger.debugLogger("module:commands");
-
 export default class Commands extends Module {
     private commands: Record<string, (command: ICommandOptions, msg: Message, label: string, args: string[]) => any> = {};
     private labels: Record<string, ICommandOptions> = {};
     private defaultPrefix: string = conf("commands.default_prefix") || "!";
+    private app: Bot;
 
     constructor(app: Bot) {
         super({
             version: "0.0.1",
         });
+
+        this.app = app;
 
         this.handle("message", this.handleMessage);
     }
@@ -41,9 +42,9 @@ export default class Commands extends Module {
         const args = msg.content.split(" ");
         const label: string = args.shift().slice(prefix.length).toLowerCase();
 
-        debug("Potential command!");
+        this.app.log.trace("Potential command!");
         if (Object.keys(this.labels || {}).includes(label)) {
-            debug("Command found!");
+            this.app.log.trace("Command found!");
             this.commands[this.labels[label].name](this.labels[label], msg, label, args);
         }
 

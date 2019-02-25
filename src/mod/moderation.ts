@@ -5,8 +5,6 @@ import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
 import { default as Utils } from "../lib/util";
 
-const debug = Logger.debugLogger("module:moderation");
-
 export default class Moderation extends Module {
     private app: Bot;
 
@@ -76,7 +74,6 @@ export default class Moderation extends Module {
                     // TODO: Conditionally, tell person to ask admin to add reason or add themselves if admin
                 }
             } catch (err) {
-                debug(`Error getting ban reason. See log.`);
                 this.app.log.error(err, "Error fetching ban reason.");
             }
         }
@@ -101,9 +98,9 @@ export default class Moderation extends Module {
         });
 
         try {
-            debug("Sending ban log...");
+            this.app.log.trace(`Sending ban ${result.id} log...`);
             await logChannel.send(logAttachment);
-            debug("Ban log sent!");
+            this.app.log.trace(`Ban log for ${result.id} sent!`);
             return;
         } catch (err) {
             this.app.log.warn(err, "Couldn't send ban log.");

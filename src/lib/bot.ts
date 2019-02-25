@@ -6,12 +6,6 @@ import Commands from "../mod/commands";
 import Logger from "./logging";
 import { ModuleManager } from "./modules";
 
-const debug = Logger.debugLogger("bot");
-const debugClient = Logger.debugLogger("bot:client");
-const debugInit = Logger.debugLogger("bot:init");
-const debugInitDiscord = Logger.debugLogger("bot:init:discord");
-const debugInitDb = Logger.debugLogger("bot:init:database");
-
 export default class Bot {
     public client: Discord.Client;
     public user: Discord.ClientUser;
@@ -22,7 +16,7 @@ export default class Bot {
 
     constructor() {
         this.log = new Logger().lib;
-        this.modules = new ModuleManager();
+        this.modules = new ModuleManager(this);
 
         this.client = new Discord.Client({
             disableEveryone: true,
@@ -39,9 +33,8 @@ export default class Bot {
         this.log.info("Bot started.");
 
         this.client.on("ready", async () => {
-            debugInitDiscord("Discord client ready.", { tag: this.client.user.tag, id: this.client.user.id });
             this.user = this.client.user;
-            this.log.info(`Discord connected.`, { tag: this.user.tag, id: this.user.id });
+            this.log.info(`Discord connected as ${this.user.tag}, id:${this.user.id}`);
 
             this.owner = (await this.client.fetchApplication()).owner;
 
@@ -49,27 +42,27 @@ export default class Bot {
         });
 
         this.client.on("error", async (err: Error) => {
-            debugClient(`Client error\n${err}`);
             this.log.error(err, `Client error!`);
         });
 
         try {
-            debugInit("Registering modules...");
+            this.log.debug("Registering modules...");
             for (const mod of modulesList) {
+                this.log.trace(`Registering module ${mod.name}`);
                 const module = new mod(this);
                 this.modules.add(module);
 
                 if (mod.name === "Commands") { this.commands = module as Commands; }
             }
             this.modules.init(this.client);
-            debugInit("Modules registered.");
+            this.log.info("Modules registered.");
         } catch (err) {
             this.log.error(err, "Error setting up modules.");
             return process.exit(1);
         }
 
         try {
-            debugInitDiscord("Connecting to Discord...");
+            this.log.debug("Connecting to Discord...");
             await this.client.login(conf("discord.token"));
         } catch (err) {
             this.log.error(err, "Could not log into Discord!");

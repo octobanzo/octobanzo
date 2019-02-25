@@ -3,8 +3,6 @@ import Bot from "../lib/bot";
 import Logger from "../lib/logging";
 import { Module } from "../lib/modules";
 
-const debug = Logger.debugLogger("module:utils");
-
 export default class Utils extends Module {
     private app: Bot;
 

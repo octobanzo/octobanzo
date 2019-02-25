@@ -2,13 +2,18 @@ import { get as conf } from "config";
 import { Client } from "discord.js";
 import { isArray } from "util";
 import Logger from "./logging";
+import Bot from "./bot";
 
-const debug = Logger.debugLogger("modules:master");
+let app: Bot;
 
 export class ModuleManager {
     /** All loaded modules. */
     public modules: Module[] = [];
     private handlers: Record<string, Array<(...args: any[]) => any>> = {};
+
+    constructor(αpp: Bot) {
+        app = αpp;
+    }
 
     /**
      * Initialize the module manager, primarily adding event handlers.
@@ -81,22 +86,6 @@ export class Module {
     public Handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
     constructor(options: IModuleOptions) {
-        this.init(options);
-    }
-
-    public postInit?();
-
-    /* Storytime: I thought this was failing for like two weeks because I was
-        logging the wrong thing and just couldn't figure out what it was.
-        Moral of the story: make sure you're logging the right thing when you're
-        getting upset about debugging. It ended up being something in ModuleManager
-        that was broken, not here. */
-    protected handle(event: string, func: (...args: any[]) => any) {
-        if (!this.Handlers[event]) { this.Handlers[event] = []; }
-        this.Handlers[event].push(func);
-    }
-
-    protected init(options: IModuleOptions) {
         this.Version = options.version;
         this.Description = options.description;
 
@@ -122,9 +111,23 @@ export class Module {
             }
         } catch (err) {
             this.Enabled = false;
-            debug(`Couldn't find required setting! Disabling module. (${this.Name})`);
+            app.log.debug(`Couldn't find required setting! Disabling module. (${this})`);
         }
+    }
 
-        return;
+    public postInit?();
+
+    /* Storytime: I thought this was failing for like two weeks because I was
+        logging the wrong thing and just couldn't figure out what it was.
+        Moral of the story: make sure you're logging the right thing when you're
+        getting upset about debugging. It ended up being something in ModuleManager
+        that was broken, not here. */
+    protected handle(event: string, func: (...args: any[]) => any) {
+        if (!this.Handlers[event]) { this.Handlers[event] = []; }
+        this.Handlers[event].push(func);
+    }
+
+    public toString(): string {
+        return `${this.Name} @ ${this.Version}`;
     }
 }
