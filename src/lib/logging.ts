@@ -7,9 +7,7 @@ export default class Logger {
 
     constructor() {
         this.lib = pino({
-            level: process.env.LEVEL || "info",
-            prettyPrint: conf("logging.file")
-                ? false : true,
+            level: process.env.LEVEL || "info"
         }, conf("logging.file")
                 ? pino.destination(join(__dirname, "app.log")) : undefined);
     }
