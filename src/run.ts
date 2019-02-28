@@ -1,11 +1,9 @@
-import Bot from "./lib/bot";
-import Logger from "./lib/logging";
-
 const args = process.argv.slice(2);
 
-function start(): void {
+function run(): void {
     console.info("INIT: App started.");
 
+    console.info("INIT: Checking environment...");
     // override NODE_ENV if passed as argument
     if (args.length > 0) {
         process.env.NODE_ENV = args[0].toLowerCase();
@@ -13,34 +11,24 @@ function start(): void {
         console.error("INIT.ERROR: Please specify environment! Set NODE_ENV or supply environment as first argument.");
         process.exit(1);
     }
+    console.info("INIT: Environment OK. " + process.env.NODE_ENV);
+
+    process.env.NODE_CONFIG_ENV = process.env.NODE_ENV;
 
     // Add source map logging if 'development'
     if (process.env.NODE_ENV === "development") {
+        console.info("INIT: Implementing source map logging.");
         require("source-map-support").install({
             environment: "node"
         });
-        console.info("INIT.DEBUG: Enabled source map support for stack traces.");
+        console.info("INIT.DEBUG: Enabled source map logging for stack traces.");
     }
 
-    const app = new Bot();
+    console.log("INIT: Initialization completed. Running...");
 
-    process.on("uncaughtException", app.log.error);
-    process.on("unhandledRejection", app.log.warn);
-    process.on("SIGINT", () => shutdown(app));
+    require("./base").start();
 
-    app.log.debug("Initialization completed. Running");
+    console.log("INIT: Initial");
 }
 
-function shutdown(app: Bot): never {
-    app.log.info("Shutting down...");
-    try {
-        app.log.debug("Destroying client");
-        app.client.destroy();
-        app.log.debug("Client destroyed.");
-        return process.exit(0);
-    } catch (err) {
-        return process.exit(1);
-    }
-}
-
-start();
+run();
