@@ -22,8 +22,7 @@ export default class Utils extends Module {
     }
 
     private async evalCommand(cmd, msg, label, args) {
-        if ((msg.author.id !== this.app)
-            || msg.author.bot) { return; }
+        if (msg.author.id !== this.app.owner.id) { return; }
 
         const evalString = args.join(" ");
         let output = `<NO OUTPUT GIVEN>`;
