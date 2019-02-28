@@ -13,6 +13,7 @@ export default class Commands extends Module {
     constructor(app: Bot) {
         super({
             version: "0.0.1",
+            requiredSettings: "commands"
         });
 
         this.app = app;
@@ -35,9 +36,7 @@ export default class Commands extends Module {
 
         const prefix = this.defaultPrefix;
 
-        if (!msg.content.startsWith(prefix)) {
-            return;
-        }
+        if (!msg.content.startsWith(prefix)) { return; }
 
         const args = msg.content.split(" ");
         const label: string = args.shift().slice(prefix.length).toLowerCase();
