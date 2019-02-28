@@ -28,13 +28,12 @@
   "devDependencies": {
     "@types/config": "0.0.34",
     "@types/debug": "^4.1.1",
+    "@types/knex": "^0.15.2",
     "@types/node": "^10.12.26",
     "@types/node-wit": "^4.2.2",
     "@types/pino": "^5.8.5",
     "eslint": "^5.8.0",
-    "pino-pretty": "^2.5.0",
     "source-map-support": "^0.5.10",
-    "supports-color": "^6.1.0",
     "tslint": "^5.11.0"
   },
   "dependencies": {
@@ -42,7 +41,14 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "js-yaml": "^3.12.1",
+    "knex": "^0.16.3",
+    "mysql2": "^1.6.5",
     "node-wit": "^5.0.0",
-    "pino": "^5.11.1"
+    "pino": "^5.11.1",
+    "typescript": "^3.3.3333"
+  },
+  "optionalDependencies": {
+    "pino-pretty": "^2.5.0",
+    "supports-color": "^6.1.0"
   }
 }
