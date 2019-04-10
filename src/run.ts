@@ -13,8 +13,6 @@ function run(): void {
     }
     console.info("INIT: Environment OK. " + process.env.NODE_ENV);
 
-    process.env.NODE_CONFIG_ENV = process.env.NODE_ENV;
-
     // Add source map logging if 'development'
     if (process.env.NODE_ENV === "development") {
         console.info("INIT: Implementing source map logging.");
