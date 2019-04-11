@@ -5,7 +5,7 @@
   "main": "bin/run.js",
   "scripts": {
     "start": "node -r dotenv/config bin/run.js",
-    "debug": "node -r dotenv/config bin/run.js development",
+    "debug": "npx nodemon -r dotenv/config bin/run.js development",
     "production": "node -r dotenv/config bin/run.js production"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "@types/node-wit": "^4.2.2",
     "@types/pino": "^5.8.5",
     "eslint": "^5.8.0",
+    "nodemon": "^1.18.11",
     "source-map-support": "^0.5.10",
     "tslint": "^5.11.0"
   },
