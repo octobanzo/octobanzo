@@ -26,8 +26,8 @@ const args = process.argv.slice(2);
 
         const app = new Bot();
 
-        process.on('uncaughtException', console.error);
-        process.on('unhandledRejection', console.error);
+        process.on('uncaughtException', app.log.error);
+        process.on('unhandledRejection', app.log.error);
         process.on('SIGINT', () => shutdown(app));
 
         app;
