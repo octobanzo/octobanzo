@@ -4,11 +4,11 @@
 // to read the update notes to make sure you're not missing any required modules!
 
 // Core modules
-import { default as Commands } from "./commands";
-import { default as Database } from "./database";
-import { default as Language } from "./language";
-import { default as Moderation } from "./moderation";
-import { default as Utils } from "./utils";
+import Commands from './commands';
+import Database from './database';
+import Language from './language';
+import Moderation from './moderation';
+import Utils from './utils';
 
 // User-imported modules
 
