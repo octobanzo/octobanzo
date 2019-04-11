@@ -1,3 +1,6 @@
+import { install as installSourceMap } from 'source-map-support';
+import Bot from './lib/bot';
+
 /* tslint:disable:no-require-imports */
 
 const args = process.argv.slice(2);
@@ -17,10 +20,29 @@ const args = process.argv.slice(2);
 
         // Add source map logging if 'development'
         (process.env.NODE_ENV === 'development') &&
-            require('source-map-support').install({
+            installSourceMap({
                 environment: 'node'
             });
 
-        require('./base').start();
+        const app = new Bot();
+
+        process.on('uncaughtException', console.error);
+        process.on('unhandledRejection', console.error);
+        process.on('SIGINT', () => shutdown(app));
+
+        app;
     }
-)()
+)();
+
+function shutdown(app: Bot): never {
+    app.log.info('Shutting down');
+
+    try {
+        app.log.debug('Destroying client');
+        app.client.destroy();
+        console.info('Goodbye!');
+        return process.exit(0);
+    } catch (err) {
+        return process.exit(1);
+    }
+}
