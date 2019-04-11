@@ -35,12 +35,17 @@ export default class Language extends Module {
         const data = response.entities;
         let reply = ``;
 
-        // What was the intent?
+        // What is the intent?
         if (data.intent) {
             reply += `Intent: **${data.intent[0].value}** (${Language.accuracy(data.intent[0].confidence)}%)\n`;
         }
 
-        // Did it target someone?
+        // Is it an insult?
+        if (data.insult) {
+            reply += `Insult: **${data.insult[0].value}** (${Language.accuracy(data.insult[0].confidence)}%)\n`;
+        }
+
+        // Does it target someone?
         if (data.contact) {
             reply += `Target: **${data.contact[0].value}** (${Language.accuracy(data.contact[0].confidence)}%)\n`;
         }
