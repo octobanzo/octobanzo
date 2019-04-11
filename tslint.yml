@@ -43,3 +43,5 @@ rules:
     typedef:
         - true
         - call-signature
+    no-magic-numbers:
+        - false
