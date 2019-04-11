@@ -5,7 +5,7 @@
   "main": "bin/run.js",
   "scripts": {
     "start": "node -r dotenv/config bin/run.js",
-    "debug": "npx nodemon -r dotenv/config bin/run.js development",
+    "debug": "yarn run nodemon -r dotenv/config bin/run.js development | yarn run pino-pretty",
     "production": "node -r dotenv/config bin/run.js production"
   },
   "repository": {
