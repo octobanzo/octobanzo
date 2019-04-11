@@ -1,7 +1,7 @@
 import { get as conf } from 'config';
 import * as Discord from 'discord.js';
 import * as pino from 'pino';
-import { default as modulesList } from '../mod/_index';
+import modulesList from '../mod/_index';
 import Commands from '../mod/commands';
 import Logger from './logging';
 import { ModuleManager } from './modules';
