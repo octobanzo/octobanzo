@@ -1,30 +1,30 @@
-import { get as conf } from "config";
-import Bot from "../lib/bot";
-import Logger from "../lib/logging";
-import { Module } from "../lib/modules";
+import { get as conf } from 'config';
+import Bot from '../lib/bot';
+import Logger from '../lib/logging';
+import { Module } from '../lib/modules';
 
 export default class Utils extends Module {
     private app: Bot;
 
     constructor(app: Bot) {
         super({
-            description: "Miscellaneous utilities for the bot.",
-            version: "0.0.1",
+            description: 'Miscellaneous utilities for the bot.',
+            version: '0.0.1',
         });
 
         this.app = app;
 
         app.commands.add({
-            name: "eval",
-            aliases: ["evaluate", "expression"],
-            description: "Evaluate a JavaScript expression."
-        }, this.evalCommand);
+            name: 'eval',
+            aliases: ['evaluate', 'expression'],
+            description: 'Evaluate a JavaScript expression.'
+        }, this.evalCommand.bind(this));
     }
 
-    private async evalCommand(cmd, msg, label, args) {
+    private async evalCommand(cmd, msg, label, args): Promise<void> {
         if (msg.author.id !== this.app.owner.id) { return; }
 
-        const evalString = args.join(" ");
+        const evalString = args.join(' ');
         let output = `<NO OUTPUT GIVEN>`;
 
         try {
