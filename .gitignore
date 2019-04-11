@@ -2,6 +2,7 @@
 config/*
 !config/default.*
 log
+*.log
 
 # Ignore all installed node modules. use npm i to install from package.json
 node_modules
