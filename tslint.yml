@@ -30,3 +30,16 @@ rules:
     forin: false
     object-literal-sort-keys: false
     trailing-comma: false
+    no-unused-expression: false
+    quotemark:
+        - true
+        - single
+    semicolon:
+        - true
+        - always
+    curly:
+        - true
+        - ignore-same-line
+    typedef:
+        - true
+        - call-signature
