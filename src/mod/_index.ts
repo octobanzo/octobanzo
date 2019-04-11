@@ -5,7 +5,6 @@
 
 // Core modules
 import Commands from './commands';
-import Database from './database';
 import Language from './language';
 import Moderation from './moderation';
 import Utils from './utils';
@@ -14,8 +13,7 @@ import Utils from './utils';
 
 // Full export:
 export default [
-    Database, // load this first! a lot of other modules will depend on it.
-    Commands, // this is the second most important! keep it here.
+    Commands, // load this first! a lot of other modules will depend on it.
     Language, // load after Commands. depends on it!
     Moderation, // load after Language. depends on it!
     Utils,
