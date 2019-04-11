@@ -1,22 +1,16 @@
 import { get as conf } from 'config';
 import { Message } from 'discord.js';
 import * as knex from 'knex';
-import Bot from '../lib/bot';
-import Logger from '../lib/logging';
-import { Module } from '../lib/modules';
+import Bot from './bot';
+import Logger from './logging';
+import { Module } from './modules';
 
-export default class Database extends Module {
+export default class Database {
     public lib: knex;
 
     private app: Bot;
-    private tables;
 
     constructor(app: Bot) {
-        super({
-            requiredSettings: 'database',
-            version: '0.0.1',
-        });
-
         this.lib = knex({
             client: conf('database.client'),
             connection: conf('database.connection')
