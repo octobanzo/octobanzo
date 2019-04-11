@@ -1,10 +1,11 @@
-import Bot from "./bot";
+import Bot from './bot';
 
 export default class Utilities {
     private app: Bot;
 
     constructor(app?: Bot) {
-        this.app = app || null;
+        // set this.app only if app supplied
+        app && (this.app = app);
     }
 
     /**
@@ -25,7 +26,7 @@ export default class Utilities {
         seconds = seconds % 60;
         let hours = Math.floor(minutes / 60);
         minutes = minutes % 60;
-        let days = Math.floor(hours / 24);
+        const days = Math.floor(hours / 24);
         hours = hours % 24;
         return {
             days,
@@ -36,13 +37,13 @@ export default class Utilities {
     }
 
     public static formatTime(time: { days, hours, minutes, seconds }): string {
-        let response = [];
+        const response = [];
 
         if (time.days) { response.push(`${time.days} days`); }
         if (time.hours) { response.push(`${time.hours} hours`); }
         if (time.minutes) { response.push(`${time.minutes} minutes`); }
         if (time.seconds) { response.push(`${time.seconds} seconds`); }
 
-        return response.join(", ").replace(/, ([^,]*)$/, ", and $1");
+        return response.join(', ').replace(/, ([^,]*)$/, ', and $1');
     }
 }

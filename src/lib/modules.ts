@@ -1,8 +1,8 @@
-import { get as conf } from "config";
-import { Client } from "discord.js";
-import { isArray } from "util";
-import Logger from "./logging";
-import Bot from "./bot";
+import { get as conf } from 'config';
+import { Client } from 'discord.js';
+import { isArray } from 'util';
+import Bot from './bot';
+import Logger from './logging';
 
 let app: Bot;
 
@@ -19,14 +19,16 @@ export class ModuleManager {
      * Initialize the module manager, primarily adding event handlers.
      * @param client The Discord.js client to handle with.
      */
-    public init(client: Client) {
+    public init(client: Client): void {
         for (const module of this.modules) {
             if (module.Handlers) {
                 for (const eventName in module.Handlers) {
                     // if an array for this event doesn't exist, create one before trying to push
                     if (!this.handlers[eventName]) { this.handlers[eventName] = []; }
                     for (const handler of module.Handlers[eventName]) {
-                        this.handlers[eventName].push(handler.bind(module));
+                        this.handlers[eventName].push(
+                            handler.bind(module)
+                        );
                     }
                 }
             }
@@ -43,7 +45,7 @@ export class ModuleManager {
      * Add a new module.
      * @param module The module to be added
      */
-    public add(...module: Module[]) {
+    public add(...module: Module[]): ModuleManager {
         for (const mod of module) {
             if (mod.Enabled) {
                 this.modules.push(mod);
@@ -55,12 +57,14 @@ export class ModuleManager {
         return this;
     }
 
-    public postInit() {
+    public async postInit(): Promise<void> {
         for (const module of this.modules) {
             if (module.postInit) {
                 module.postInit();
             }
         }
+
+        return;
     }
 }
 
@@ -91,8 +95,8 @@ export class Module {
 
         // check for required options to enable
         try {
-            if (typeof options.requiredSettings === "string") {
-                this.Enabled = conf(options.requiredSettings) === true
+            if (typeof options.requiredSettings === 'string') {
+                this.Enabled = !!conf(options.requiredSettings)
                     ? true
                     : false;
             } else if (isArray(options.requiredSettings)) {
@@ -107,7 +111,7 @@ export class Module {
             } else if (!options.requiredSettings) {
                 this.Enabled = true;
             } else {
-                throw new TypeError("requiredSettings must be string or string[]");
+                throw new TypeError('requiredSettings must be string or string[]');
             }
         } catch (err) {
             this.Enabled = false;
@@ -115,19 +119,19 @@ export class Module {
         }
     }
 
-    public postInit?();
+    public postInit?(): void;
+
+    public toString(): string {
+        return `${this.Name} @ ${this.Version}`;
+    }
 
     /* Storytime: I thought this was failing for like two weeks because I was
         logging the wrong thing and just couldn't figure out what it was.
         Moral of the story: make sure you're logging the right thing when you're
         getting upset about debugging. It ended up being something in ModuleManager
         that was broken, not here. */
-    protected handle(event: string, func: (...args: any[]) => any) {
+    protected handle(event: string, func: (...args: any[]) => any): void {
         if (!this.Handlers[event]) { this.Handlers[event] = []; }
         this.Handlers[event].push(func);
-    }
-
-    public toString(): string {
-        return `${this.Name} @ ${this.Version}`;
     }
 }

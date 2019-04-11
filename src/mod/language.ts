@@ -1,9 +1,9 @@
-import { get as conf } from "config";
-import { Message, TextChannel } from "discord.js";
-import { MessageResponse, Wit, WitContext } from "node-wit";
-import Bot from "../lib/bot";
-import Logger from "../lib/logging";
-import { Module } from "../lib/modules";
+import { get as conf } from 'config';
+import { Message, TextChannel } from 'discord.js';
+import { MessageResponse, Wit, WitContext } from 'node-wit';
+import Bot from '../lib/bot';
+import Logger from '../lib/logging';
+import { Module } from '../lib/modules';
 
 export default class Language extends Module {
     private app: Bot;
@@ -12,19 +12,19 @@ export default class Language extends Module {
 
     constructor(app: Bot) {
         super({
-            requiredSettings: "nlp.enable",
-            version: "0.1.0-dev",
+            requiredSettings: 'nlp.enable',
+            version: '0.1.0-dev',
         });
 
         this.app = app;
 
-        this.app.log.debug("Creating wit instance...");
-        this.wit = new Wit({ accessToken: conf("nlp.wit_token") });
-        this.app.log.debug("Wit created. Adding event handlers...");
+        this.app.log.debug('Creating wit instance...');
+        this.wit = new Wit({ accessToken: conf('nlp.wit_token') });
+        this.app.log.debug('Wit created. Adding event handlers...');
 
         // register event handlers
-        this.handle("message", this.handleMessage);
-        this.app.log.trace("Initialization complete.");
+        this.handle('message', this.handleMessage);
+        this.app.log.trace('Initialization complete.');
     }
 
     public static accuracy(input: number): number {
@@ -73,8 +73,8 @@ export default class Language extends Module {
     }
 
     public async postInit(): Promise<void> {
-        if (conf("nlp.results_channel")) {
-            this.nlpLogChannel = this.app.client.channels.get(conf("nlp.results_channel")) as TextChannel;
+        if (conf('nlp.results_channel')) {
+            this.nlpLogChannel = this.app.client.channels.get(conf('nlp.results_channel')) as TextChannel;
         }
         return;
     }
@@ -82,22 +82,19 @@ export default class Language extends Module {
     private async handleMessage(msg: Message): Promise<MessageResponse> {
         // ignore all bot and ignore-char-starting messages
         if (msg.author.bot
-            || msg.content.startsWith(conf("nlp.ignore_prefix") || null)) {
-            return;
-        }
+            || msg.content.startsWith(conf('nlp.ignore_prefix') || null)) return;
 
         // if in NLP-restricted mode, only analyze messages in test channel
-        if (conf("nlp.restrict")
-            && msg.channel.id !== conf("nlp.test_channel")) {
-            return;
-        }
+        if (conf('nlp.restrict')
+            && msg.channel.id !== conf('nlp.test_channel')) return;
 
-        this.app.log.trace("Analyzing message...");
+        this.app.log.trace('Analyzing message...');
         // now let's analyze the message
-        const understanding = await this.understand(msg.content.replace(/[\*\_\|\`\~]+/gi, ""), {
-            state: [msg.author.id],
-        });
-        this.app.log.trace("Got response from wit!");
+        const understanding = await this.understand(msg.content
+            .replace(/[\*\_\|\`\~]+/gi, ''), {
+                state: [msg.author.id],
+            });
+        this.app.log.trace('Got response from wit!');
 
         // send raw response to master logs, if any
         if (this.nlpLogChannel) {
@@ -106,7 +103,7 @@ export default class Language extends Module {
         }
 
         // if it's in test channel, show response
-        if (msg.channel.id === (conf("nlp.test_channel") || null)) {
+        if (msg.channel.id === (conf('nlp.test_channel') || null)) {
             this.app.log.trace(`Replying to NLP message ${msg.id} in test channel`);
             msg.channel.send(Language.analysis(understanding));
         }
