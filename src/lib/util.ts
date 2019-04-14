@@ -44,6 +44,7 @@ export default class Utilities {
         if (time.minutes) { response.push(`${time.minutes} minutes`); }
         if (time.seconds) { response.push(`${time.seconds} seconds`); }
 
+        // Join together with commas, adding "and" before last one
         return response.join(', ').replace(/, ([^,]*)$/, ', and $1');
     }
 }
