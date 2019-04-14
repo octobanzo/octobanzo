@@ -1,11 +1,11 @@
 {
   "name": "octobanzo",
   "version": "0.0.1",
-  "description": "Commandless, simple Discord bot",
+  "description": "A better Discord bot",
   "main": "bin/run.js",
   "scripts": {
     "start": "node -r dotenv/config bin/run.js",
-    "debug": "yarn run nodemon -r dotenv/config bin/run.js development | yarn run pino-pretty",
+    "debug": "yarn run nodemon -r dotenv/config bin/run.js development",
     "production": "node -r dotenv/config bin/run.js production"
   },
   "repository": {
