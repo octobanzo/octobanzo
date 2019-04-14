@@ -4,6 +4,7 @@ import Bot from '../lib/bot';
 import Logger from '../lib/logging';
 import { Module } from '../lib/modules';
 import { default as Utils } from '../lib/util';
+import { CommandPermission, ICommandOptions } from './commands';
 
 export default class Moderation extends Module {
     private app: Bot;
@@ -18,6 +19,20 @@ export default class Moderation extends Module {
 
         this.handle('message', this.handleMessage);
         this.handle('guildBanAdd', this.handleBan);
+
+        this.app.commands.add({
+            name: 'warn',
+            description: 'Assign a warning to a user.',
+            aliases: ['warnings', 'unwarn'],
+            type: 'guild',
+            permission: CommandPermission.Moderator
+        }, this.warnCommand.bind(this));
+    }
+
+    private async warnCommand(cmd: ICommandOptions, msg: Message, label: string, args: string[]): Promise<void> {
+        if (msg.author.id !== this.app.owner.id) return;
+
+        // warn logic; waiting for database implementation
     }
 
     private async handleMessage(msg: Message): Promise<void> {
