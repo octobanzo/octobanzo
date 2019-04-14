@@ -10,7 +10,7 @@ Octobanzo's language processing system runs every message through [Wit.ai](https
 
 ### Can I opt-out of message processing?
 
-No. Unless a server owner disables the bot's language processing function in the server you're chatting in, your message will be processed. The only way to a[void having your messages processed](message-processing.md#how-do-i-avoid-message-processing-if-i-cant-opt-out) by Octo is to avoid chatting in servers where it processes your messages.
+No. Unless a server owner disables the bot's language processing function in the server you're chatting in, your message will be processed. The only way to [avoid having your messages processed](message-processing.md#how-do-i-avoid-message-processing-if-i-cant-opt-out) by Octo is to avoid chatting in servers where it processes your messages.
 
 #### Why?
 
