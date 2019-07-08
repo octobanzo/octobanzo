@@ -5,7 +5,7 @@ description: It's easy to get Octobanzo up and running in your server.
 # Setup
 
 {% hint style="danger" %}
-The ability to add Octobanzo to servers has been disabled temporarily.[  Why?](../message-processing.md)
+The ability to add Octobanzo to servers has been disabled temporarily.  [Why?](../message-processing.md)
 {% endhint %}
 
 Please contact **Haden\#7219** on Discord to add the bot to your server.
