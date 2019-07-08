@@ -1,22 +1,22 @@
-import { get as conf } from 'config';
-import { Message } from 'discord.js';
-import * as knex from 'knex';
-import Bot from './bot';
-import Logger from './logging';
-import { Module } from './modules';
+import { get as conf } from 'config'
+import { Message } from 'discord.js'
+import * as knex from 'knex'
+import Bot from './bot'
+import Logger from './logging'
+import { Module } from './modules'
 
 export default class Database {
-    public lib: knex;
+    public lib: knex
 
-    private app: Bot;
+    private app: Bot
 
     constructor(app: Bot) {
         this.lib = knex({
             client: conf('database.client'),
             connection: conf('database.connection')
-        });
+        })
 
-        this.app = app;
+        this.app = app
 
         // TODO: add database handling things!
     }

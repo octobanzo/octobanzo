@@ -4,10 +4,10 @@
 // to read the update notes to make sure you're not missing any required modules!
 
 // Core modules
-import Commands from './commands';
-import Language from './language';
-import Moderation from './moderation';
-import Utils from './utils';
+import Commands from './commands'
+import Language from './language'
+import Moderation from './moderation'
+import Utils from './utils'
 
 // User-imported modules
 //
@@ -18,4 +18,4 @@ export default [
     Language, // load after Commands. depends on it!
     Moderation, // load after Language. depends on it!
     Utils
-];
+]

@@ -1,18 +1,18 @@
-import { get as conf } from 'config';
-import { Client } from 'discord.js';
-import { isArray } from 'util';
-import Bot from './bot';
-import Logger from './logging';
+import { get as conf } from 'config'
+import { Client } from 'discord.js'
+import { isArray } from 'util'
+import Bot from './bot'
+import Logger from './logging'
 
-let app: Bot;
+let app: Bot
 
 export class ModuleManager {
     /** All loaded modules. */
-    public modules: Module[] = [];
-    private handlers: Record<string, Array<(...args: any[]) => any>> = {};
+    public modules: Module[] = []
+    private handlers: Record<string, Array<(...args: any[]) => any>> = {}
 
     constructor(αpp: Bot) {
-        app = αpp;
+        app = αpp
     }
 
     /**
@@ -24,11 +24,11 @@ export class ModuleManager {
             if (module.Handlers) {
                 for (const eventName in module.Handlers) {
                     // if an array for this event doesn't exist, create one before trying to push
-                    if (!this.handlers[eventName]) { this.handlers[eventName] = []; }
+                    if (!this.handlers[eventName]) { this.handlers[eventName] = [] }
                     for (const handler of module.Handlers[eventName]) {
                         this.handlers[eventName].push(
                             handler.bind(module)
-                        );
+                        )
                     }
                 }
             }
@@ -36,7 +36,7 @@ export class ModuleManager {
 
         for (const event in this.handlers) {
             for (const func of this.handlers[event] || []) {
-                client.on(event, func);
+                client.on(event, func)
             }
         }
     }
@@ -48,81 +48,81 @@ export class ModuleManager {
     public add(...module: Module[]): ModuleManager {
         for (const mod of module) {
             if (mod.Enabled) {
-                this.modules.push(mod);
+                this.modules.push(mod)
             } else {
-                return;
+                return
             }
         }
 
-        return this;
+        return this
     }
 
     public async postInit(): Promise<void> {
         for (const module of this.modules) {
             if (module.postInit) {
-                module.postInit();
+                module.postInit()
             }
         }
 
-        return;
+        return
     }
 }
 
 export interface IModuleOptions {
     /** Module version. Preferably in incremental major.minor.tiny format. */
-    version: string;
+    version: string
     /** A brief description of the module. */
-    description?: string;
+    description?: string
     /** Settings required to enable module. Only `boolean` values. */
-    requiredSettings?: string | string[];
+    requiredSettings?: string | string[]
 }
 
 export class Module {
     /** Module name. */
-    public Name: string = this.constructor.name;
+    public Name: string = this.constructor.name
     /** Module version. Preferably in incremental major.minor.tiny format. */
-    public Version: string;
+    public Version: string
     /** A brief description of the module. */
-    public Description?: string;
+    public Description?: string
     /** Whether or not the module is enabled. */
-    public Enabled?: boolean = false;
+    public Enabled?: boolean = false
     /** Event handlers to be passed to `ModuleManager`. */
-    public Handlers: Record<string, Array<(...args: any[]) => any>> = {};
+    public Handlers: Record<string, Array<(...args: any[]) => any>> = {}
 
     constructor(options: IModuleOptions) {
-        this.Version = options.version;
-        this.Description = options.description;
+        this.Version = options.version
+        this.Description = options.description
 
         // check for required options to enable
         try {
             if (typeof options.requiredSettings === 'string') {
                 this.Enabled = !!conf(options.requiredSettings)
                     ? true
-                    : false;
+                    : false
             } else if (isArray(options.requiredSettings)) {
-                let enable = true;
+                let enable = true
                 for (const option of options.requiredSettings) {
-                    if (!enable) { break; }
+                    if (!enable) { break }
                     enable = (conf(option) === true)
                         ? true
-                        : false;
+                        : false
                 }
-                this.Enabled = enable;
+                this.Enabled = enable
             } else if (!options.requiredSettings) {
-                this.Enabled = true;
+                this.Enabled = true
             } else {
-                throw new TypeError('requiredSettings must be string or string[]');
+                throw new TypeError('requiredSettings must be string or string[]')
             }
         } catch (err) {
-            this.Enabled = false;
-            app.log.debug(`Couldn't find required setting! Disabling module. (${this})`);
+            this.Enabled = false
+            app.log.debug(`Couldn't find required setting! Disabling module. (${this})`)
         }
     }
 
-    public postInit?(): void;
+    public postInit?(): void
 
     public toString(): string {
-        return `${this.Name} @ ${this.Version}`;
+        return `${this.Name} @ ${this.Version}`
     }
 
     /* Storytime: I thought this was failing for like two weeks because I was
@@ -131,7 +131,7 @@ export class Module {
         getting upset about debugging. It ended up being something in ModuleManager
         that was broken, not here. */
     protected handle(event: string, func: (...args: any[]) => any): void {
-        if (!this.Handlers[event]) { this.Handlers[event] = []; }
-        this.Handlers[event].push(func);
+        if (!this.Handlers[event]) { this.Handlers[event] = [] }
+        this.Handlers[event].push(func)
     }
 }
