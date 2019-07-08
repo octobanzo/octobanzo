@@ -13,10 +13,10 @@ rules:
     - error
     - unix
   quotes:
-    - error
-    - double
+    - warn
+    - single
   semi:
-    - error
-    - always
+    - warn
+    - never
   no-console:
     - off
