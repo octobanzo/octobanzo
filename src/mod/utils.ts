@@ -4,7 +4,7 @@ import Bot from '../lib/bot'
 import Logger from '../lib/logging'
 import { Module } from '../lib/modules'
 import Utilities from '../lib/util'
-import { CommandPermission, ICommandOptions } from './commands'
+import { CommandPermission, ICommandContext, ICommandOptions } from './commands'
 
 export default class Utils extends Module {
     private app: Bot
@@ -32,7 +32,7 @@ export default class Utils extends Module {
             description: 'Get a list of commands and help with how to use them.',
             usage: '[command]',
             type: 'open',
-            permission: CommandPermission.AppOwner
+            permission: CommandPermission.User
         }, this.helpCommand.bind(this))
 
         app.commands.add({
@@ -45,8 +45,9 @@ export default class Utils extends Module {
         }, this.spacifyCommand.bind(this))
     }
 
-    private async helpCommand(cmd: ICommandOptions, msg: Message, label: string, args: string[]): Promise<void> {
-        const chunks: ICommandOptions[][] = Utilities.chunkArray(this.app.commands.commandMeta, 7)
+    private async helpCommand(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
+        const commandsPerPage = 7
+        const chunks: ICommandOptions[][] = Utilities.chunkArray(this.app.commands.commandMeta, commandsPerPage)
 
         for (let i = 0; i < chunks.length; i++) {
             const chunk = chunks[i]
@@ -60,23 +61,26 @@ export default class Utils extends Module {
                 let cmdDescription = `${command.description || ''}`
 
                 if (command.aliases && command.aliases.length) {
-                    cmdDescription += `\n**__Also:__ ${command.aliases.join(', ')}**`
+                    cmdDescription += `\n_Also: ${ctx.prefix}${command.aliases.join(`, ${ctx.prefix}`)}_`
                 }
 
                 fields.push({
-                    name: `${command.name}`,
+                    name: `${ctx.prefix}${command.name}`,
                     value: cmdDescription,
                     inline: false
                 })
             }
 
             try {
-                (await msg.reply(`Check your DMs! Command help should arrive shortly. :mailbox_with_mail:`) as Message)
-                    .delete(3500)
-                    .catch(() => null)
+                if (msg.channel.type === 'text') {
+                    (await msg.reply(`Check your DMs! Command help should arrive shortly. :mailbox_with_mail:`) as Message)
+                        .delete(3500)
+                        .catch(() => null)
+                }
+
                 await msg.author.send(new RichEmbed({
                     title: 'Command help',
-                    description: `Page ${i + 1}\nThis reflects the commands you can use in ${(msg.guild ? `**${msg.guild.name}**` : 'this context')}.`,
+                    description: `Page ${i + 1}\nThis reflects the commands you can use ${(msg.guild ? `in **${msg.guild.name}**` : 'here')}.`,
                     color: 0x0086FF,
                     fields
                 }))
@@ -123,7 +127,7 @@ export default class Utils extends Module {
                     const oldName = `${channel.name} `
 
                     try {
-                        await channel.setName(channel.name.replace('-', `\u2009\u2009`))
+                        await channel.setName(oldName.replace('-', `\u2009\u2009`))
                         msg.channel.send(`Changed **${oldName}**'s name to **${channel.name}**.`)
                     } catch (err) {
                         throw err

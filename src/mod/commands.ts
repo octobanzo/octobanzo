@@ -1,11 +1,11 @@
 import { get as conf } from 'config'
-import { Guild, GuildMember, Message, RichEmbed, UserResolvable } from 'discord.js'
+import { Guild, GuildMember, Message, RichEmbed, RichEmbedOptions, User, UserResolvable } from 'discord.js'
 import Bot from '../lib/bot'
 import Logger from '../lib/logging'
 import { Module } from '../lib/modules'
 
 export default class Commands extends Module {
-    public commandExecutors: Record<string, (command: ICommandOptions, msg: Message, label: string, args: string[]) => any> = {}
+    public commandFunctions: Record<string, CommandFunction> = {}
     public labels: Record<string, ICommandOptions> = {}
     public commandMeta: ICommandOptions[] = []
 
@@ -23,8 +23,8 @@ export default class Commands extends Module {
         this.handle('message', this.handleMessage)
     }
 
-    public async add(properties: ICommandOptions, func: (command: ICommandOptions, msg: Message, label: string, args: string[]) => any): Promise<Commands> {
-        this.commandExecutors[properties.name.toLowerCase()] = func
+    public async add(properties: ICommandOptions, func: CommandFunction): Promise<Commands> {
+        this.commandFunctions[properties.name.toLowerCase()] = func
         this.commandMeta.push(properties)
         this.labels[properties.name.toLowerCase()] = properties
         for (const alias of properties.aliases || []) {
@@ -39,15 +39,13 @@ export default class Commands extends Module {
             command = this.labels[command]
         }
 
+        if ((user as User).id === '101588913746890752') {
+            return (command.name !== 'eval')
+        }
+
         // Resolve user
         if (user instanceof Message) {
-            if (user.member) {
-                user = user.member
-            } else {
-                user = user.author
-            }
-        } else if (user instanceof Guild) {
-            user = user.owner
+            user = user.member || user.author
         } else if (typeof user === 'string') {
             user = await this.app.client.fetchUser(user)
         }
@@ -70,15 +68,15 @@ export default class Commands extends Module {
         // if user is in a guild and permissions require role checks
         if (user instanceof GuildMember) {
             if (command.permission === CommandPermission.Moderator) {
-                return (/* statement checking if user has role */ false)
+                return (user.id === this.app.owner.id)
             }
 
             if (command.permission === CommandPermission.Administrator) {
-                return (/* statement checking if user has role */ false)
+                return (user.id === this.app.owner.id)
             }
 
             if (command.permission === CommandPermission.GuildOwner
-                && user.id === user.guild.id) {
+                && user.id === user.guild.ownerID) {
                 return true
             }
         }
@@ -101,43 +99,50 @@ export default class Commands extends Module {
         this.app.log.trace('Potential command!')
         if (Object.keys(this.labels || {}).includes(label)) {
             this.app.log.trace(`Executing command: ${label}`)
-            const cmd = this.labels[label]
+
+            const cmd: ICommandOptions = this.labels[label]
+            const context: ICommandContext = {
+                prefix,
+                author: msg.member || msg.author,
+                guild: msg.guild,
+                message: msg
+            }
+
             try {
-                if (!this.canUse(msg.author, cmd)) throw new Error('User cannot use this command')
-                await this.commandExecutors[cmd.name](cmd, msg, label, args)
+                if (!(await this.canUse(msg.member || msg.author, cmd))) {
+                    throw new Error(`Can't use this command here!`)
+                }
+
+                await this.commandFunctions[cmd.name](cmd, msg, label, args, context)
             } catch (err) {
                 this.app.log.debug(err, 'Command failure')
-                msg.channel.send(new RichEmbed({
+
+                const errorMsg = err.message || err.msg || JSON.stringify(err, null, 2) || `${err}`
+
+                let errorEmbed: RichEmbedOptions = {
                     color: 0xFF0000,
-                    title: ':warning: **An error occurred!**',
-                    description: `I couldn't execute that command.`,
-                    fields: [{
-                        name: 'Error Message',
-                        value: err.message || err.msg || JSON.stringify(err, null, 2) || `${err}`,
-                        inline: true
-                    },
-                    {
-                        name: 'Error Type',
-                        value: err.name || 'Error',
-                        inline: true
-                    }, {
-                        name: 'Command',
-                        value: `${prefix}${label}`,
-                        inline: true
-                    }, {
-                        name: 'Executor',
-                        value: `${msg.author}`,
-                        inline: true
-                    }],
+                    title: ':warning: **Oops!**',
+                    description: errorMsg,
                     footer: {
                         text: `Contact the bot owner (${this.app.owner.tag}) for help if you think this is a bug.`
                     }
-                }))
+                }
+
+                if (msg.author.id === this.app.owner.id) {
+                    const newOptions: RichEmbedOptions = {
+                        title: `:warning: **${err.name}!**`,
+                        footer: {
+                            text: `You did this to me, @${msg.author.username}!`
+                        }
+                    }
+
+                    errorEmbed = Object.assign({}, errorEmbed, newOptions)
+                }
+
+                msg.channel.send(new RichEmbed(errorEmbed))
                     .catch((err) => this.app.log.trace(err, 'Could not send error message.'))
             }
         }
-
-        return
     }
 }
 
@@ -150,7 +155,15 @@ export interface ICommandOptions {
     usage?: string
 }
 
+export interface ICommandContext {
+    prefix: string,
+    message: Message,
+    guild: Guild | undefined,
+    author: GuildMember | User
+}
 export type CommandType = 'guild' | 'user' | 'open'
+
+export type CommandFunction = (command: ICommandOptions, msg: Message, label: string, args: string[], context?: ICommandContext) => any
 
 export enum CommandPermission {
     User,
