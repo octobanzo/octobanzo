@@ -21,19 +21,18 @@ export default class Utils extends Module {
             name: 'eval',
             aliases: ['evaluate', 'expression'],
             description: 'Evaluate a JavaScript expression.',
-            usage: '<expression>',
+            usage: '<expression...>',
             type: 'open',
             permission: CommandPermission.AppOwner
-        }, this.evalCommand.bind(this))
+        }, this.runEval.bind(this))
 
         app.commands.add({
             name: 'help',
             aliases: ['?'],
-            description: 'Get a list of commands and help with how to use them.',
-            usage: '[command]',
+            description: 'Get a list of available commands.',
             type: 'open',
             permission: CommandPermission.User
-        }, this.helpCommand.bind(this))
+        }, this.runHelp.bind(this))
 
         app.commands.add({
             name: 'spacify',
@@ -42,11 +41,11 @@ export default class Utils extends Module {
             usage: '<channel>',
             type: 'guild',
             permission: CommandPermission.Administrator
-        }, this.spacifyCommand.bind(this))
+        }, this.runSpacify.bind(this))
     }
 
-    private async helpCommand(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
-        const commandsPerPage = 7
+    private async runHelp(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
+        const commandsPerPage = 8
         const chunks: ICommandOptions[][] = Utilities.chunkArray(this.app.commands.commandMeta, commandsPerPage)
 
         for (let i = 0; i < chunks.length; i++) {
@@ -59,6 +58,10 @@ export default class Utils extends Module {
                 }
 
                 let cmdDescription = `${command.description || ''}`
+
+                if (command.usage) {
+                    cmdDescription += `\n_Usage: ${ctx.prefix}${command.name} ${command.usage}_`
+                }
 
                 if (command.aliases && command.aliases.length) {
                     cmdDescription += `\n_Also: ${ctx.prefix}${command.aliases.join(`, ${ctx.prefix}`)}_`
@@ -73,14 +76,18 @@ export default class Utils extends Module {
 
             try {
                 if (msg.channel.type === 'text') {
-                    (await msg.reply(`Check your DMs! Command help should arrive shortly. :mailbox_with_mail:`) as Message)
+                    msg.delete(3000)
+                        .catch(() => null)
+                        ;
+
+                    (await msg.channel.send(`Check your DMs ${msg.author}! Command help should arrive shortly. :mailbox_with_mail:`) as Message)
                         .delete(3500)
                         .catch(() => null)
                 }
 
                 await msg.author.send(new RichEmbed({
-                    title: 'Command help',
-                    description: `Page ${i + 1}\nThis reflects the commands you can use ${(msg.guild ? `in **${msg.guild.name}**` : 'here')}.`,
+                    title: `Commands - page ${i + 1}`,
+                    description: `All the commands you can use ${(msg.guild ? `in **${msg.guild.name}**` : 'here')}:`,
                     color: 0x0086FF,
                     fields
                 }))
@@ -98,10 +105,12 @@ export default class Utils extends Module {
                     throw err
                 }
             }
+
+            await Utilities.delay(350) // wait 350ms between pages, discord ratelimiting
         }
     }
 
-    private async spacifyCommand(cmd, msg, label, args): Promise<void> {
+    private async runSpacify(cmd, msg, label, args): Promise<void> {
         const channelMatchExpression = /(?:<#)?([0-9]{12,})>?/g
         const channels: any[] = []
 
@@ -143,7 +152,7 @@ export default class Utils extends Module {
         return
     }
 
-    private async evalCommand(cmd, msg, label, args): Promise<void> {
+    private async runEval(cmd, msg, label, args): Promise<void> {
         if (msg.author.id !== this.app.owner.id) { return }
 
         const evalString = args.join(' ')
