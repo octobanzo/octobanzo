@@ -49,11 +49,13 @@ export default class Bot {
             this.log.debug('Registering modules...')
             for (const mod of modulesList) {
                 this.log.trace(`Registering module ${mod.name}`)
+
                 const instance = new mod(this)
                 this.modules.add(instance)
 
                 if (mod.name === 'Commands') { this.commands = instance as Commands }
             }
+
             this.modules.init(this.client)
             this.log.info('Modules registered.')
         } catch (err) {
@@ -63,9 +65,11 @@ export default class Bot {
 
         try {
             this.log.debug('Connecting to Discord...')
+
             await this.client.login(conf('discord.token'))
         } catch (err) {
             this.log.error(err, 'Could not log into Discord!')
+
             return process.exit(1)
         }
 
