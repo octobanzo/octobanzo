@@ -32,7 +32,7 @@ const args = process.argv.slice(2);
     }
 )()
 
-function shutdown(app: Bot): never {
+function shutdown(app: Bot): Promise<never> {
     app.log.info('Shutting down')
 
     try {
