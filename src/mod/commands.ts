@@ -39,10 +39,6 @@ export default class Commands extends Module {
             command = this.labels[command]
         }
 
-        if ((user as User).id === '101588913746890752') {
-            return (command.name !== 'eval')
-        }
-
         // Resolve user
         if (user instanceof Message) {
             user = user.member || user.author
