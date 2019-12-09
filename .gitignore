@@ -1,6 +1,7 @@
 # Ignore all live config and logging files except default
 config/*
 !config/default.*
+!config/example.*
 log
 *.log
 
@@ -12,7 +13,6 @@ bin
 
 # Ignore configuration
 .env
-knexfile.js
 
 # Original artwork
 *.ai

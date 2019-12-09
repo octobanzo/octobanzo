@@ -42,6 +42,15 @@ export default class Utils extends Module {
             type: 'guild',
             permission: CommandPermission.Administrator
         }, this.runSpacify.bind(this))
+
+        app.commands.add({
+            name: 'prefix',
+            aliases: ['setprefix', 'getprefix'],
+            description: `Get or set the server's prefix`,
+            usage: '[prefix]',
+            type: 'open',
+            permission: CommandPermission.User
+        }, this.runPrefix.bind(this))
     }
 
     private async runHelp(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
@@ -110,7 +119,7 @@ export default class Utils extends Module {
         }
     }
 
-    private async runSpacify(cmd, msg, label, args): Promise<void> {
+    private async runSpacify(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
         const channelMatchExpression = /(?:<#)?([0-9]{12,})>?/g
         const channels: any[] = []
 
@@ -152,18 +161,56 @@ export default class Utils extends Module {
         return
     }
 
-    private async runEval(cmd, msg, label, args): Promise<void> {
+    private async runEval(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
         if (msg.author.id !== this.app.owner.id) { return }
 
         const evalString = args.join(' ')
         let output = `<NO OUTPUT GIVEN>`
 
         try {
-            output = eval(evalString) // tslint:disable-line:no-eval
+            output = await eval(evalString) // tslint:disable-line:no-eval
         } catch (err) {
             throw err
         }
 
         msg.channel.send(`Eval output\n\`\`\`${output}\`\`\``)
+    }
+
+    private async runPrefix(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
+        if (!(msg.author.id === this.app.owner.id)) {
+            throw new Error('this command is not ready')
+        }
+
+        if (msg.guild && (args.length > 0 || label === 'setprefix')) {
+            try {
+                const newPrefix = args.join(' ')
+                await this.setPrefix(newPrefix, ctx)
+                ctx.message.reply(`Updated prefix to **${newPrefix.replace('*', '\\*')}**`)
+            } catch (err) {
+                throw err
+            }
+        }
+
+        return
+    }
+
+    private async setPrefix(newPrefix: string = '', ctx: ICommandContext): Promise<any> {
+        if (newPrefix !== ctx.prefix) {
+            try {
+                await this.app.database.knex('guilds')
+                    .where({ discord_id: ctx.guild.id })
+                    .update({ prefix: newPrefix })
+            } catch (err) {
+                try {
+                    await this.app.database.knex('guilds')
+                        .insert({
+                            discord_id: ctx.guild.id,
+                            prefix: newPrefix
+                        })
+                } catch (err) {
+                    throw err
+                }
+            }
+        }
     }
 }

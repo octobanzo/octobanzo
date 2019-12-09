@@ -33,7 +33,7 @@ export default class Commands extends Module {
         return this
     }
 
-    public async canUse(user: UserResolvable, command: ICommandOptions | string): Promise<boolean> {
+    public async canUse(user: User | GuildMember, command: ICommandOptions | string): Promise<boolean> {
         // if label is provided, get command object
         if (typeof command === 'string') {
             command = this.labels[command]
@@ -42,9 +42,9 @@ export default class Commands extends Module {
         // Resolve user
         if (user instanceof Message) {
             user = user.member || user.author
-        } else if (typeof user === 'string') {
-            user = await this.app.client.fetchUser(user)
         }
+
+        console.log('user resolved')
 
         // check if command type is guild, then if user is guild member
         if (command.type === 'guild'
@@ -52,22 +52,30 @@ export default class Commands extends Module {
             return false
         }
 
+        console.log('passed guild test')
+
         if (command.permission === CommandPermission.User) {
             return true
         }
 
+        console.log('failed user test')
+
         if (command.permission === CommandPermission.AppOwner
             && user.id === this.app.owner.id) {
+
+            console.log('passed owner test')
             return true
         }
 
         // if user is in a guild and permissions require role checks
         if (user instanceof GuildMember) {
             if (command.permission === CommandPermission.Moderator) {
+                // bypass app owner until role checks exist
                 return (user.id === this.app.owner.id)
             }
 
             if (command.permission === CommandPermission.Administrator) {
+                // bypass app owner until role checks exist
                 return (user.id === this.app.owner.id)
             }
 
@@ -86,6 +94,21 @@ export default class Commands extends Module {
         }
 
         const prefix = this.defaultPrefix
+        const db = this.app.database.knex
+
+        if (msg.guild) {
+            try {
+                const res = db('guilds')
+                    .where({
+                        discord_id: msg.guild.id
+                    })
+                    .select('prefix')
+
+                console.log(JSON.stringify(res, null, 2))
+            } catch (err) {
+                null
+            }
+        }
 
         if (!msg.content.startsWith(prefix)) { return }
 
@@ -93,7 +116,8 @@ export default class Commands extends Module {
         const label: string = args.shift().slice(prefix.length).toLowerCase()
 
         this.app.log.trace('Potential command!')
-        if (Object.keys(this.labels || {}).includes(label)) {
+
+        if (Object.keys(this.labels).includes(label)) {
             this.app.log.trace(`Executing command: ${label}`)
 
             const cmd: ICommandOptions = this.labels[label]

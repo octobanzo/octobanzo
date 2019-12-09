@@ -26,10 +26,10 @@ export default class Moderation extends Module {
             aliases: ['warnings', 'unwarn'],
             type: 'guild',
             permission: CommandPermission.Moderator
-        }, this.warnCommand.bind(this))
+        }, this.runWarn.bind(this))
     }
 
-    private async warnCommand(cmd: ICommandOptions, msg: Message, label: string, args: string[]): Promise<void> {
+    private async runWarn(cmd: ICommandOptions, msg: Message, label: string, args: string[]): Promise<void> {
         if (msg.author.id !== this.app.owner.id) return
 
         // warn logic; waiting for database implementation
