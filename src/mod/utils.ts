@@ -142,7 +142,7 @@ export default class Utils extends Module {
                         throw new Error('No dashes in channel name')
                     }
 
-                    const oldName = `${channel.name} `
+                    const oldName = `${channel.name}`
 
                     try {
                         await channel.setName(oldName.replace('-', `\u2009\u2009`))
