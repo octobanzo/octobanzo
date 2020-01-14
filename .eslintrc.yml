@@ -1,16 +1,21 @@
+# Imported settings - migrated from TSLint
 env:
-  es6: true
   node: true
-extends: 'eslint:recommended'
+extends:
+  - eslint:recommended
+parser: "@typescript-eslint/parser"
 parserOptions:
-  ecmaVersion: 2017
+  project: tsconfig.json
   sourceType: module
+plugins:
+  - "@typescript-eslint"
+  - "@typescript-eslint/tslint"
 rules:
   indent:
-    - error
+    - warn
     - 4
   linebreak-style:
-    - error
+    - warn
     - unix
   quotes:
     - warn
@@ -20,3 +25,16 @@ rules:
     - never
   no-console:
     - off
+  "@typescript-eslint/indent":
+    - warn
+    - 4
+    - FunctionDeclaration:
+        parameters: first
+      FunctionExpression:
+        parameters: first
+  "@typescript-eslint/semi":
+    - error
+    - never
+  "@typescript-eslint/quotes":
+    - error
+    - single
