@@ -20,4 +20,3 @@ rules:
     - never
   no-console:
     - off
-# 
