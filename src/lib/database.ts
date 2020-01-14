@@ -29,7 +29,7 @@ export default class Database {
             versionQuery = await this.knex.raw('select version()')
             await this.knex.migrate.latest()
         } catch (err) {
-            this.app.log.error(err, 'Couldn\'t fetch databse version')
+            this.app.log.error(err, 'Couldn\'t fetch database version')
             process.exit(1)
         }
         const version = versionQuery[0][0]['version()']
