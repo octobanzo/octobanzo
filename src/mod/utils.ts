@@ -34,21 +34,22 @@ export default class Utils extends Module {
             permission: CommandPermission.User
         }, this.runHelp.bind(this))
 
-        app.commands.add({
-            name: 'spacify',
-            aliases: ['spaceme', 'space'],
-            description: 'Add spaces to a channel\'s name',
-            usage: '<channel>',
-            type: 'guild',
-            permission: CommandPermission.Administrator
-        }, this.runSpacify.bind(this))
+        // * Disabled because Discord is silently disallowing it at the API level
+        // app.commands.add({
+        //     name: 'spacify',
+        //     aliases: ['spaceme', 'space'],
+        //     description: 'Add spaces to a channel\'s name',
+        //     usage: '<channel>',
+        //     type: 'guild',
+        //     permission: CommandPermission.Administrator
+        // }, this.runSpacify.bind(this))
 
         app.commands.add({
             name: 'prefix',
             aliases: ['setprefix', 'getprefix'],
             description: `Get or set the server's prefix`,
             usage: '[prefix]',
-            type: 'open',
+            type: 'guild',
             permission: CommandPermission.User
         }, this.runPrefix.bind(this))
     }
@@ -119,11 +120,16 @@ export default class Utils extends Module {
         }
     }
 
+    /**
+     * Change hyphens in channel name to fake spaces.
+     * Deprecared: Discord seems to be preventing this.
+     * @deprecated
+     */
     private async runSpacify(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
         const channelMatchExpression = /(?:<#)?([0-9]{12,})>?/g
         const channels: any[] = []
 
-        if (args.length >= 1) {
+        if (args.length > 0) {
             for (const arg of args) {
                 const match = channelMatchExpression.exec(arg)
 
@@ -178,7 +184,7 @@ export default class Utils extends Module {
 
     private async runPrefix(cmd: ICommandOptions, msg: Message, label: string, args: string[], ctx: ICommandContext): Promise<void> {
         if (!(msg.author.id === this.app.owner.id)) {
-            throw new Error('this command is not ready')
+            throw new Error('this command is still in development!')
         }
 
         if (msg.guild && (args.length > 0 || label === 'setprefix')) {
@@ -197,16 +203,16 @@ export default class Utils extends Module {
     private async setPrefix(newPrefix: string = '', ctx: ICommandContext): Promise<any> {
         if (newPrefix !== ctx.prefix) {
             try {
-                await this.app.database.knex('guilds')
-                    .where({ discord_id: ctx.guild.id })
-                    .update({ prefix: newPrefix })
+                // await this.app.database.knex('guilds')
+                //     .where({ discord_id: ctx.guild.id })
+                //     .update({ prefix: newPrefix })
             } catch (err) {
                 try {
-                    await this.app.database.knex('guilds')
-                        .insert({
-                            discord_id: ctx.guild.id,
-                            prefix: newPrefix
-                        })
+                    // await this.app.database.knex('guilds')
+                    //     .insert({
+                    //         discord_id: ctx.guild.id,
+                    //         prefix: newPrefix
+                    //     })
                 } catch (err) {
                     throw err
                 }
