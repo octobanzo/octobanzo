@@ -44,7 +44,7 @@ export default class Commands extends Module {
             user = user.member || user.author
         }
 
-        console.log('user resolved')
+        this.app.log.trace('Commands', 'User resolved')
 
         // check if command type is guild, then if user is guild member
         if (command.type === 'guild'
@@ -52,18 +52,18 @@ export default class Commands extends Module {
             return false
         }
 
-        console.log('passed guild test')
+        this.app.log.trace('Commands', 'Guild perm test passed')
 
         if (command.permission === CommandPermission.User) {
             return true
         }
 
-        console.log('failed user test')
+        this.app.log.trace('Commands', 'User perm test failed')
 
         if (command.permission === CommandPermission.AppOwner
             && user.id === this.app.owner.id) {
 
-            console.log('passed owner test')
+            this.app.log.trace('Commands', 'Owner perm test passed')
             return true
         }
 
@@ -94,17 +94,17 @@ export default class Commands extends Module {
         }
 
         const prefix = this.defaultPrefix
-        const db = this.app.database.knex
+        // const db = this.app.database.knex
 
         if (msg.guild) {
             try {
-                const res = db('guilds')
-                    .where({
-                        discord_id: msg.guild.id
-                    })
-                    .select('prefix')
+                // const res = db('guilds')
+                //     .where({
+                //         discord_id: msg.guild.id
+                //     })
+                //     .select('prefix')
 
-                console.log(JSON.stringify(res, null, 2))
+                // console.log(JSON.stringify(res, null, 2))
             } catch (err) {
                 null
             }
@@ -115,7 +115,7 @@ export default class Commands extends Module {
         const args = msg.content.split(' ')
         const label: string = args.shift().slice(prefix.length).toLowerCase()
 
-        this.app.log.trace('Potential command!')
+        this.app.log.trace('Potential command!', { label })
 
         if (Object.keys(this.labels).includes(label)) {
             this.app.log.trace(`Executing command: ${label}`)
