@@ -6,6 +6,13 @@ nlp:
   results_channel: NLP_LOG_CHANNEL_ID # Master NLP logs channel
   test_channel: NLP_TEST_CHANNEL_ID # FOR TESTING: Print NLP results in this channel
   restrict: true # Only use NLP in test_channel?
+database:
+  host: DB_HOSTNAME_OR_IP
+  port: DB_PORT
+  db: DB_NAME
+  username: DB_USER_NAME
+  password: DB_PASS
+  auth_source: admin
 commands:
   default_prefix: "!"
 moderation:

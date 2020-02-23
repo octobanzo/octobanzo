@@ -4,6 +4,7 @@
 
 discord:
   token: DISCORD_BOT_TOKEN
+  ownerID: OWNER_USER_ID # team-owned bots will want this!
 nlp:
   enable: false
   wit_token: WIT_SERVER_TOKEN
@@ -11,6 +12,13 @@ nlp:
   restrict: true # Restrict NLP to test_channel only?
   test_channel: NLP_TEST_CHANNEL_ID # Bot will print results to user
   results_channel: NLP_LOG_CHANNEL_ID
+database:
+  host: DB_HOSTNAME_OR_IP
+  port: DB_PORT
+  db: DB_NAME
+  username: DB_USER_NAME
+  password: DB_PASS
+  auth_source: admin
 commands:
   default_prefix: "!"
 moderation:
@@ -27,13 +35,6 @@ moderation:
     guild_id: UNBAN_GUILD_ID
 logging:
   file: false # Disables console logging if set true
-database:
-  client: mysql2
-  connection:
-    host: DB_HOST
-    user: DB_USER
-    password: DB_PASS
-    database: DB_NAME
 other:
   log_guilds: # Log guilds/guild count on startup?
     enable: true

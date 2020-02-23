@@ -31,8 +31,12 @@ export default class Bot {
         this.init()
     }
 
+    public async stop(exitCode: number = 0): Promise<void> {
+        return process.exit(exitCode)
+    }
+
     private async init(): Promise<void> {
-        this.log.info('Bot started.')
+        this.log.info('Bot starting, please wait')
 
         this.client.on('ready', async () => {
             this.user = this.client.user
@@ -40,7 +44,8 @@ export default class Bot {
 
             this.owner = (await this.client.fetchApplication()).owner
 
-            this.database = new Database(this)
+            if (this.owner.discriminator === '0000' === this.owner.username.startsWith('team'))
+                this.owner = await this.client.fetchUser(conf('discord.ownerID'))
 
             this.modules.postInit()
         })
@@ -48,6 +53,9 @@ export default class Bot {
         this.client.on('error', async (err: Error) => {
             this.log.error(err, `Client error!`)
         })
+
+        this.database = new Database(this)
+        await this.database.setup()
 
         try {
             this.log.debug('Connecting to Discord...')
@@ -57,7 +65,7 @@ export default class Bot {
                 .catch(null)
         } catch (err) {
             this.log.error(err, 'Could not log into Discord!')
-            return process.exit(1)
+            return this.stop(1)
         }
 
         try {
@@ -76,7 +84,7 @@ export default class Bot {
             this.log.info('Modules registered.')
         } catch (err) {
             this.log.error(err, 'Error setting up modules.')
-            return process.exit(1)
+            return this.stop(1)
         }
 
         this.client.user.setStatus('online')
