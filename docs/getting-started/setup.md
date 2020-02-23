@@ -5,12 +5,12 @@ description: It's easy to get Octobanzo up and running in your server.
 # Setup
 
 {% hint style="danger" %}
-The ability to add Octobanzo to servers has been disabled temporarily.  [Why?](../message-processing.md)
+The ability to add Octobanzo to servers has been disabled temporarily. [Why?](../message-processing.md)
 {% endhint %}
 
-Please contact **Haden\#7219** on Discord to add the bot to your server.
+Please contact **OKhando\#8416** on Discord to add the bot to your server.
 
-## Step 1. Invite Octobanzo <a id="step-1"></a>
+## Step 1. Invite Octobanzo  <a id="step-1"></a>
 
 {% hint style="info" %}
 If you've done this sort of thing before, click "**Invite**" at the top of the page and [skip to step 2](setup.md#step-2).
@@ -26,7 +26,7 @@ If you've done this sort of thing before, click "**Invite**" at the top of the p
 You're good to go! Head on to step 2 to get started with setup.
 {% endhint %}
 
-## Step 2. Setup <a id="step-2"></a>
+## Step 2. Setup  <a id="step-2"></a>
 
 _Coming soon._
 
