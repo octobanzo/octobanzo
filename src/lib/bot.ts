@@ -10,7 +10,6 @@ import { ModuleManager } from './modules'
 export default class Bot {
     public client: Discord.Client
     public database: Database
-    public db
     public user: Discord.ClientUser
     public log: pino.Logger
     public modules: ModuleManager
@@ -42,7 +41,6 @@ export default class Bot {
             this.owner = (await this.client.fetchApplication()).owner
 
             this.database = new Database(this)
-            this.db = this.database.knex
 
             this.modules.postInit()
         })
