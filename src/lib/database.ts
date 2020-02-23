@@ -20,7 +20,6 @@ export default class Database {
         this.connectUrl += `${encodeURIComponent(conf('database.username'))}:${encodeURIComponent(conf('database.password'))}@`
         this.connectUrl += `${conf('database.host')}:${conf('database.port')}`
         this.connectUrl += `/${conf('database.db')}`
-        this.connectUrl += `?authSource=${encodeURIComponent(conf('database.auth_source'))}`
     }
 
     public async setup(): Promise<void> {
@@ -35,14 +34,14 @@ export default class Database {
             )
             this.app.log.info('Database connected.')
         } catch (err) {
-            this.app.log.fatal(err, 'Could not connect to database')
+            this.app.log.fatal(err, 'Could not connect to database.')
             this.app.stop()
             return
         }
 
         return
 
-        // bot will connect to discord AFTER this point. do not do any bot user operations now
+        //! bot will connect to discord AFTER this point. do not do any bot user operations now
     }
 
     public async cacheGuild(context: ICommandContext): Promise<void> {
