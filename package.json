@@ -43,6 +43,7 @@
         "discord.js": "^11.5.1",
         "dotenv": "^6.2.0",
         "js-yaml": "^3.13.1",
+        "mongoose": "^5.9.2",
         "node-wit": "^5.0.0",
         "pino": "^5.11.1",
         "typescript": "^3.3.3333"
