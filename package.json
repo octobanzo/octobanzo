@@ -6,13 +6,14 @@
     "license": "MS-PL",
     "author": "hadenpf",
     "scripts": {
-        "start": "node -r dotenv/config bin/run.js production",
-        "start:noenv": "node -r dotenv/config bin/run.js",
-        "debug": "nodemon -r dotenv/config bin/run.js development",
+        "start": "node bin/run.js production",
+        "start:noenv": "node bin/run.js",
+        "debug": "nodemon bin/run.js development",
         "build": "tsc",
         "build:w": "tsc -w"
     },
     "dependencies": {
+        "config": "^3.3.1",
         "discord.js": "^11.5.1",
         "dotenv": "^6.2.0",
         "js-yaml": "^3.13.1",
