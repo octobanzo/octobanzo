@@ -14,8 +14,8 @@ import Utils from './utils'
 
 // Full export:
 export default [
-    Commands, // load this first! a lot of other modules will depend on it.
-    Language, // load after Commands. depends on it!
-    Moderation, // load after Language. depends on it!
-    Utils
+	Commands, // load this first! a lot of other modules will depend on it.
+	Language, // load after Commands. depends on it!
+	Moderation, // load after Language. depends on it!
+	Utils
 ]
