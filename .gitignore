@@ -1,18 +1,16 @@
-# Ignore all live config and logging files except default
-config/*
-!config/default.*
-!config/example.*
-log
-*.log
+# Generated files
+bin
+*.log 
 
-# Ignore all installed node modules. use npm i to install from package.json
+
+# WHY
 node_modules
 
-# Ignore all compiled source. use tsc to build from tsconfig.json
-bin
 
-# Ignore configuration
-.env
+# Local configuration (y'know, secrets and all that)
+/.env.*
+!.env.default
 
-# Original artwork
-*.ai
+/config/*
+!/config/default.yml
+!/config/default.*.yml
