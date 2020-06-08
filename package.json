@@ -3,28 +3,23 @@
     "version": "0.0.1",
     "description": "A better Discord bot",
     "main": "bin/run.js",
-    "scripts": {
-        "start": "node -r dotenv/config bin/run.js",
-        "debug": "yarn run nodemon -r dotenv/config bin/run.js development",
-        "production": "node -r dotenv/config bin/run.js production"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/hadenpf/octobanzo.git"
-    },
-    "keywords": [
-        "discord",
-        "bot",
-        "framework",
-        "bot framework",
-        "discord bot"
-    ],
-    "author": "hadenpf",
     "license": "MS-PL",
-    "bugs": {
-        "url": "https://github.com/hadenpf/octobanzo/issues"
+    "author": "hadenpf",
+    "scripts": {
+        "start": "node -r dotenv/config bin/run.js production",
+        "start:noenv": "node -r dotenv/config bin/run.js",
+        "debug": "nodemon -r dotenv/config bin/run.js development",
+        "build": "tsc",
+        "build:w": "tsc -w"
     },
-    "homepage": "https://github.com/hadenpf/octobanzo#readme",
+    "dependencies": {
+        "discord.js": "^11.5.1",
+        "dotenv": "^6.2.0",
+        "js-yaml": "^3.13.1",
+        "node-wit": "^6.0.0",
+        "pino": "^5.11.1",
+        "typescript": "^3.3.3333"
+    },
     "devDependencies": {
         "@types/config": "0.0.34",
         "@types/debug": "^4.1.1",
@@ -34,20 +29,12 @@
         "@types/node-wit": "^4.2.2",
         "@types/pino": "^5.8.5",
         "@types/source-map-support": "^0.5.0",
+        "@typescript-eslint/eslint-plugin": "^3.1.0",
+        "@typescript-eslint/parser": "^3.1.0",
         "eslint": "^5.8.0",
         "nodemon": "^1.18.11",
         "source-map-support": "^0.5.10",
         "tslint": "^5.11.0"
-    },
-    "dependencies": {
-        "config": "^3.0.1",
-        "discord.js": "^11.5.1",
-        "dotenv": "^6.2.0",
-        "js-yaml": "^3.13.1",
-        "mongoose": "^5.9.2",
-        "node-wit": "^5.0.0",
-        "pino": "^5.11.1",
-        "typescript": "^3.3.3333"
     },
     "optionalDependencies": {
         "pino-pretty": "^3.2.0",

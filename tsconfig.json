@@ -5,14 +5,19 @@
             "es6"
         ],
         "removeComments": true,
-        "inlineSourceMap": false,
-        "sourceMap": true,
         "module": "commonjs",
+        "declaration": false,
+        "pretty": false,
+        "allowJs": false,
+        "inlineSourceMap": true,
         "moduleResolution": "node",
-        "declaration": true,
-        "pretty": false
+        "allowSyntheticDefaultImports": true
     },
     "include": [
         "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.test.ts*"
     ]
 }

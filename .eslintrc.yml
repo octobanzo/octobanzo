@@ -1,40 +1,34 @@
-# Imported settings - migrated from TSLint
-env:
-  node: true
-extends:
-  - eslint:recommended
+root: true
 parser: "@typescript-eslint/parser"
-parserOptions:
-  project: tsconfig.json
-  sourceType: module
+env:
+    node: true
 plugins:
-  - "@typescript-eslint"
-  - "@typescript-eslint/tslint"
+    - "@typescript-eslint"
+extends:
+    - "eslint:recommended"
+    - "plugin:@typescript-eslint/eslint-recommended"
+    - "plugin:@typescript-eslint/recommended"
 rules:
-  indent:
-    - warn
-    - 4
-  linebreak-style:
-    - warn
-    - unix
-  quotes:
-    - warn
-    - single
-  semi:
-    - warn
-    - never
-  no-console:
-    - off
-  "@typescript-eslint/indent":
-    - warn
-    - 4
-    - FunctionDeclaration:
-        parameters: first
-      FunctionExpression:
-        parameters: first
-  "@typescript-eslint/semi":
-    - error
-    - never
-  "@typescript-eslint/quotes":
-    - error
-    - single
+    indent:
+        - warn
+        - tab
+    semi:
+        - warn
+        - never
+    quotes:
+        - warn
+        - single
+    no-unused-vars:
+        - warn
+        - vars: local
+          args: none
+    "@typescript-eslint/no-unused-vars":
+        - warn
+        - vars: local
+          args: none
+    no-use-before-define:
+        - off
+    "@typescript-eslint/no-use-before-define":
+        - off
+    "@typescript-eslint/no-explicit-any":
+        - off
