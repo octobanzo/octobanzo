@@ -1,7 +1,6 @@
 import { get as conf } from 'config'
-import { Guild, GuildMember, Message, RichEmbed, RichEmbedOptions, User, UserResolvable } from 'discord.js'
+import { Guild, GuildMember, Message, RichEmbed, RichEmbedOptions, User } from 'discord.js'
 import Bot from '../lib/bot'
-import Logger from '../lib/logging'
 import { Module } from '../lib/modules'
 
 export default class Commands extends Module {

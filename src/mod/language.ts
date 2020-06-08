@@ -95,7 +95,7 @@ export default class Language extends Module {
 		this.app.log.trace('Analyzing message...')
 		// now let's analyze the message
 		const understanding = await this.understand(msg.content
-			.replace(/[\*\_\|\`\~]+/gi, ''), {
+			.replace(/[*_|`~]+/gi, ''), {
 			// state: [msg.author.id],
 		})
 		this.app.log.trace('Got response from wit!')
