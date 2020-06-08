@@ -2,7 +2,6 @@
 
 **A powerful bot for [Discord](https://discordapp.com), powered by machine learning.**
 
-[![Code Quality](https://img.shields.io/codacy/grade/4c1262cd0d7648e49ede04da9d478c1d.svg?logo=codacy&style=flat)](https://app.codacy.com/app/hadenpf/octobanzo)
 ![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhadenpf%2Foctobanzo.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhadenpf%2Foctobanzo?ref=badge_shield)
 
