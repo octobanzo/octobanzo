@@ -15,7 +15,6 @@
     "dependencies": {
         "config": "^3.3.1",
         "discord.js": "^11.5.1",
-        "dotenv": "^6.2.0",
         "js-yaml": "^3.13.1",
         "knex": "^0.21.1",
         "mysql2": "^2.1.0",
