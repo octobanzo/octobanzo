@@ -12,7 +12,7 @@ export default class Language extends Module {
 	constructor(app: Bot) {
 		super({
 			requiredSettings: 'nlp.enable',
-			version: '0.1.0-dev',
+			version: '0.1.0-dev'
 		})
 
 		this.app = app
@@ -36,22 +36,30 @@ export default class Language extends Module {
 
 		// What is the intent?
 		if (data.intent) {
-			reply += `Intent: **${data.intent[0].value}** (${Language.accuracy(data.intent[0].confidence)}%)\n`
+			reply += `Intent: **${data.intent[0].value}** (${Language.accuracy(
+				data.intent[0].confidence
+			)}%)\n`
 		}
 
 		// Is it an insult?
 		if (data.insult) {
-			reply += `Insult: **${data.insult[0].value}** (${Language.accuracy(data.insult[0].confidence)}%)\n`
+			reply += `Insult: **${data.insult[0].value}** (${Language.accuracy(
+				data.insult[0].confidence
+			)}%)\n`
 		}
 
 		// Does it target someone?
 		if (data.contact) {
-			reply += `Target: **${data.contact[0].value}** (${Language.accuracy(data.contact[0].confidence)}%)\n`
+			reply += `Target: **${data.contact[0].value}** (${Language.accuracy(
+				data.contact[0].confidence
+			)}%)\n`
 		}
 
 		// Detection of sentiment
 		if (data.sentiment) {
-			reply += `Sentiment: **${data.sentiment[0].value}** (${Language.accuracy(data.sentiment[0].confidence)}%)\n`
+			reply += `Sentiment: **${data.sentiment[0].value}** (${Language.accuracy(
+				data.sentiment[0].confidence
+			)}%)\n`
 		}
 
 		// Is it a hello?
@@ -61,7 +69,9 @@ export default class Language extends Module {
 
 		// Does it mention the bot?
 		if (data.mentions_bot) {
-			reply += `Mentions bot: **yes** (${Language.accuracy(data.mentions_bot[0].confidence)}%)\n`
+			reply += `Mentions bot: **yes** (${Language.accuracy(
+				data.mentions_bot[0].confidence
+			)}%)\n`
 		}
 
 		// If there's no data, soulja boy tell 'em
@@ -72,30 +82,33 @@ export default class Language extends Module {
 		return reply
 	}
 
-	public async understand(message: string, context?: WitContext): Promise<MessageResponse> {
+	public async understand(
+		message: string,
+		context?: WitContext
+	): Promise<MessageResponse> {
 		return this.wit.message(message, context || {})
 	}
 
 	public async postInit(): Promise<void> {
 		if (conf('nlp.results_channel')) {
-			this.nlpLogChannel = this.app.client.channels.get(conf('nlp.results_channel')) as TextChannel
+			this.nlpLogChannel = this.app.client.channels.get(
+				conf('nlp.results_channel')
+			) as TextChannel
 		}
 		return
 	}
 
 	private async handleMessage(msg: Message): Promise<MessageResponse> {
 		// ignore all bot and ignore-char-starting messages
-		if (msg.author.bot
-			|| msg.content.startsWith(conf('nlp.ignore_prefix') || null)) return
+		if (msg.author.bot || msg.content.startsWith(conf('nlp.ignore_prefix') || null))
+			return
 
 		// if in NLP-restricted mode, only analyze messages in test channel
-		if (conf('nlp.restrict')
-			&& msg.channel.id !== conf('nlp.test_channel')) return
+		if (conf('nlp.restrict') && msg.channel.id !== conf('nlp.test_channel')) return
 
 		this.app.log.trace('Analyzing message...')
 		// now let's analyze the message
-		const understanding = await this.understand(msg.content
-			.replace(/[*_|`~]+/gi, ''), {
+		const understanding = await this.understand(msg.content.replace(/[*_|`~]+/gi, ''), {
 			// state: [msg.author.id],
 		})
 		this.app.log.trace('Got response from wit!')
@@ -103,7 +116,9 @@ export default class Language extends Module {
 		// send raw response to master logs, if any
 		if (this.nlpLogChannel) {
 			this.app.log.trace(`Sending understanding for message ${msg.id} to master logs`)
-			this.nlpLogChannel.send(`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``)
+			this.nlpLogChannel.send(
+				`\`\`\`json\n${JSON.stringify(understanding, null, 2)}\`\`\``
+			)
 		}
 
 		// if it's in test channel, show response

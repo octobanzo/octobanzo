@@ -9,12 +9,15 @@
 [![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo.hflet.ch)
 
 ## Language Processing
+
 Octobanzo does language processing via [wit.ai](https://wit.ai), using the `node-wit` library. More info on the [website](https://octobanzo.hflet.ch).
 
 ## License
+
 Octobanzo is released under the Microsoft Public License (MS-PL).
 
 Read the full license in the [LICENSE](https://github.com/hadenpf/octobanzo/blob/master/LICENSE) file.
 
 ## Thank you
+
 I sincerely thank you for your interest in Octobanzo, seeing as it's been an extremely fun project for me to put together.

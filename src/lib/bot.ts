@@ -22,10 +22,7 @@ export default class Bot {
 
 		this.client = new Discord.Client({
 			disableEveryone: true,
-			disabledEvents: [
-				'PRESENCE_UPDATE',
-				'TYPING_START',
-			],
+			disabledEvents: ['PRESENCE_UPDATE', 'TYPING_START']
 		})
 
 		this.init()
@@ -51,7 +48,10 @@ export default class Bot {
 
 			this.owner = (await this.client.fetchApplication()).owner
 
-			if (this.owner.discriminator === '0000' === this.owner.username.startsWith('team'))
+			if (
+				(this.owner.discriminator === '0000') ===
+				this.owner.username.startsWith('team')
+			)
 				this.owner = await this.client.fetchUser(conf('discord.ownerID'))
 
 			try {
@@ -63,7 +63,9 @@ export default class Bot {
 					const instance = new mod(this)
 					this.modules.add(instance)
 
-					if (mod.name === 'Commands') { this.commands = instance as Commands }
+					if (mod.name === 'Commands') {
+						this.commands = instance as Commands
+					}
 				}
 
 				this.modules.init(this.client)
@@ -73,8 +75,7 @@ export default class Bot {
 				return this.stop(1)
 			}
 
-			this.client.user.setStatus('online')
-				.catch(null)
+			this.client.user.setStatus('online').catch(null)
 
 			this.modules.postInit()
 		})
@@ -83,8 +84,7 @@ export default class Bot {
 			this.log.debug('Connecting to Discord...')
 
 			await this.client.login(conf('discord.token'))
-			this.client.user.setStatus('idle')
-				.catch(null)
+			this.client.user.setStatus('idle').catch(null)
 		} catch (err) {
 			this.log.error(err, 'Could not log into Discord!')
 			return this.stop(1)

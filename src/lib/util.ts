@@ -20,7 +20,7 @@ export default class Utilities {
 	 * Convert a time (in ms) to other elements.
 	 * @param time Time to convert, in milliseconds.
 	 */
-	public static convertTime(time: number): { days, hours, minutes, seconds } {
+	public static convertTime(time: number): { days; hours; minutes; seconds } {
 		let seconds = Math.floor(time / 1000)
 		let minutes = Math.floor(seconds / 60)
 		seconds = seconds % 60
@@ -36,13 +36,21 @@ export default class Utilities {
 		}
 	}
 
-	public static formatTime(time: { days, hours, minutes, seconds }): string {
+	public static formatTime(time: { days; hours; minutes; seconds }): string {
 		const response = []
 
-		if (time.days) { response.push(`${time.days} days`) }
-		if (time.hours) { response.push(`${time.hours} hours`) }
-		if (time.minutes) { response.push(`${time.minutes} minutes`) }
-		if (time.seconds) { response.push(`${time.seconds} seconds`) }
+		if (time.days) {
+			response.push(`${time.days} days`)
+		}
+		if (time.hours) {
+			response.push(`${time.hours} hours`)
+		}
+		if (time.minutes) {
+			response.push(`${time.minutes} minutes`)
+		}
+		if (time.seconds) {
+			response.push(`${time.seconds} seconds`)
+		}
 
 		// Join together with commas, adding "and" before last one
 		return response.join(', ').replace(/, ([^,]*)$/, ', and $1')

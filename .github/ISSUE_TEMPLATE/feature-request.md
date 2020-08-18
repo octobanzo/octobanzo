@@ -1,10 +1,9 @@
 ---
 name: Feature Request
 about: Add an idea for the project
-title: "[Idea] "
+title: '[Idea] '
 labels: enhancement
 assignees: ''
-
 ---
 
 **The problem:**

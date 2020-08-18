@@ -23,11 +23,11 @@ export class ModuleManager {
 			if (module.Handlers) {
 				for (const eventName in module.Handlers) {
 					// if an array for this event doesn't exist, create one before trying to push
-					if (!this.handlers[eventName]) { this.handlers[eventName] = [] }
+					if (!this.handlers[eventName]) {
+						this.handlers[eventName] = []
+					}
 					for (const handler of module.Handlers[eventName]) {
-						this.handlers[eventName].push(
-							handler.bind(module)
-						)
+						this.handlers[eventName].push(handler.bind(module))
 					}
 				}
 			}
@@ -95,16 +95,14 @@ export class Module {
 		// check for required options to enable
 		try {
 			if (typeof options.requiredSettings === 'string') {
-				this.Enabled = conf(options.requiredSettings)
-					? true
-					: false
+				this.Enabled = conf(options.requiredSettings) ? true : false
 			} else if (isArray(options.requiredSettings)) {
 				let enable = true
 				for (const option of options.requiredSettings) {
-					if (!enable) { break }
-					enable = (conf(option) === true)
-						? true
-						: false
+					if (!enable) {
+						break
+					}
+					enable = conf(option) === true ? true : false
 				}
 				this.Enabled = enable
 			} else if (!options.requiredSettings) {
@@ -130,7 +128,9 @@ export class Module {
 		getting upset about debugging. It ended up being something in ModuleManager
 		that was broken, not here. */
 	protected handle(event: string, func: (...args: any[]) => any): void {
-		if (!this.Handlers[event]) { this.Handlers[event] = [] }
+		if (!this.Handlers[event]) {
+			this.Handlers[event] = []
+		}
 		this.Handlers[event].push(func)
 	}
 }

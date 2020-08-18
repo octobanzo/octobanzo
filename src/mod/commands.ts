@@ -1,5 +1,12 @@
 import { get as conf } from 'config'
-import { Guild, GuildMember, Message, RichEmbed, RichEmbedOptions, User } from 'discord.js'
+import {
+	Guild,
+	GuildMember,
+	Message,
+	RichEmbed,
+	RichEmbedOptions,
+	User
+} from 'discord.js'
 import Bot from '../lib/bot'
 import { Module } from '../lib/modules'
 
@@ -22,7 +29,10 @@ export default class Commands extends Module {
 		this.handle('message', this.handleMessage)
 	}
 
-	public async add(properties: ICommandOptions, func: CommandFunction): Promise<Commands> {
+	public async add(
+		properties: ICommandOptions,
+		func: CommandFunction
+	): Promise<Commands> {
 		this.commandFunctions[properties.name.toLowerCase()] = func
 		this.commandMeta.push(properties)
 		this.labels[properties.name.toLowerCase()] = properties
@@ -32,7 +42,10 @@ export default class Commands extends Module {
 		return this
 	}
 
-	public async canUse(user: User | GuildMember, command: ICommandOptions | string): Promise<boolean> {
+	public async canUse(
+		user: User | GuildMember,
+		command: ICommandOptions | string
+	): Promise<boolean> {
 		// if label is provided, get command object
 		if (typeof command === 'string') {
 			command = this.labels[command]
@@ -46,8 +59,7 @@ export default class Commands extends Module {
 		this.app.log.trace('Commands', 'User resolved')
 
 		// check if command type is guild, then if user is guild member
-		if (command.type === 'guild'
-			&& !(user instanceof GuildMember)) {
+		if (command.type === 'guild' && !(user instanceof GuildMember)) {
 			return false
 		}
 
@@ -59,9 +71,10 @@ export default class Commands extends Module {
 
 		this.app.log.trace('Commands', 'User perm test failed')
 
-		if (command.permission === CommandPermission.AppOwner
-			&& user.id === this.app.owner.id) {
-
+		if (
+			command.permission === CommandPermission.AppOwner &&
+			user.id === this.app.owner.id
+		) {
 			this.app.log.trace('Commands', 'Owner perm test passed')
 			return true
 		}
@@ -70,16 +83,18 @@ export default class Commands extends Module {
 		if (user instanceof GuildMember) {
 			if (command.permission === CommandPermission.Moderator) {
 				// bypass app owner until role checks exist
-				return (user.id === this.app.owner.id)
+				return user.id === this.app.owner.id
 			}
 
 			if (command.permission === CommandPermission.Administrator) {
 				// bypass app owner until role checks exist
-				return (user.id === this.app.owner.id)
+				return user.id === this.app.owner.id
 			}
 
-			if (command.permission === CommandPermission.GuildOwner
-				&& user.id === user.guild.ownerID) {
+			if (
+				command.permission === CommandPermission.GuildOwner &&
+				user.id === user.guild.ownerID
+			) {
 				return true
 			}
 		}
@@ -102,14 +117,15 @@ export default class Commands extends Module {
 				//         discord_id: msg.guild.id
 				//     })
 				//     .select('prefix')
-
 				// console.log(JSON.stringify(res, null, 2))
 			} catch (err) {
 				null
 			}
 		}
 
-		if (!msg.content.startsWith(prefix)) { return }
+		if (!msg.content.startsWith(prefix)) {
+			return
+		}
 
 		const args = msg.content.split(' ')
 		const label: string = args.shift().slice(prefix.length).toLowerCase()
@@ -129,17 +145,18 @@ export default class Commands extends Module {
 
 			try {
 				if (!(await this.canUse(msg.member || msg.author, cmd))) {
-					throw new Error('Can\'t use this command here!')
+					throw new Error("Can't use this command here!")
 				}
 
 				await this.commandFunctions[cmd.name](cmd, msg, label, args, context)
 			} catch (err) {
 				this.app.log.debug(err, 'Command failure')
 
-				const errorMsg = err.message || err.msg || JSON.stringify(err, null, 2) || `${err}`
+				const errorMsg =
+					err.message || err.msg || JSON.stringify(err, null, 2) || `${err}`
 
 				let errorEmbed: RichEmbedOptions = {
-					color: 0xFF0000,
+					color: 0xff0000,
 					title: ':warning: **Oops!**',
 					description: errorMsg,
 					footer: {
@@ -158,7 +175,8 @@ export default class Commands extends Module {
 					errorEmbed = Object.assign({}, errorEmbed, newOptions)
 				}
 
-				msg.channel.send(new RichEmbed(errorEmbed))
+				msg.channel
+					.send(new RichEmbed(errorEmbed))
 					.catch((err) => this.app.log.trace(err, 'Could not send error message.'))
 			}
 		}
@@ -175,14 +193,20 @@ export interface ICommandOptions {
 }
 
 export interface ICommandContext {
-	prefix: string,
-	message: Message,
-	guild: Guild | undefined,
+	prefix: string
+	message: Message
+	guild: Guild | undefined
 	author: GuildMember | User
 }
 export type CommandType = 'guild' | 'user' | 'open'
 
-export type CommandFunction = (command: ICommandOptions, msg: Message, label: string, args: string[], context?: ICommandContext) => any
+export type CommandFunction = (
+	command: ICommandOptions,
+	msg: Message,
+	label: string,
+	args: string[],
+	context?: ICommandContext
+) => any
 
 export enum CommandPermission {
 	User,

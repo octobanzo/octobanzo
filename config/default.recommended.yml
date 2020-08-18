@@ -14,7 +14,7 @@ database:
   password: DB_PASS
   auth_source: admin
 commands:
-  default_prefix: "!"
+  default_prefix: '!'
 moderation:
   logs:
     channel: MODERATION_LOG_CHANNEL_ID
@@ -24,13 +24,6 @@ moderation:
       kick: true
 logging:
   file: true # Disables console logging if true. Recommended = true.
-database:
-  client: mysql2
-  connection:
-    host: DB_HOST
-    user: DB_USER
-    password: DB_PASS
-    database: DB_NAME
 other:
   log_guilds: # Log guilds/guild count on startup?
     enable: true

@@ -1,11 +1,11 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "files.eol": "\n",
-    "files.exclude": {
-        "bin": true,
-        "branding": true
-    },
-    "eslint.enable": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.eol": "\n",
+  "files.exclude": {
+    "bin": true,
+    "branding": true
+  },
+  "eslint.enable": true
 }

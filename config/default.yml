@@ -20,7 +20,7 @@ database:
   password: DB_PASS
   auth_source: admin
 commands:
-  default_prefix: "!"
+  default_prefix: '!'
 moderation:
   logs:
     channel: MOD_LOG_CHANNEL_ID
