@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A better Discord bot",
   "main": "bin/run.js",
-  "license": "MS-PL",
+  "license": "MIT",
   "author": "hadenpf",
   "scripts": {
     "start": "node bin/run.js production",
