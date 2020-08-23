@@ -2,30 +2,33 @@
   "name": "octobanzo",
   "version": "0.0.1",
   "description": "Super powerful Discord bot, enhanced by machine learning.",
-  "main": "bin/run.js",
+  "main": "index.js",
   "license": "MIT",
   "author": "hadenpf",
+  "private": true,
   "scripts": {
-    "start": "node bin/run.js production",
-    "start:noenv": "node bin/run.js",
-    "debug": "nodemon bin/run.js development",
+    "start": "node index.js",
+    "debug": "nodemon index.js development",
     "build": "tsc",
-    "watch": "tsc -w"
+    "build:watch": "tsc -w",
+    "watch": "yarn build:watch"
   },
   "dependencies": {
-    "bookshelf": "^1.2.0",
-    "discord.js": "^11.5.1",
-    "knex": "^0.21.1",
-    "mysql2": "^2.1.0",
-    "typescript": "^3.3.3333",
+    "discord.js": "^12.3.1",
+    "knex": "^0.21.5",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
     "@types/knex": "^0.15.2",
     "@types/node": "^10.12.26",
     "@types/source-map-support": "^0.5.0",
-    "nodemon": "^1.18.11",
+    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.10",
+    "typescript": "^4.0.2"
+  },
+  "optionalDependencies": {
+    "chalk": "^4.1.0",
+    "mysql2": "^2.1.0"
   }
 }

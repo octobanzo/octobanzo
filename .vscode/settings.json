@@ -1,11 +1,6 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "files.eol": "\n",
   "files.exclude": {
-    "bin": true,
-    "branding": true
+    "**/node_modules": true
   },
-  "eslint.enable": true
+  "files.eol": "\n"
 }
