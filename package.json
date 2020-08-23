@@ -10,7 +10,7 @@
     "start:noenv": "node bin/run.js",
     "debug": "nodemon bin/run.js development",
     "build": "tsc",
-    "build:w": "tsc -w"
+    "watch": "tsc -w"
   },
   "dependencies": {
     "config": "^3.3.1",
@@ -22,8 +22,6 @@
     "typescript": "^3.3.3333"
   },
   "devDependencies": {
-    "@types/config": "0.0.34",
-    "@types/debug": "^4.1.1",
     "@types/knex": "^0.15.2",
     "@types/mongoose": "^5.7.1",
     "@types/node": "^10.12.26",
