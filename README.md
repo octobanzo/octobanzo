@@ -46,7 +46,3 @@ This means everything the bot does is completely open to inspection, and you can
 **Self-hosting won't be officially supported until further notice.** This will give me time to finish development of the core bot before I try to help others with their own setup.
 
 **Machine learning training data will not be made available to the general public.** Due to the potentially-sensitive nature of some of the training data, I will not freely distribute copies of the training data to use for self-hosted instances.
-
-## Haden
-
-'s Autism is getting really bad.
