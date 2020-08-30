@@ -1,6 +1,21 @@
 # Octobanzo
 
-## NOTICE
+**The super powerful [Discord](https://discord.com) bot, powered by machine learning.** 
+
+![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
+[![Discord Chat](https://img.shields.io/discord/516764994965340161.svg?label=chat&logo=discord&logoColor=fff&style=flat)](https://discord.gg/zGguGHA)
+
+<!-- [![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo.hflet.ch) -->
+
+## Commands
+- Moderation
+Moderators can use Discord's built-in kick and ban features, removing the need to constantly remember and type `?ban @user <reason>` — especially in an active server this can be a difficult workflow! Just right-click the user and hit the button. As it was meant to be.
+
+If you didn't provide a reason in Discord's reason box, don't fret! Octobanzo will pop up asking you to add a reason later!
+
+Moderate quickly and easily — the typing can wait until the spam is gone.
+
+## Before You Commit:
 
 Please be careful in the `main` branch — I'm currently refactoring the whole project and things are very unstable!
 
@@ -15,30 +30,7 @@ Some of the current changes:
     -   Will probably add some sort of `enabled_modules` value to config file. Makes more sense that way! Just drop a module file in, include its filename in config — easy!
 -   **...and much more...** (hopefully, if I can get some of these things banged out!)
 
----
-
-**The super powerful [Discord](https://discord.com) bot.** Currently WIP.
-
-![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
-[![Discord Chat](https://img.shields.io/discord/516764994965340161.svg?label=chat&logo=discord&logoColor=fff&style=flat)](https://discord.gg/zGguGHA)
-
-<!-- [![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo.hflet.ch) -->
-
-## Moderation Heaven
-
-Your moderators can use Discord's built-in kick and ban features, removing the need to constantly remember and type `?ban @user <reason>` — especially in an active server this can be a difficult workflow! Just right-click the user and hit the button. As it was meant to be.
-
-If you didn't provide a reason in Discord's reason box, don't fret! Octobanzo will pop up asking you to add a reason later!
-
-Moderate quickly and easily — the typing can wait until the spam is gone.
-
-### Language Processing
-
-One of the hallmark features of Octobanzo is language processing. The bot intelligently scans your server's messages — revolutionizing chat moderation using actual contextual understanding.
-
-**(more sections are coming, I'll write them as I flesh out more details!)**
-
-## Open-Source and Transparent
+## Usage
 
 Octobanzo is released under the [MIT License](https://github.com/hadenpf/octobanzo/blob/main/LICENSE) (SPDX: MIT).
 
