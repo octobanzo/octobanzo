@@ -1,6 +1,10 @@
 # Octobanzo
 
 **The super powerful [Discord](https://discord.com) bot, powered by machine learning.** 
+![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
+[![Discord Chat](https://img.shields.io/discord/516764994965340161.svg?label=chat&logo=discord&logoColor=fff&style=flat)](https://discord.gg/zGguGHA)
+
+<!-- [![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo.hflet.ch) -->
 
 ## Commands
 - Moderation
@@ -10,7 +14,7 @@ Moderators can use Discord's built-in kick and ban features, removing the need t
 
 If you didn't provide a reason in Discord's reason box, don't fret! Octobanzo will pop up asking you to add a reason later!
 
-Moderate quickly and easily — the typing can wait until the spam is gone.
+Moderate quickly and easily — you don't even have to do anything while the spam is happening.
 
 ## Before You Commit:
 
@@ -26,16 +30,6 @@ Some of the current changes:
 -   Better module structure. - Yes, this means that `commands.ts` is finally \*actually\* leaving the modules folder. I have no idea why I did that. It seemed smart [at the time](https://github.com/octobanzo/octobanzo/commit/9a72dffb7dde1525a9f88e5196b85b8bc6b5713b#diff-f5b34a5c7dc8c0223d499a5789e0ae59).
     -   Will probably add some sort of `enabled_modules` value to config file. Makes more sense that way! Just drop a module file in, include its filename in config — easy!
 -   **...and much more...** (hopefully, if I can get some of these things banged out!)
-
----
-
-**The super powerful [Discord](https://discord.com) bot.** Currently WIP.
-
-![Last Commit](https://img.shields.io/github/last-commit/hadenpf/octobanzo.svg)
-[![Discord Chat](https://img.shields.io/discord/516764994965340161.svg?label=chat&logo=discord&logoColor=fff&style=flat)](https://discord.gg/zGguGHA)
-
-<!-- [![Website](https://img.shields.io/badge/website-octobanzo.hflet.ch-blue.svg?style=flat)](https://octobanzo.hflet.ch) -->
-
 
 ## Usage
 
