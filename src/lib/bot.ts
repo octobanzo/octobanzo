@@ -1,95 +1,101 @@
-import { get as conf } from 'config'
-import * as Discord from 'discord.js'
-import * as pino from 'pino'
-import modulesList from '../mod/_index'
-import Commands from '../mod/commands'
-import Database from './database'
-import Logger from './logging'
-import { ModuleManager } from './modules'
+import { ConfigurationManager, ConfigSchema } from './configuration';
+import * as Discord from 'discord.js';
+import { Commands } from './commands';
+import Database from './database';
+import { Logger } from './logging';
+import { ModuleManager } from './modules';
 
-export default class Bot {
-	public client: Discord.Client
-	public database: Database
-	public user: Discord.ClientUser
-	public log: pino.Logger
-	public modules: ModuleManager
-	public commands: Commands
-	public owner: Discord.User
+export interface BotOptions {}
 
-	constructor() {
-		this.log = new Logger().lib
-		this.modules = new ModuleManager(this)
+export class Bot {
+    // Discord properties
+    public client: Discord.Client;
+    public user: Discord.ClientUser;
+    public owner: Discord.User;
 
-		this.client = new Discord.Client({
-			disableEveryone: true,
-			disabledEvents: ['PRESENCE_UPDATE', 'TYPING_START']
-		})
+    // Core components
+    public configuration: ConfigurationManager;
+    public config: ConfigSchema;
+    public log: Logger;
 
-		this.init()
-	}
+    // Core modules
+    public modules: ModuleManager;
+    public database: Database;
+    public commands: Commands;
 
-	public async stop(exitCode: number = 0): Promise<void> {
-		return process.exit(exitCode)
-	}
+    constructor(private options?: BotOptions) {
+        this.configuration = new ConfigurationManager(this);
+        this.log = new Logger();
+        this.modules = new ModuleManager(this);
 
-	private async init(): Promise<void> {
-		this.log.info('Bot starting, please wait')
+        this.client = new Discord.Client({
+            disableMentions: 'everyone'
+            // disabledEvents: ['PRESENCE_UPDATE', 'TYPING_START']
+        });
 
-		this.client.on('error', async (err: Error) => {
-			this.log.error(err, 'Client error!')
-		})
+        this.init();
+    }
 
-		this.database = new Database(this)
-		await this.database.setup()
+    public async stop(stopCode: number = 0): Promise<void> {
+        return process.exit(stopCode);
+    }
 
-		this.client.on('ready', async () => {
-			this.user = this.client.user
-			this.log.info(`Discord connected as ${this.user.tag}, id:${this.user.id}`)
+    private async init(): Promise<void> {
+        // this.log.info('Bot starting, please wait');
 
-			this.owner = (await this.client.fetchApplication()).owner
+        this.client.on('error', async (err: Error) => {
+            this.log.error(err, 'Client error!');
+        });
 
-			if (
-				(this.owner.discriminator === '0000') ===
-				this.owner.username.startsWith('team')
-			)
-				this.owner = await this.client.fetchUser(conf('discord.ownerID'))
+        this.database = new Database(this);
+        await this.database.setup();
 
-			try {
-				this.log.debug('Registering modules...')
+        this.client.on('ready', async () => {
+            this.user = this.client.user;
+            this.log.info(`Discord connected as ${this.user.tag}, id:${this.user.id}`);
 
-				for (const mod of modulesList) {
-					this.log.trace(`Registering module ${mod.name}`)
+            this.owner = (await this.client.fetchApplication()).owner;
 
-					const instance = new mod(this)
-					this.modules.add(instance)
+            // owned by a team
+            if (this.owner instanceof Discord.Team)
+                this.owner = await this.client.users.fetch(conf('discord.ownerID'));
 
-					if (mod.name === 'Commands') {
-						this.commands = instance as Commands
-					}
-				}
+            try {
+                this.log.debug('Registering modules...');
 
-				this.modules.init(this.client)
-				this.log.info('Modules registered.')
-			} catch (err) {
-				this.log.error(err, 'Error setting up modules.')
-				return this.stop(1)
-			}
+                for (const mod of modulesList) {
+                    this.log.trace(`Registering module ${mod.name}`);
 
-			this.client.user.setStatus('online').catch(null)
+                    const instance = new mod(this);
+                    this.modules.add(instance);
 
-			this.modules.postInit()
-		})
+                    if (mod.name === 'Commands') {
+                        this.commands = instance as Commands;
+                    }
+                }
 
-		try {
-			this.log.debug('Connecting to Discord...')
+                this.modules.init(this.client);
+                this.log.info('Modules registered.');
+            } catch (err) {
+                this.log.error(err, 'Error setting up modules.');
+                return this.stop(1);
+            }
 
-			await this.client.login(conf('discord.token'))
-			this.client.user.setStatus('idle').catch(null)
-		} catch (err) {
-			this.log.error(err, 'Could not log into Discord!')
-			return this.stop(1)
-		}
+            this.client.user.setStatus('online').catch(null);
 
-		return
-	}
+            this.modules.postInit();
+        });
+
+        try {
+            this.log.debug('Connecting to Discord...');
+
+            await this.client.login(conf('discord.token'));
+            this.client.user.setStatus('idle').catch(null);
+        } catch (err) {
+            this.log.error(err, 'Could not log into Discord!');
+            return this.stop(1);
+        }
+
+        return;
+    }
 }

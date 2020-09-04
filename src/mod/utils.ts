@@ -1,8 +1,8 @@
 import { DiscordAPIError, Message, RichEmbed, TextChannel } from 'discord.js'
-import Bot from '../lib/bot'
+import { Bot } from '../lib/bot'
 import { Module } from '../lib/modules'
 import Utilities from '../lib/util'
-import { CommandPermission, ICommandContext, ICommandOptions } from './commands'
+import { CommandPermission, ICommandContext, ICommandOptions } from '../lib/commands'
 
 export default class Utils extends Module {
 	private app: Bot
@@ -207,7 +207,7 @@ export default class Utils extends Module {
 		args: string[],
 		ctx: ICommandContext
 	): Promise<void> {
-		if (msg.author.id !== this.app.owner.id) {
+		if (this.app.owner.map((user) => user.id).includes(msg.author.id)) {
 			return
 		}
 

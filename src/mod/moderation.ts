@@ -3,7 +3,7 @@ import {
     GuildAuditLogs,
     GuildAuditLogsEntry,
     Message,
-    MessageEmbed as RichEmbed,
+    MessageEmbed,
     TextChannel,
     User
 } from 'discord.js';
@@ -131,7 +131,7 @@ export default class Moderation extends Module {
                 this.app.log.error(err, 'Error fetching ban reason.');
             }
 
-        const logAttachment = new RichEmbed({
+        const logAttachment = new MessageEmbed({
             description: 'User Banned',
             color: 0xff3333,
             fields: [

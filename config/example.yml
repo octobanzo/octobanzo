@@ -1,7 +1,3 @@
-# THIS FILE CONTAINS ALL AVAILABLE CONFIG SETTINGS.
-# PLEASE USE DEFAULT.RECOMMENDED.YML AS A TEMPLATE!
-#              THANK YOU!                 - hadenpf
-
 discord:
     token: DISCORD_BOT_TOKEN
     # Only interpreted if owned by a team

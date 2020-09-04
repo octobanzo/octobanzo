@@ -1,19 +1,15 @@
-import { get as conf } from 'config'
-import { ICommandContext } from '../mod/commands.js'
-import Bot from './bot'
-import * as mongoose from 'mongoose'
+import { ICommandContext } from './commands.js'
+import { Bot } from './bot'
+import knex from 'knex'
 
 export default class Database {
 	public env = process.env.NODE_ENV
 
 	protected mongoose: mongoose.Connection
 
-	private app: Bot
 	private connectUrl: string = 'mongodb://'
 
-	constructor(app: Bot) {
-		this.app = app
-
+	constructor(private app: Bot) {
 		this.connectUrl += `${encodeURIComponent(
 			conf('database.username')
 		)}:${encodeURIComponent(conf('database.password'))}@`

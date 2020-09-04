@@ -12,7 +12,7 @@ node_modules
 !.env.default
 
 /config/*
-!/config/default.yml
-!/config/default.*.yml
+!/config/example.yml
+!/config/example.*.yml
 
 /branding/*

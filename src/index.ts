@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { install as installSourceMap } from 'source-map-support';
-import Bot from './lib/bot';
+import { Bot } from './lib/bot';
 
 const args = process.argv.slice(2);
 
@@ -19,7 +19,7 @@ function run(): void {
     console.info('[INIT] Environment: ' + process.env.NODE_ENV);
 
     // Add source map logging if 'development'
-    if (process.env.NODE_ENV === 'development')
+    if (process.env.NODE_ENV.startsWith('dev'))
         installSourceMap({
             environment: 'node'
         });
@@ -39,7 +39,7 @@ function shutdown(app: Bot): never {
     try {
         app.log.debug('Destroying client');
         app.client.destroy();
-        console.info('Goodbye!');
+        console.info('Bye!');
         return process.exit(0);
     } catch (err) {
         return process.exit(1);

@@ -1,16 +1,14 @@
-import { get as conf } from 'config'
-import { join } from 'path'
-import * as pino from 'pino'
+import { join } from 'path';
 
-export default class Logger {
-	public lib: pino.Logger
+export class Logger {
+    constructor() {}
 
-	constructor() {
-		this.lib = pino(
-			{
-				level: process.env.LEVEL || 'info'
-			},
-			conf('logging.file') ? pino.destination(join(__dirname, 'app.log')) : undefined
-		)
-	}
+    public log(...args: any[]) {}
+
+    public info(...args: any[]) {}
+    public debug(...args: any[]) {}
+    public trace(...args: any[]) {}
+    public warning(...args: any[]) {}
+    public error(...args: any[]) {}
+    public verbose(...args: any[]) {}
 }
