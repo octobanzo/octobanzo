@@ -3,39 +3,40 @@
 #              THANK YOU!                 - hadenpf
 
 discord:
-  token: DISCORD_BOT_TOKEN
-  ownerID: OWNER_USER_ID # team-owned bots will want this!
+    token: DISCORD_BOT_TOKEN
+    # Only interpreted if owned by a team
+    owner: OWNER_DISCORD_ID
 nlp:
-  enable: false
-  wit_token: WIT_SERVER_TOKEN
-  ignore_prefix: \# # NLP will ignore messages starting with this
-  restrict: true # Restrict NLP to test_channel only?
-  test_channel: NLP_TEST_CHANNEL_ID # Bot will print results to user
-  results_channel: NLP_LOG_CHANNEL_ID
+    enable: false
 database:
-  host: DB_HOSTNAME_OR_IP
-  port: DB_PORT
-  db: DB_NAME
-  username: DB_USER_NAME
-  password: DB_PASS
-  auth_source: admin
-commands:
-  default_prefix: '!'
-moderation:
-  logs:
-    channel: MOD_LOG_CHANNEL_ID
-    reason_time: 60 # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
-    events:
-      ban: true
-      kick: true
-  auto_unban: # FOR DEBUGGING ONLY! DO NOT USE IN PRODUCTION!
-    enable: true
-    user_id:
-      - UNBAN_USER_ID
-    guild_id: UNBAN_GUILD_ID
+    host: DB_HOSTNAME_OR_IP
+    port: DB_PORT
+    db: DB_NAME
+    auth_source: DB_AUTH_SOURCE
+    username: DB_USER_NAME
+    password: DB_PASS
+defaults:
+    commands:
+        prefix: '!'
+    moderation:
+        # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
+        reason_time: 60
 logging:
-  file: false # Disables console logging if set true
-other:
-  log_guilds: # Log guilds/guild count on startup?
-    enable: true
-    list: false
+    console: true
+    file: false
+    startup:
+        # Log guild count/list on startup
+        # false  | do nothing
+        # true   | log guild count
+        # list   | log all guilds (basic metadata)
+        log_guilds: false
+debug:
+    log_events:
+        ban: false
+        kick: false
+    auto_unban:
+        enable: false
+        user_id:
+            - USER_ID
+        guild_id:
+            - GUILD_ID
