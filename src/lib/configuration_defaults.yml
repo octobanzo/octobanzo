@@ -1,0 +1,42 @@
+# THIS FILE CONTAINS ALL AVAILABLE CONFIG SETTINGS.
+#       PLEASE USE EXAMPLE.YML AS A TEMPLATE!
+#                   THANK YOU!
+
+discord:
+    token: ''
+    # Only interpreted if owned by a team
+    owner: ''
+nlp:
+    enable: false
+database:
+    host: ''
+    port: ''
+    db: ''
+    auth_source: ''
+    username: ''
+    password: ''
+defaults:
+    commands:
+        prefix: '!'
+    moderation:
+        # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
+        reason_time: 60
+logging:
+    console: true
+    file: false
+    startup:
+        # Log guild count/list on startup
+        # false  | do nothing
+        # true   | log guild count
+        # list   | log all guilds (basic metadata)
+        log_guilds: true
+debug:
+    log_events:
+        ban: false
+        kick: false
+    auto_unban:
+        enable: false
+        user_id:
+            - USER_ID
+        guild_id:
+            - GUILD_ID
