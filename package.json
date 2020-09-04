@@ -6,6 +6,10 @@
     "license": "MIT",
     "author": "hadenpf",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/octobanzo/octobanzo.git"
+    },
     "scripts": {
         "start": "node index.js",
         "debug": "nodemon index.js development",
