@@ -1,34 +1,34 @@
 {
-  "name": "octobanzo",
-  "version": "0.0.1",
-  "description": "Super powerful Discord bot, enhanced by machine learning.",
-  "main": "index.js",
-  "license": "MIT",
-  "author": "hadenpf",
-  "private": true,
-  "scripts": {
-    "start": "node index.js",
-    "debug": "nodemon index.js development",
-    "build": "tsc",
-    "build:watch": "tsc -w",
-    "watch": "yarn build:watch"
-  },
-  "dependencies": {
-    "discord.js": "^12.3.1",
-    "knex": "^0.21.5",
-    "yaml": "^1.10.0"
-  },
-  "devDependencies": {
-    "@types/knex": "^0.15.2",
-    "@types/node": "^10.12.26",
-    "@types/source-map-support": "^0.5.0",
-    "nodemon": "^2.0.4",
-    "prettier": "^2.0.5",
-    "source-map-support": "^0.5.10",
-    "typescript": "^4.0.2"
-  },
-  "optionalDependencies": {
-    "chalk": "^4.1.0",
-    "mysql2": "^2.1.0"
-  }
+    "name": "octobanzo",
+    "version": "0.0.1",
+    "description": "Super powerful Discord bot, enhanced by machine learning.",
+    "main": "index.js",
+    "license": "MIT",
+    "author": "hadenpf",
+    "private": true,
+    "scripts": {
+        "start": "node index.js",
+        "debug": "nodemon index.js development",
+        "build": "tsc",
+        "build:watch": "tsc -w",
+        "watch": "yarn build:watch"
+    },
+    "dependencies": {
+        "discord.js": "^12.3.1",
+        "knex": "^0.21.5",
+        "yaml": "^1.10.0"
+    },
+    "devDependencies": {
+        "@types/knex": "^0.15.2",
+        "@types/node": "^10.12.26",
+        "@types/source-map-support": "^0.5.0",
+        "nodemon": "^2.0.4",
+        "prettier": "^2.0.5",
+        "source-map-support": "^0.5.10",
+        "typescript": "^4.0.2"
+    },
+    "optionalDependencies": {
+        "chalk": "^4.1.0",
+        "mysql2": "^2.1.0"
+    }
 }
