@@ -1,17 +1,14 @@
 import { Client } from 'discord.js';
 import { isArray } from 'util';
 import { Bot } from './bot';
-
-let app: Bot;
+import { Logger } from './logging';
 
 export class ModuleManager {
     /** All loaded modules. */
     public modules: Module[] = [];
     private handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
-    constructor(αpp: Bot) {
-        app = αpp;
-    }
+    constructor(private αpp: Bot) {}
 
     /**
      * Initialize the module manager, primarily adding event handlers.
@@ -87,21 +84,21 @@ export class Module {
     /** Event handlers to be passed to `ModuleManager`. */
     public Handlers: Record<string, Array<(...args: any[]) => any>> = {};
 
-    constructor(options: IModuleOptions) {
+    constructor(private options: IModuleOptions, private _app: Bot) {
         this.Version = options.version;
         this.Description = options.description;
 
         // check for required options to enable
         try {
             if (typeof options.requiredSettings === 'string') {
-                this.Enabled = conf(options.requiredSettings) ? true : false;
+                this.Enabled = this._app.config[options.requiredSettings] ? true : false;
             } else if (isArray(options.requiredSettings)) {
                 let enable = true;
                 for (const option of options.requiredSettings) {
                     if (!enable) {
                         break;
                     }
-                    enable = conf(option) === true ? true : false;
+                    enable = this._app.config[option] === true ? true : false;
                 }
                 this.Enabled = enable;
             } else if (!options.requiredSettings) {
@@ -111,7 +108,7 @@ export class Module {
             }
         } catch (err) {
             this.Enabled = false;
-            app.log.debug(`Couldn't find required setting! Disabling module. (${this})`);
+            Logger.warn(`Couldn't find required setting! Disabling module. (${this})`);
         }
     }
 

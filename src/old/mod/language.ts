@@ -1,27 +1,32 @@
+// @ts-nocheck
+// TODO: remove nocheck.
+// it's only here until we can refactor to local ML engine
+
 import { Message, TextChannel } from 'discord.js';
 import { Bot } from '../lib/bot';
 import { Module } from '../lib/modules';
+import { Logger } from '../lib/logging';
 
 export default class Language extends Module {
-    private app: Bot;
     private wit: Wit;
     private nlpLogChannel: TextChannel;
 
-    constructor(app: Bot) {
-        super({
-            requiredSettings: 'nlp.enable',
-            version: '0.1.0-dev'
-        });
+    constructor(private app: Bot) {
+        super(
+            {
+                requiredSettings: 'nlp.enable',
+                version: '0.1.0-dev'
+            },
+            app
+        );
 
-        this.app = app;
-
-        this.app.log.debug('Creating wit instance...');
+        Logger.debug('Creating wit instance...');
         this.wit = new Wit({ accessToken: conf('nlp.wit_token') });
-        this.app.log.debug('Wit created. Adding event handlers...');
+        Logger.debug('Wit created. Adding event handlers...');
 
         // register event handlers
         this.handle('message', this.handleMessage);
-        this.app.log.trace('Initialization complete.');
+        Logger.debug('Initialization complete.');
     }
 
     public static accuracy(input: number): number {
@@ -90,11 +95,11 @@ export default class Language extends Module {
     }
 
     public async postInit(): Promise<void> {
-        if (conf('nlp.results_channel')) {
-            this.nlpLogChannel = this.app.client.channels.get(
-                conf('nlp.results_channel')
-            ) as TextChannel;
-        }
+        // if (this.app.config.nlp.results_channel) {
+        //     this.nlpLogChannel = this.app.client.channels.get(
+        //         conf('nlp.results_channel')
+        //     ) as TextChannel;
+        // }
         return;
     }
 

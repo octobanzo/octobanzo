@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
 import { Bot } from './bot';
+import { Logger } from './logging';
 
 export interface ConfigSchema {
     discord: {
@@ -54,25 +55,34 @@ export class ConfigurationManager {
 
     constructor(private app: Bot) {
         const configDirectory = path.join(__dirname, '../../config');
-        const configPath = path.join(configDirectory, `${process.env.NODE_ENV}.yml`);
+        this.path = path.join(configDirectory, `${process.env.NODE_ENV}.yml`);
 
-        if (!fs.existsSync(configPath)) {
+        if (!fs.existsSync(this.path)) {
             console.error(
                 '[WARNING] Config file not found. Please copy "example.yml" to the following filename:\n',
-                `Expected path: ${configPath}`
+                `Expected path: ${this.path}`
             );
             app.stop(1);
         }
 
-        const configRaw = fs.readFileSync(configPath, { encoding: 'utf8' });
+        const configRaw = fs.readFileSync(this.path, { encoding: 'utf8' });
         const config: ConfigSchema = YAML.parse(configRaw);
 
         const defaultConfigRaw = fs.readFileSync(
+            // We do this because `tsc` doesn't copy YAML files to output
             path.join(__dirname, '../../src/lib/configuration_defaults.yml'),
             { encoding: 'utf8' }
         );
         const defaultConfig: ConfigSchema = YAML.parse(defaultConfigRaw);
 
         this.value = Object.assign({}, defaultConfig, config);
+
+        if (process.env.NODE_ENV.startsWith('dev'))
+            Logger.debug('Configuration', {
+                ...this.value,
+                discord: { ...this.value.discord, token: 'NOPE' }
+            });
     }
+
+    public name() {}
 }

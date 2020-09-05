@@ -7,21 +7,21 @@ import {
     TextChannel,
     User
 } from 'discord.js';
-import Bot from '../lib/bot';
+import { Bot } from '../lib/bot';
 import { Module } from '../lib/modules';
 import Utils from '../lib/util';
-import { CommandPermission, ICommandOptions } from './commands';
+import { CommandPermission, ICommandOptions } from '../lib/commands';
+import { Logger } from '../lib/logging';
 
 export default class Moderation extends Module {
-    private app: Bot;
-
-    constructor(app: Bot) {
-        super({
-            description: 'Assists server admins with moderation.',
-            version: '0.0.1-dev'
-        });
-
-        this.app = app;
+    constructor(private app: Bot) {
+        super(
+            {
+                description: 'Assists server admins with moderation.',
+                version: '0.0.1-dev'
+            },
+            app
+        );
 
         this.handle('message', this.handleMessage);
         this.handle('guildBanAdd', this.handleBan);
@@ -44,7 +44,7 @@ export default class Moderation extends Module {
         label: string,
         args: string[]
     ): Promise<void> {
-        if (msg.author.id !== this.app.owner.id) return;
+        if (this.app.owners.map((owner) => owner.id).includes(msg.author.id)) return;
 
         // warn logic; waiting for database implementation
     }
@@ -54,27 +54,26 @@ export default class Moderation extends Module {
     }
 
     private async handleBan(guild: Guild, user: User): Promise<void> {
-        if (!conf('moderation.logs.events.ban') || !conf('moderation.logs.channel'))
-            return;
+        if (!this.app.config.debug.log_events.ban) return;
 
         const timestamp = new Date();
 
-        if (conf('moderation.auto_unban.enable')) {
+        if (this.app.config.debug.auto_unban.enable) {
             if (
-                (conf('moderation.auto_unban.user_id') as string[]).includes(user.id) &&
-                guild.id === conf('moderation.auto_unban.guild_id')
+                this.app.config.debug.auto_unban.user_id.includes(user.id) &&
+                this.app.config.debug.auto_unban.guild_id.includes(guild.id)
             ) {
                 try {
                     await guild.members.unban(
                         user,
                         'Automatic unban for debugging. (bot debug)'
                     );
-                    this.app.log.debug('Unbanned test user.', {
+                    Logger.debug('Unbanned test user.', {
                         user: user.tag,
                         guild: guild.name
                     });
                 } catch (err) {
-                    this.app.log.error(err, 'Could not unban test user.');
+                    Logger.error(err, 'Could not unban test user.');
                 }
             }
         }
@@ -86,13 +85,13 @@ export default class Moderation extends Module {
         try {
             results = await guild.fetchAuditLogs({ type: 'MEMBER_BAN_ADD', limit: 1 });
         } catch (err) {
-            this.app.log.error(err, 'Could not fetch audit log entry!');
+            Logger.error(err, 'Could not fetch audit log entry!');
             return;
         }
 
-        const logChannel: TextChannel = guild.channels.get(
-            conf('moderation.logs.channel')
-        ) as TextChannel;
+        // TODO: pull from database
+        // @ts-expect-error
+        const logChannel: TextChannel = guild.channels.resolveID('') as TextChannel;
         const result: GuildAuditLogsEntry = results.entries.first();
         let reason: string = result.reason;
 
@@ -102,7 +101,7 @@ export default class Moderation extends Module {
             try {
                 const responseChannel = await (result.executor.dmChannel ||
                     (await result.executor.createDM()));
-                const awaitTime = 1000 * (conf('moderation.logs.reason_time') as number);
+                const awaitTime = 1000 * this.app.config.defaults.moderation.reason_time;
                 await responseChannel.send(
                     `Please tell me your reason for banning ${
                         user.tag
@@ -128,7 +127,7 @@ export default class Moderation extends Module {
                     // TODO: Conditionally, tell person to ask admin to add reason or add themselves if admin
                 }
             } catch (err) {
-                this.app.log.error(err, 'Error fetching ban reason.');
+                Logger.error(err, 'Error fetching ban reason.');
             }
 
         const logAttachment = new MessageEmbed({
@@ -155,12 +154,12 @@ export default class Moderation extends Module {
         });
 
         try {
-            this.app.log.trace(`Sending ban ${result.id} log...`);
+            Logger.debug(`Sending ban ${result.id} log...`);
             await logChannel.send(logAttachment);
-            this.app.log.trace(`Ban log for ${result.id} sent!`);
+            Logger.debug(`Ban log for ${result.id} sent!`);
             return;
         } catch (err) {
-            this.app.log.warn(err, "Couldn't send ban log.");
+            Logger.debug(err, "Couldn't send ban log.");
             return;
         }
     }

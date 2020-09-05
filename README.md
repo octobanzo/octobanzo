@@ -40,7 +40,7 @@ One of the hallmark features of Octobanzo is language processing. The bot intell
 
 ## Open-Source and Transparent
 
-Octobanzo is released under the [MIT License](https://github.com/hadenpf/octobanzo/blob/main/LICENSE) (SPDX: MIT).
+Octobanzo is released under the [MIT License](./LICENSE) (SPDX: MIT).
 
 This means everything the bot does is completely open to inspection, and you can even write your own modules if you'd like to use them on your own or contribute to the mainstream bot!
 

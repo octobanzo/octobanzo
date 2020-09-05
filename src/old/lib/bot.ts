@@ -11,12 +11,11 @@ export class Bot {
     // Discord properties
     public client: Discord.Client;
     public user: Discord.ClientUser;
-    public owner: Discord.User;
+    public owners: Discord.User[];
 
     // Core components
     public configuration: ConfigurationManager;
     public config: ConfigSchema;
-    public log: Logger;
 
     // Core modules
     public modules: ModuleManager;
@@ -25,7 +24,7 @@ export class Bot {
 
     constructor(private options?: BotOptions) {
         this.configuration = new ConfigurationManager(this);
-        this.log = new Logger();
+        this.config = this.configuration.value;
         this.modules = new ModuleManager(this);
 
         this.client = new Discord.Client({
@@ -41,30 +40,34 @@ export class Bot {
     }
 
     private async init(): Promise<void> {
-        // this.log.info('Bot starting, please wait');
+        // Logger.info('Bot starting, please wait');
 
         this.client.on('error', async (err: Error) => {
-            this.log.error(err, 'Client error!');
+            Logger.error(err, 'Client error!');
         });
 
-        this.database = new Database(this);
-        await this.database.setup();
+        // this.database = new Database(this);
+        // await this.database.setup();
 
         this.client.on('ready', async () => {
             this.user = this.client.user;
-            this.log.info(`Discord connected as ${this.user.tag}, id:${this.user.id}`);
+            Logger.info(`Discord connected as ${this.user.tag}, id:${this.user.id}`);
 
-            this.owner = (await this.client.fetchApplication()).owner;
+            const owner = (await this.client.fetchApplication()).owner;
 
             // owned by a team
-            if (this.owner instanceof Discord.Team)
-                this.owner = await this.client.users.fetch(conf('discord.ownerID'));
+            if (owner instanceof Discord.User) this.owners = [owner];
+            else if (owner instanceof Discord.Team)
+                this.owners = Array.from(owner.members.values()).map(
+                    (owner) => owner.user
+                );
 
+            // TODO: refactor module loader to read mod/ directory
             try {
-                this.log.debug('Registering modules...');
+                Logger.verbose('Registering modules...');
 
-                for (const mod of modulesList) {
-                    this.log.trace(`Registering module ${mod.name}`);
+                for (const mod of []) {
+                    Logger.debug(`Registering module ${mod.name}`);
 
                     const instance = new mod(this);
                     this.modules.add(instance);
@@ -75,9 +78,9 @@ export class Bot {
                 }
 
                 this.modules.init(this.client);
-                this.log.info('Modules registered.');
+                Logger.info('Modules registered.');
             } catch (err) {
-                this.log.error(err, 'Error setting up modules.');
+                Logger.error(err, 'Error setting up modules.');
                 return this.stop(1);
             }
 
@@ -87,15 +90,26 @@ export class Bot {
         });
 
         try {
-            this.log.debug('Connecting to Discord...');
+            Logger.debug('Connecting to Discord...');
 
-            await this.client.login(conf('discord.token'));
+            await this.client.login(this.config.discord.token);
             this.client.user.setStatus('idle').catch(null);
         } catch (err) {
-            this.log.error(err, 'Could not log into Discord!');
+            Logger.error(err, 'Could not log into Discord!');
             return this.stop(1);
         }
 
         return;
+    }
+
+    public isOwner(
+        user: Discord.User | Discord.GuildMember | Discord.Snowflake
+    ): boolean {
+        let id: Discord.Snowflake = user as Discord.Snowflake;
+
+        if (user instanceof Discord.User || user instanceof Discord.GuildMember)
+            id = user.id;
+
+        return this.owners.map((owner) => owner.id).includes(id);
     }
 }

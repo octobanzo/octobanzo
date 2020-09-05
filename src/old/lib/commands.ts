@@ -2,25 +2,29 @@ import {
     Guild,
     GuildMember,
     Message,
-    MessageEmbed as RichEmbed,
-    MessageEmbedOptions as RichEmbedOptions,
-    User
+    User,
+    MessageEmbedOptions,
+    MessageEmbed
 } from 'discord.js';
 import { Bot } from './bot';
 import { Module } from './modules';
+import { Logger } from './logging';
 
 export class Commands extends Module {
     public commandFunctions: Record<string, CommandFunction> = {};
     public labels: Record<string, ICommandOptions> = {};
     public commandMeta: ICommandOptions[] = [];
 
-    private defaultPrefix: string = conf('commands.default_prefix') || '!';
+    private defaultPrefix: string = this.app.config.defaults.commands.prefix;
 
     constructor(private app: Bot) {
-        super({
-            version: '0.0.1',
-            requiredSettings: 'commands'
-        });
+        super(
+            {
+                version: '0.0.1',
+                requiredSettings: 'commands'
+            },
+            app
+        );
 
         this.handle('message', this.handleMessage);
     }
@@ -52,26 +56,26 @@ export class Commands extends Module {
             user = user.member || user.author;
         }
 
-        this.app.log.trace('Commands', 'User resolved');
+        Logger.debug('Commands', 'User resolved');
 
         // check if command type is guild, then if user is guild member
         if (command.type === 'guild' && !(user instanceof GuildMember)) {
             return false;
         }
 
-        this.app.log.trace('Commands', 'Guild perm test passed');
+        Logger.debug('Commands', 'Guild perm test passed');
 
         if (command.permission === CommandPermission.User) {
             return true;
         }
 
-        this.app.log.trace('Commands', 'User perm test failed');
+        Logger.debug('Commands', 'User perm test failed');
 
         if (
             command.permission === CommandPermission.AppOwner &&
-            user.id === this.app.owner.id
+            this.app.isOwner(user.id)
         ) {
-            this.app.log.trace('Commands', 'Owner perm test passed');
+            Logger.debug('Commands', 'Owner perm test passed');
             return true;
         }
 
@@ -79,12 +83,12 @@ export class Commands extends Module {
         if (user instanceof GuildMember) {
             if (command.permission === CommandPermission.Moderator) {
                 // bypass app owner until role checks exist
-                return user.id === this.app.owner.id;
+                return this.app.isOwner(user.id);
             }
 
             if (command.permission === CommandPermission.Administrator) {
                 // bypass app owner until role checks exist
-                return user.id === this.app.owner.id;
+                return this.app.isOwner(user.id);
             }
 
             if (
@@ -126,10 +130,10 @@ export class Commands extends Module {
         const args = msg.content.split(' ');
         const label: string = args.shift().slice(prefix.length).toLowerCase();
 
-        this.app.log.trace('Potential command!', { label });
+        Logger.debug('Potential command!', { label });
 
         if (Object.keys(this.labels).includes(label)) {
-            this.app.log.trace(`Executing command: ${label}`);
+            Logger.verbose(`Executing command: ${label}`);
 
             const cmd: ICommandOptions = this.labels[label];
             const context: ICommandContext = {
@@ -146,22 +150,22 @@ export class Commands extends Module {
 
                 await this.commandFunctions[cmd.name](cmd, msg, label, args, context);
             } catch (err) {
-                this.app.log.debug(err, 'Command failure');
+                Logger.verbose(err, 'Command failure');
 
                 const errorMsg =
                     err.message || err.msg || JSON.stringify(err, null, 2) || `${err}`;
 
-                let errorEmbed: RichEmbedOptions = {
+                let errorEmbed: MessageEmbedOptions = {
                     color: 0xff0000,
                     title: ':warning: **Oops!**',
                     description: errorMsg,
                     footer: {
-                        text: `Contact the bot owner (${this.app.owner.tag}) for help if you think this is a bug.`
+                        text: `Contact the bot owner (${this.app.owners[0].tag}) for help if you think this is a bug.`
                     }
                 };
 
-                if (msg.author.id === this.app.owner.id) {
-                    const newOptions: RichEmbedOptions = {
+                if (this.app.isOwner(msg.author.id)) {
+                    const newOptions: MessageEmbedOptions = {
                         title: `:warning: **${err.name}!**`,
                         footer: {
                             text: `You did this to me, @${msg.author.username}!`
@@ -172,10 +176,8 @@ export class Commands extends Module {
                 }
 
                 msg.channel
-                    .send(new RichEmbed(errorEmbed))
-                    .catch((err) =>
-                        this.app.log.trace(err, 'Could not send error message.')
-                    );
+                    .send(new MessageEmbed(errorEmbed))
+                    .catch((err) => Logger.verbose(err, 'Could not send error message.'));
             }
         }
     }
