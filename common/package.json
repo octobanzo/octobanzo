@@ -1,0 +1,8 @@
+{
+  "name": "octobanzo-common",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "hadenpf",
+  "license": "MIT",
+  "private": true
+}

@@ -2,17 +2,10 @@
 bin
 *.log 
 
-
 # WHY
 node_modules
 
-
 # Local configuration (y'know, secrets and all that)
-/.env.*
-!.env.default
-
-/config/*
-!/config/example.yml
-!/config/example.*.yml
-
-/branding/*
+/shard/config/*.yml
+!/shard/config/example.yml
+!/shard/config/example.*.yml

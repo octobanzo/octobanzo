@@ -6,6 +6,13 @@
     "license": "MIT",
     "author": "hadenpf",
     "private": true,
+    "workspaces": [
+        "shard",
+        "common",
+        "listener",
+        "server",
+        "web"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/octobanzo/octobanzo.git"
@@ -18,16 +25,17 @@
         "watch": "yarn build:watch"
     },
     "dependencies": {
+        "chalk": "^4.1.0",
         "discord.js": "^12.3.1",
         "knex": "^0.21.5",
-        "yaml": "^1.10.0",
-        "chalk": "^4.1.0",
-        "mysql2": "^2.1.0"
+        "mysql2": "^2.1.0",
+        "yaml": "^1.10.0"
     },
     "devDependencies": {
         "@types/knex": "^0.15.2",
         "@types/node": "^10.12.26",
         "@types/source-map-support": "^0.5.0",
+        "lerna": "^3.22.1",
         "nodemon": "^2.0.4",
         "prettier": "^2.0.5",
         "source-map-support": "^0.5.10",
