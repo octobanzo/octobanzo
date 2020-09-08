@@ -6,6 +6,6 @@ bin
 node_modules
 
 # Local configuration (y'know, secrets and all that)
-**/config/*.yml
-!**/config/example.yml
-!**/config/example.*.yml
+config/*.yml
+!config/example.yml
+!config/example.*.yml
