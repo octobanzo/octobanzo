@@ -1,0 +1,38 @@
+discord:
+    token: NTQyOTc4MDQ2MTA2NTMzODk5.XFvltg.F5iQP8lRuGlCGrkP0K57Mp1x1nU
+    # Only interpreted if owned by a team
+    owner: 377638029008830466
+nlp:
+    enable: false
+database:
+    host: DB_HOSTNAME_OR_IP
+    port: DB_PORT
+    db: DB_NAME
+    auth_source: DB_AUTH_SOURCE
+    username: DB_USER_NAME
+    password: DB_PASS
+defaults:
+    commands:
+        prefix: '!'
+    moderation:
+        # Amount of time to wait for a response if no reason was provided on a ban, in seconds.
+        reason_time: 60
+logging:
+    console: true
+    file: false
+    startup:
+        # Log guild count/list on startup
+        # false  | do nothing
+        # true   | log guild count
+        # list   | log all guilds (basic metadata)
+        log_guilds: false
+debug:
+    log_events:
+        ban: false
+        kick: false
+    auto_unban:
+        enable: false
+        user_id:
+            - USER_ID
+        guild_id:
+            - GUILD_ID
