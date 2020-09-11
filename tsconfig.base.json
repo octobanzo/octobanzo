@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "lib": ["es6"],
+        "removeComments": true,
+        "module": "commonjs",
+        "declaration": true,
+        "allowJs": false,
+        "strict": true,
+        "inlineSourceMap": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": ["node_modules", "test/**/*.ts*"]
+}

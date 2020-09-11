@@ -1,12 +1,16 @@
 # Generated files
-bin
+bin/
+build/
 *.log 
 
 # WHY
-node_modules
+node_modules/
 
 # Local configuration (y'know, secrets and all that)
 *.yml
 !example.yml
 !example.*.yml
 !/*.yml
+
+# web packages
+.next/

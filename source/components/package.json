@@ -1,0 +1,20 @@
+{
+    "name": "@octobanzo/components",
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "author": "hadenpf",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/react": "^16.9.49",
+        "@types/react-dom": "^16.9.8",
+        "typescript": "3.4.3"
+    },
+    "dependencies": {
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
+    }
+}

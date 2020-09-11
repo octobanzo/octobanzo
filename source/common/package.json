@@ -4,5 +4,11 @@
     "main": "index.js",
     "author": "hadenpf",
     "license": "MIT",
-    "private": true
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "3.4.3"
+    }
 }

@@ -9,9 +9,24 @@
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "diff": "lerna diff",
-        "version": "lerna version"
+        "version": "lerna version",
+        "web": "yarn workspace @octobanzo/web dev",
+        "portal": "yarn workspace @octobanzo/portal dev",
+        "watch": "concurrently -k npm:*:watch",
+        "common": "yarn workspace @octobanzo/common build",
+        "components": "yarn workspace @octobanzo/components build",
+        "listener": "yarn workspace @octobanzo/listener build",
+        "server": "yarn workspace @octobanzo/server build",
+        "shard": "yarn workspace @octobanzo/shard build",
+        "common:watch": "yarn common -w",
+        "components:watch": "yarn components -w",
+        "listener:_watch": "yarn listener -w",
+        "server:_watch": "yarn server -w",
+        "shard:_watch": "yarn shard -w",
+        "run": "yarn workspace @octobanzo/server start --background && yarn workspace @octobanzo/shard start"
     },
     "devDependencies": {
+        "concurrently": "^5.3.0",
         "lerna": "^3.22.1"
     },
     "repository": {
