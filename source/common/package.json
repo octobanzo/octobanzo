@@ -1,7 +1,7 @@
 {
     "name": "@octobanzo/common",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "build/index.js",
     "author": "hadenpf",
     "license": "MIT",
     "private": true,
@@ -9,6 +9,8 @@
         "build": "tsc"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.161",
+        "lodash": "^4.17.20",
         "typescript": "3.4.3"
     }
 }

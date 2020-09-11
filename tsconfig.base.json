@@ -4,6 +4,8 @@
         "removeComments": true,
         "module": "commonjs",
         "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
         "allowJs": false,
         "strict": true,
         "inlineSourceMap": true,

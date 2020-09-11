@@ -1,0 +1,14 @@
+[build]
+    publish = "out_publish/"
+    functions = "out_functions/"
+    command = "yarn build:netlify"
+
+# [context."release/stable"]
+#     environment = { ACCESS_TOKEN = "super secret" }
+
+# [context.deploy-preview]
+    # publish = "dist/"
+
+[[redirects]]
+    from = "/manage/*"
+    to = "https://manage.octobanzo.com/:splat"

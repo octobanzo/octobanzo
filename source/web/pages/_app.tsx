@@ -1,14 +1,16 @@
-import App, { AppContext } from 'next/app';
+import { AppContext } from 'next/app';
+import { AppWrapper, GlobalStyle } from '@octobanzo/components';
 
 interface AppProps extends AppContext {
     pageProps: object;
 }
 
-const AppComponent = ({ Component, pageProps }: AppProps) => {
+const AppComponent: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
-        <div>
+        <AppWrapper>
+            <GlobalStyle />
             <Component {...pageProps} />
-        </div>
+        </AppWrapper>
     );
 };
 

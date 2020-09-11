@@ -12,5 +12,12 @@ node_modules/
 !example.*.yml
 !/*.yml
 
-# web packages
+#
+# WEB
+#
+
+# next.js output
 .next/
+# next-on-netlify output
+out_functions/
+out_publish/

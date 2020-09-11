@@ -3,7 +3,7 @@ import { Header } from '@octobanzo/components';
 
 interface Props {}
 
-export default (props: Props) => {
+const IndexPage: NextPage<Props> = (props) => {
     return (
         <div>
             <Header />
@@ -11,3 +11,5 @@ export default (props: Props) => {
         </div>
     );
 };
+
+export default IndexPage;

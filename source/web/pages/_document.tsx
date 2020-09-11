@@ -1,10 +1,16 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { fontUrl } from '@octobanzo/components';
 
 class DocumentClass extends Document {
     render() {
         return (
             <Html>
-                <Head />
+                <Head>
+                    {/* this will be more useful in the future */}
+                    <link rel="preload" href={fontUrl} as="style" />
+
+                    <link rel="stylesheet" href={fontUrl} />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
@@ -16,7 +22,7 @@ class DocumentClass extends Document {
 
 export default DocumentClass;
 
-// export async function getInitialProps(ctx) {
-//     const initialProps = await Document.getInitialProps(ctx);
-//     return { ...initialProps };
-// }
+export async function getInitialProps(ctx: any) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps };
+}
