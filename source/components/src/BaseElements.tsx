@@ -8,6 +8,23 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #101010;
         color: #f8f8f8;
         font-family: 'Inter', sans-serif;
+
+        min-width: 368px;
+    }
+
+    :root {
+        --page-padding: 25px;
+        --page-max-width: 1280px;
+        --column-count: 4;
+        --section-spacing: 50px;
+
+        @media screen and (min-width: 768px) {
+            --column-count: 8;
+        }
+
+        @media screen and (min-width: 1024px) {
+            --column-count: 12;
+        }
     }
 
     *, *::before, *::after {
@@ -24,4 +41,4 @@ export const AppWrapper = styled.div`
 `;
 
 export const fontUrl =
-    'https://fonts.googleapis.com/css2?family=Inter:wght@320,400;530;650&display=block';
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;530;600&display=block';

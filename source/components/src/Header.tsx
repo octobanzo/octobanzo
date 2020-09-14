@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Utils } from '@octobanzo/common';
 import Link from 'next/link';
 import { SpaceCharacter } from './a11y';
+import { FlexRow } from './layout';
 
 interface Props {
     fullWidth?: boolean;
@@ -30,15 +31,21 @@ export const Header: React.FC<Props> = (props) => {
     );
 };
 
-const HeaderWrapper = styled.header`
+const HeaderWrapper = styled(FlexRow)`
     max-width: 100%;
     font-size: 18px;
+    padding: 0 var(--page-padding);
 `;
 
 const HeaderInner = styled.div<Props>`
-    /* max-width: ${(props) => (props.fullWidth ? '100%' : '1024px')}; */
-    margin: 0 auto;
-    padding: 15px;
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    height: 62px;
+
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+    }
 `;
 
 const SiteName = styled.a`
@@ -47,10 +54,6 @@ const SiteName = styled.a`
 
     font-size: 20px;
     font-weight: 550;
-
-    :focus {
-        /* text-decoration: underline; */
-    }
 
     :active {
         opacity: 0.5;

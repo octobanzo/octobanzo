@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppContext } from 'next/app';
 import { AppWrapper, GlobalStyle } from '@octobanzo/components';
 import Head from 'next/head';
