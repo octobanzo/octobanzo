@@ -12,7 +12,7 @@
         "version": "lerna version",
         "web": "yarn workspace @octobanzo/web dev",
         "portal": "yarn workspace @octobanzo/portal dev",
-        "watch": "concurrently -k npm:*:watch",
+        "watch": "concurrently -k yarn:*:watch",
         "common": "yarn workspace @octobanzo/common build",
         "components": "yarn workspace @octobanzo/components build",
         "listener": "yarn workspace @octobanzo/listener build",
