@@ -12,7 +12,8 @@
         "inlineSourceMap": true,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "preserveWatchOutput": true
     },
     "exclude": ["node_modules", "test/**/*.ts*"]
 }
