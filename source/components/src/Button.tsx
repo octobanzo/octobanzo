@@ -2,51 +2,51 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-    rounded?: boolean;
-    icon?: boolean | 'left' | 'right' | 'only';
-    transparent?: boolean;
-    background?: string;
-    disabled?: boolean;
+  rounded?: boolean;
+  icon?: boolean | 'left' | 'right' | 'only';
+  transparent?: boolean;
+  background?: string;
+  disabled?: boolean;
 }
 
 const defaultProps: Props = {
-    rounded: false,
-    icon: false,
-    transparent: false,
-    background: '#171986',
-    disabled: false
+  rounded: false,
+  icon: false,
+  transparent: false,
+  background: '#171986',
+  disabled: false
 };
 
 export const Button: React.FC<Props> = (props) => {
-    props = { ...defaultProps, ...props };
+  props = { ...defaultProps, ...props };
 
-    return (
-        <CustomButton {...props}>
-            {props.children || (props.icon === 'only' ? '' : 'Button')}
-        </CustomButton>
-    );
+  return (
+    <CustomButton {...props}>
+      {props.children || (props.icon === 'only' ? '' : 'Button')}
+    </CustomButton>
+  );
 };
 
 const CustomButton = styled.button`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 7px 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 14px;
 
-    flex: none;
-    order: 1;
-    align-self: auto;
+  flex: none;
+  order: 1;
+  align-self: auto;
 
-    cursor: pointer;
-    border: none;
-    border-radius: ${(props: Props) => (props.rounded ? 1024 : 5)}px;
-    background-color: ${(props: Props) => props.background};
-    color: white;
-    /* color: ${(props: Props) =>
-        props.disabled ? 'rgba(255, 255, 255, .5)' : 'white'}; */
-    font: inherit;
-    font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: ${(props: Props) => (props.rounded ? 1024 : 5)}px;
+  background-color: ${(props: Props) => props.background};
+  color: white;
+  /* color: ${(props: Props) =>
+    props.disabled ? 'rgba(255, 255, 255, .5)' : 'white'}; */
+  font: inherit;
+  font-size: 16px;
 `;
 
 // const CustomButton = styled.button`

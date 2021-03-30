@@ -1,22 +1,21 @@
 {
-    "name": "@octobanzo/components",
-    "version": "1.0.0",
-    "main": "build/index.js",
-    "author": "hadenpf",
-    "license": "MIT",
-    "private": true,
-    "scripts": {
-        "build": "tsc"
-    },
-    "devDependencies": {
-        "@types/react": "^16.9.49",
-        "@types/react-dom": "^16.9.8",
-        "@types/styled-components": "^5.1.3",
-        "typescript": "^4.0.2"
-    },
-    "dependencies": {
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "styled-components": "^5.2.0"
-    }
+  "name": "@octobanzo/components",
+  "version": "1.0.0",
+  "main": "build/index",
+  "module": "build",
+  "author": "hadenpf",
+  "license": "MIT",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.3",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.2.0"
+  }
 }

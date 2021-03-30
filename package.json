@@ -19,7 +19,7 @@
         "server": "yarn workspace @octobanzo/server build",
         "shard": "yarn workspace @octobanzo/shard build",
         "common:watch": "yarn common -w",
-        "components:watch": "yarn components -w",
+        "components:_watch": "yarn components -w",
         "listener:_watch": "yarn listener -w",
         "server:_watch": "yarn server -w",
         "shard:_watch": "yarn shard -w",

@@ -10,9 +10,12 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Inter', sans-serif;
 
         min-width: 368px;
+        min-height: 10000px;
     }
 
     :root {
+        min-height: 100%;
+
         --page-padding: 25px;
         --page-max-width: 1280px;
         --column-count: 4;
@@ -37,8 +40,8 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const AppWrapper = styled.div`
-    /* background: green; */
+  /* background: green; */
 `;
 
 export const fontUrl =
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;530;600&display=block';
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;530;600&display=block';

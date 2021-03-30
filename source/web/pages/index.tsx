@@ -7,10 +7,17 @@ interface Props {}
 
 const IndexPage: NextPage<Props> = (props) => {
     return (
-        <div>
-            <Header />
-            <Hero>
-                <HeroCTA>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%'
+            }}
+        >
+            {/* <Header /> */}
+            <h1>Coming soon</h1>
+            {/* <HeroCTA>
                     <h2
                         style={{
                             fontSize: 36,
@@ -33,7 +40,7 @@ const IndexPage: NextPage<Props> = (props) => {
                     >
                         Powered&nbsp;by machine&nbsp;learning.
                     </h3>
-                    <div>
+                    {/* <div>
                         <Button rounded disabled>
                             Get started
                         </Button>
@@ -41,8 +48,7 @@ const IndexPage: NextPage<Props> = (props) => {
                             Coming soon
                         </Button>
                     </div>
-                </HeroCTA>
-            </Hero>
+                </HeroCTA> */}
         </div>
     );
 };

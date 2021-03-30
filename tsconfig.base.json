@@ -1,19 +1,19 @@
 {
-    "compilerOptions": {
-        // "lib": ["ESNext"],
-        "target": "ES3",
-        "removeComments": true,
-        "module": "commonjs",
-        "declaration": true,
-        "declarationMap": true,
-        "esModuleInterop": true,
-        "allowJs": false,
-        "strict": true,
-        "inlineSourceMap": true,
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "preserveWatchOutput": true
-    },
-    "exclude": ["node_modules", "test/**/*.ts*"]
+  "compilerOptions": {
+    "target": "ES5",
+    "removeComments": true,
+    "module": "ES6",
+    "lib": ["esnext"],
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "strict": true,
+    "inlineSourceMap": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveWatchOutput": true
+  },
+  "exclude": ["node_modules", "test/**/*.ts*"]
 }
